@@ -41,10 +41,10 @@ export default function Home() {
               ) : (
                 <>
                   <Button variant="ghost" size="sm" asChild>
-                    <a href={getLoginUrl()}>Login</a>
+                    <Link href="/login">Login</Link>
                   </Button>
                   <Button size="sm" className="btn-gradient" asChild>
-                    <a href={getLoginUrl()}>Get Started</a>
+                    <Link href="/register">Sign Up</Link>
                   </Button>
                 </>
               )}
@@ -112,14 +112,13 @@ export default function Home() {
               ) : (
                 <>
                   <Button size="lg" className="btn-gradient text-lg px-8 py-6" asChild>
-                    <a href={getLoginUrl()}>
+                    <Link href="/register">
                       <Trophy className="mr-2 h-5 w-5" />
-                      Start Playing Now
-                    </a>
+                      Get Started Free
+                    </Link>
                   </Button>
-                  <Button size="lg" variant="outline" className="text-lg px-8 py-6">
-                    <Shield className="mr-2 h-5 w-5" />
-                    Learn More
+                  <Button size="lg" variant="outline" className="text-lg px-8 py-6" asChild>
+                    <a href="#features">Learn More</a>
                   </Button>
                 </>
               )}

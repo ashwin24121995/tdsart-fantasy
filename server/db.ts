@@ -30,8 +30,8 @@ export async function getDb() {
 // ============ USER QUERIES ============
 
 export async function upsertUser(user: InsertUser): Promise<void> {
-  if (!user.openId) {
-    throw new Error("User openId is required for upsert");
+  if (!user.email) {
+    throw new Error("User email is required for upsert");
   }
 
   const db = await getDb();
@@ -42,19 +42,25 @@ export async function upsertUser(user: InsertUser): Promise<void> {
 
   try {
     const values: InsertUser = {
-      openId: user.openId,
+      email: user.email,
+      openId: user.openId || null,
     };
     const updateSet: Record<string, unknown> = {};
 
-    const textFields = ["name", "email", "loginMethod", "state"] as const;
+    const textFields = ["name", "loginMethod", "state", "password"] as const;
     type TextField = (typeof textFields)[number];
 
     const assignNullable = (field: TextField) => {
       const value = user[field];
       if (value === undefined) return;
       const normalized = value ?? null;
-      values[field] = normalized;
-      updateSet[field] = normalized;
+      if (field === 'password' && normalized) {
+        values[field] = normalized;
+        updateSet[field] = normalized;
+      } else if (field !== 'password') {
+        values[field] = normalized as any;
+        updateSet[field] = normalized;
+      }
     };
 
     textFields.forEach(assignNullable);

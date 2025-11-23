@@ -3,6 +3,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import { customAuthRouter } from "./custom-auth-router";
 import * as db from "./db";
 
 // Restricted states in India where fantasy sports are not permitted
@@ -17,6 +18,7 @@ const RESTRICTED_STATES = [
 
 export const appRouter = router({
   system: systemRouter,
+  customAuth: customAuthRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
