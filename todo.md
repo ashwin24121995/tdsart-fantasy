@@ -110,3 +110,31 @@
 - [ ] Match predictions
 - [ ] Expert tips section
 - [ ] Video highlights integration
+
+## UI Fixes
+- [x] Regenerate logo with transparent background
+
+## Critical Bugs
+- [ ] Fix authentication state - users remain logged in even after browser restart
+- [ ] Add visible Sign Up / Register button for non-authenticated users
+- [ ] Fix useAuth hook to properly detect logged-out state
+- [x] Fix logo CSS to remove any background color styling
+- [ ] Fix registration page to display error messages (409 conflict for duplicate email)
+- [ ] Add toast notifications for registration success/failure
+- [x] Replace logo with new TDSART Fantasy logo with text
+- [ ] Add date of birth field to registration form
+- [ ] Add state dropdown to registration form
+- [ ] Validate age is 18+ during registration
+- [ ] Validate state is not in restricted list
+- [x] Clear all users from database
+- [ ] Fix verification page - 409 error when submitting
+- [ ] Debug verification tRPC procedure
+- [x] Redesign homepage with more content sections
+- [x] Add How It Works section with step-by-step guide
+- [x] Add Features section with detailed benefits
+- [x] Add Why Choose Us section
+- [x] Add FAQ section
+- [x] Generate more cricket-themed images for homepage
+- [ ] Add testimonials/social proof section
+- [x] Add statistics section (users, contests, prizes)
+- [x] Fix nested anchor tag error in homepage
