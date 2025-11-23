@@ -7,6 +7,8 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Contests from "./pages/Contests";
 import ContestDetail from "./pages/ContestDetail";
+import CreateTeam from "./pages/CreateTeam";
+import Profile from "./pages/Profile";
 import Verify from "./pages/Verify";
 import Dashboard from "./pages/Dashboard";
 import Register from "./pages/Register";
@@ -21,7 +23,9 @@ function Router() {
       <Route path={"/register"} component={Register} />
       <Route path={"/login"} component={Login} />
       <Route path={"/verify"} component={Verify} />
-      <Route path={"/dashboard"} component={Dashboard} />
+      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/create-team" component={CreateTeam} />
+      <Route path="/profile" component={Profile} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

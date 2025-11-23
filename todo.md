@@ -148,12 +148,36 @@
 - [x] Add Live Score Updates section to homepage
 - [x] Display upcoming matches on homepage
 - [x] Display live match scores on homepage
-- [ ] Build Team Creation Page - player selection interface
-- [ ] Add player filters (position, team, price)
-- [ ] Implement captain/vice-captain selection
-- [ ] Add team validation (11 players, budget, positions)
+- [x] Build Team Creation Page - player selection interface
+- [x] Add player filters (position, team, price)
+- [x] Implement captain/vice-captain selection
+- [x] Add team validation (11 players, budget, positions)
 - [x] Create mock cricket API for testing
 - [x] Add live scores widget to homepage
-- [ ] Build team creation page
-- [ ] Add player selection interface
-- [ ] Implement captain/vice-captain selection
+- [x] Build team creation page
+- [x] Add player selection interface
+- [x] Implement captain/vice-captain selection
+
+## Team Creation Page
+- [x] Create team creation page UI with player list
+- [x] Add player filters (position, team, search)
+- [x] Implement player selection (11 players max)
+- [x] Add budget constraint validation (100 credits)
+- [x] Implement captain/vice-captain selection
+- [x] Add team save functionality
+- [x] Show selected players summary
+
+## User Profile & Stats
+- [x] Create profile page layout
+- [x] Display user stats (points, level, rank)
+- [x] Show earned achievements with badges
+- [x] Display team history
+- [x] Show contest participation record
+- [x] Add performance graphs
+
+## Points Calculation System
+- [ ] Create scoring engine for cricket actions
+- [ ] Implement automatic points calculation from match data
+- [ ] Update user points and leaderboards
+- [ ] Award achievements based on milestones
+- [ ] Add real-time leaderboard updates
