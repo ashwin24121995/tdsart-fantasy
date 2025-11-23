@@ -3,6 +3,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import * as cricketApi from "./cricket-api";
 import { customAuthRouter } from "./custom-auth-router";
 import * as db from "./db";
 
@@ -87,6 +88,10 @@ export const appRouter = router({
   
   teams: router({
     myTeams: protectedProcedure.query(async ({ ctx }) => {
+      return db.getUserTeams(ctx.user.id);
+    }),
+    
+    getUserTeams: protectedProcedure.query(async ({ ctx }) => {
       return db.getUserTeams(ctx.user.id);
     }),
     
@@ -180,6 +185,12 @@ export const appRouter = router({
         return db.getContestLeaderboard(input.contestId);
       }),
     
+    getParticipants: publicProcedure
+      .input(z.object({ contestId: z.number() }))
+      .query(async ({ input }) => {
+        return db.getContestParticipants(input.contestId);
+      }),
+    
     join: protectedProcedure
       .input(z.object({
         contestId: z.number(),
@@ -230,6 +241,22 @@ export const appRouter = router({
       .input(z.object({ limit: z.number().optional() }))
       .query(async ({ input }) => {
         return db.getGlobalLeaderboard(input.limit);
+      }),
+  }),
+  
+  cricket: router({
+    currentMatches: publicProcedure.query(async () => {
+      return cricketApi.getCurrentMatches();
+    }),
+    
+    upcomingMatches: publicProcedure.query(async () => {
+      return cricketApi.getUpcomingMatches();
+    }),
+    
+    matchInfo: publicProcedure
+      .input(z.object({ matchId: z.string() }))
+      .query(async ({ input }) => {
+        return cricketApi.getMatchInfo(input.matchId);
       }),
   }),
   

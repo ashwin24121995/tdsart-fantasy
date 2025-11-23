@@ -138,3 +138,22 @@
 - [ ] Add testimonials/social proof section
 - [x] Add statistics section (users, contests, prizes)
 - [x] Fix nested anchor tag error in homepage
+
+## Priority Features (In Order)
+- [x] Create Contest Listing Page - show all available contests
+- [x] Create Contest Detail Page - show contest info, participants, rules
+- [x] Implement Join Contest flow - select team and join
+- [x] Research and find free cricket API (Cricbuzz/CricAPI)
+- [x] Integrate cricket API for match data
+- [x] Add Live Score Updates section to homepage
+- [x] Display upcoming matches on homepage
+- [x] Display live match scores on homepage
+- [ ] Build Team Creation Page - player selection interface
+- [ ] Add player filters (position, team, price)
+- [ ] Implement captain/vice-captain selection
+- [ ] Add team validation (11 players, budget, positions)
+- [x] Create mock cricket API for testing
+- [x] Add live scores widget to homepage
+- [ ] Build team creation page
+- [ ] Add player selection interface
+- [ ] Implement captain/vice-captain selection

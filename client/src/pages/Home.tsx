@@ -2,6 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE } from "@/const";
+import { LiveScores } from "@/components/LiveScores";
 import { trpc } from "@/lib/trpc";
 import {
   AlertTriangle,
@@ -309,6 +310,17 @@ export default function Home() {
               Create Free Account <ChevronRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
+        </div>
+      </section>
+
+      {/* Live Scores */}
+      <section className="py-20 px-4 bg-card/30">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Live Cricket Action</h2>
+            <p className="text-xl text-muted-foreground">Stay updated with live scores and upcoming matches</p>
+          </div>
+          <LiveScores />
         </div>
       </section>
 

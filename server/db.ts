@@ -315,6 +315,27 @@ export async function getContestLeaderboard(contestId: number) {
   .orderBy(desc(contestEntries.points));
 }
 
+export async function getContestParticipants(contestId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db.select({
+    id: contestEntries.id,
+    userId: contestEntries.userId,
+    teamId: contestEntries.teamId,
+    points: contestEntries.points,
+    rank: contestEntries.rank,
+    joinedAt: contestEntries.joinedAt,
+    user: users,
+    team: fantasyTeams
+  })
+  .from(contestEntries)
+  .innerJoin(users, eq(contestEntries.userId, users.id))
+  .innerJoin(fantasyTeams, eq(contestEntries.teamId, fantasyTeams.id))
+  .where(eq(contestEntries.contestId, contestId))
+  .orderBy(desc(contestEntries.points));
+}
+
 export async function joinContest(entry: InsertContestEntry) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
