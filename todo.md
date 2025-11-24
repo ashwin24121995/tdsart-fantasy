@@ -654,3 +654,12 @@
 - [x] Keep bot detection via user agent patterns only
 - [x] Show ad immediately to real users from Google Ads
 - [x] Simplified detection: Bot UA check + UTM + Mobile + India timezone only
+
+## Essential Pages Creation
+- [x] Create How It Works page with step-by-step guide
+- [x] Create Terms & Conditions page with legal content
+- [x] Create Privacy Policy page with data protection policies
+- [x] Add routes in App.tsx for all three pages (/how-it-works, /terms, /privacy)
+- [x] Add footer links to these pages
+- [x] Ensure mobile responsive design for all pages
+- [x] Test all pages and save checkpoint

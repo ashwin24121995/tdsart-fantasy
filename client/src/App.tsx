@@ -23,6 +23,9 @@ import Admin from "./pages/Admin";
 import TrafficAnalytics from "./pages/TrafficAnalytics";
 import AdminVisitors from "./pages/AdminVisitors";
 import AdminConversions from "./pages/AdminConversions";
+import HowItWorks from "./pages/HowItWorks";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function Router() {
   return (
@@ -43,6 +46,9 @@ function Router() {
       <Route path="/traffic" component={TrafficAnalytics} />
       <Route path="/admin/visitors" component={AdminVisitors} />
       <Route path="/admin/conversions" component={AdminConversions} />
+      <Route path="/how-it-works" component={HowItWorks} />
+      <Route path="/terms" component={TermsAndConditions} />
+      <Route path="/privacy" component={PrivacyPolicy} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

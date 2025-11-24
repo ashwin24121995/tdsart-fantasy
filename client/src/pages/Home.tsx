@@ -522,9 +522,9 @@ export default function Home() {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><Link href="/register" className="hover:text-primary transition-colors">Sign Up</Link></li>
                 <li><Link href="/login" className="hover:text-primary transition-colors">Login</Link></li>
-                <li><a href="#how-it-works" className="hover:text-primary transition-colors">How It Works</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Terms & Conditions</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Privacy Policy</a></li>
+                <li><Link href="/how-it-works" className="hover:text-primary transition-colors">How It Works</Link></li>
+                <li><Link href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</Link></li>
+                <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
               </ul>
             </div>
 
