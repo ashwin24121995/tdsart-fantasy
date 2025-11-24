@@ -188,10 +188,22 @@ export const comprehensiveTrackingRouter = router({
       
       try {
         // Get IP address from request
-        const ipAddress = ctx.req.headers['x-forwarded-for'] as string || 
-                         ctx.req.headers['x-real-ip'] as string ||
-                         ctx.req.socket.remoteAddress || 
-                         'unknown';
+        // x-forwarded-for can contain multiple IPs (client, proxy1, proxy2, ...)
+        // We want the first one (the client's real IP)
+        let ipAddress = ctx.req.headers['x-forwarded-for'] as string || 
+                       ctx.req.headers['x-real-ip'] as string ||
+                       ctx.req.socket.remoteAddress || 
+                       'unknown';
+        
+        // Extract first IP if comma-separated list
+        if (ipAddress.includes(',')) {
+          ipAddress = ipAddress.split(',')[0].trim();
+        }
+        
+        // Remove IPv6 prefix if present (::ffff:xxx.xxx.xxx.xxx)
+        if (ipAddress.startsWith('::ffff:')) {
+          ipAddress = ipAddress.substring(7);
+        }
         
         // Enrich IP data with geolocation, ISP, weather, etc.
         const ipData = await enrichIPAddress(ipAddress) || {

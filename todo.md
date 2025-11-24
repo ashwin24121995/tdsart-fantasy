@@ -515,3 +515,10 @@
 - [x] Fix tables and data displays for mobile screens
 - [ ] Test on various mobile screen sizes (requires publish)
 - [x] Ensure touch-friendly button sizes and spacing
+
+## IP Geolocation Debugging
+- [x] Check server logs for IP enrichment API errors
+- [x] Test IP enrichment API directly with real IP addresses
+- [x] Fix IP address extraction from x-forwarded-for header (comma-separated IPs)
+- [x] Remove IPv6 prefix from IP addresses before enrichment
+- [ ] Verify geolocation data is being stored correctly in database (requires publish)
