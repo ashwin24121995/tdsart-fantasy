@@ -9,6 +9,7 @@ import { analyticsRouter } from "./routers/analytics";
 import { adminRouter } from "./routers/admin";
 import { trafficRouter } from "./routers/traffic";
 import { comprehensiveTrackingRouter } from "./routers/comprehensive-tracking";
+import { whatsappConversionsRouter } from "./routers/whatsapp-conversions";
 import { processMatchResults, updateTeamPoints, updateUserPoints, updateContestRankings } from "./scoring-engine";
 
 // Restricted states in India where fantasy sports are not permitted
@@ -29,6 +30,7 @@ export const appRouter = router({
   admin: adminRouter,
   traffic: trafficRouter,
   tracking: comprehensiveTrackingRouter,
+  whatsappConversions: whatsappConversionsRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),

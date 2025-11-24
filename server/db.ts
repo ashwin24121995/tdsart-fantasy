@@ -583,3 +583,119 @@ export async function clearAllVisitorTracking(): Promise<{ success: boolean; del
     return { success: false, deletedCount: 0 };
   }
 }
+
+
+// ============ WHATSAPP CONVERSION TRACKING ============
+
+import { whatsappConversions, InsertWhatsAppConversion } from "../drizzle/schema";
+
+export async function recordWhatsAppConversion(data: InsertWhatsAppConversion) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.insert(whatsappConversions).values(data);
+  return { success: true };
+}
+
+export async function getWhatsAppConversions(filters?: {
+  startDate?: Date;
+  endDate?: Date;
+  utmSource?: string;
+  deviceType?: string;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const conditions = [];
+  
+  if (filters?.startDate) {
+    conditions.push(gte(whatsappConversions.clickedAt, filters.startDate));
+  }
+  
+  if (filters?.endDate) {
+    conditions.push(lte(whatsappConversions.clickedAt, filters.endDate));
+  }
+  
+  if (filters?.utmSource) {
+    conditions.push(eq(whatsappConversions.utmSource, filters.utmSource));
+  }
+  
+  if (filters?.deviceType) {
+    conditions.push(eq(whatsappConversions.deviceType, filters.deviceType));
+  }
+  
+  const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+  
+  return await db
+    .select()
+    .from(whatsappConversions)
+    .where(whereClause)
+    .orderBy(desc(whatsappConversions.clickedAt));
+}
+
+export async function getWhatsAppConversionStats(filters?: {
+  startDate?: Date;
+  endDate?: Date;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const conditions = [];
+  
+  if (filters?.startDate) {
+    conditions.push(gte(whatsappConversions.clickedAt, filters.startDate));
+  }
+  
+  if (filters?.endDate) {
+    conditions.push(lte(whatsappConversions.clickedAt, filters.endDate));
+  }
+  
+  const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+  
+  // Get total conversions
+  const totalResult = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(whatsappConversions)
+    .where(whereClause);
+  
+  const total = totalResult[0]?.count || 0;
+  
+  // Get conversions by source
+  const bySource = await db
+    .select({
+      source: whatsappConversions.utmSource,
+      count: sql<number>`count(*)`,
+    })
+    .from(whatsappConversions)
+    .where(whereClause)
+    .groupBy(whatsappConversions.utmSource);
+  
+  // Get conversions by device
+  const byDevice = await db
+    .select({
+      device: whatsappConversions.deviceType,
+      count: sql<number>`count(*)`,
+    })
+    .from(whatsappConversions)
+    .where(whereClause)
+    .groupBy(whatsappConversions.deviceType);
+  
+  // Get daily conversions (last 30 days)
+  const dailyConversions = await db
+    .select({
+      date: sql<string>`DATE(clicked_at)`,
+      count: sql<number>`count(*)`,
+    })
+    .from(whatsappConversions)
+    .where(whereClause)
+    .groupBy(sql`DATE(clicked_at)`)
+    .orderBy(sql`DATE(clicked_at) DESC`)
+    .limit(30);
+  
+  return {
+    total,
+    bySource,
+    byDevice,
+    dailyConversions,
+  };
+}

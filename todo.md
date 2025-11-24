@@ -533,3 +533,25 @@
 - [x] Integrate ad display into homepage
 - [x] Add WhatsApp link (https://wa.link/autoreddypromo)
 - [ ] Test with different user scenarios (requires publish)
+
+## WhatsApp Conversion Tracking
+- [ ] Create database schema for WhatsApp click events
+- [ ] Implement click tracking function on WhatsApp button
+- [ ] Create tRPC procedures for recording and fetching conversions
+- [ ] Build admin conversion analytics dashboard
+- [ ] Add date-wise conversion reports
+- [ ] Show conversion metrics (CTR, daily trends, source breakdown)
+- [ ] Add date range filters for analytics
+- [ ] Test conversion tracking end-to-end
+
+## WhatsApp Conversion Tracking
+- [x] Create database table for click tracking (session, UTM params, device, timestamp)
+- [x] Add tRPC procedures for recording clicks and fetching analytics
+- [x] Implement click tracking on WhatsApp button in targeted ad
+- [x] Create admin analytics dashboard at /admin/conversions
+- [x] Add date-wise filtering (7 days, 30 days, all time)
+- [x] Display total clicks, clicks by source, clicks by device
+- [x] Show daily conversion trends
+- [x] Add recent conversions table with details
+- [x] Add navigation link to Admin page
+- [ ] Test with real Google Ads traffic (requires publish)

@@ -24,11 +24,53 @@ export default function Home() {
   const { user, loading, logout } = useAuth();
   const isAuthenticated = !!user;
   const { shouldShowAd, isLoading: adLoading } = useTargetedAd();
+  const trackWhatsAppClick = trpc.whatsappConversions.trackClick.useMutation();
 
   // Initialize UTM tracking on page load
   useEffect(() => {
     initUTMTracking();
   }, []);
+
+  // Handle WhatsApp button click with tracking
+  const handleWhatsAppClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // Get UTM parameters
+    const params = new URLSearchParams(window.location.search);
+    const utmSource = params.get('utm_source') || undefined;
+    const utmMedium = params.get('utm_medium') || undefined;
+    const utmCampaign = params.get('utm_campaign') || undefined;
+    const utmContent = params.get('utm_content') || undefined;
+    const utmTerm = params.get('utm_term') || undefined;
+    
+    // Get device and browser info
+    const deviceType = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
+    const browserName = navigator.userAgent.match(/(Chrome|Safari|Firefox|Edge)/)?.[1] || 'Unknown';
+    
+    // Generate session ID
+    let sessionId = localStorage.getItem('visitor_session');
+    if (!sessionId) {
+      sessionId = `${Date.now()}-${Math.random().toString(36).substring(7)}`;
+      localStorage.setItem('visitor_session', sessionId);
+    }
+    
+    // Track the click
+    trackWhatsAppClick.mutate({
+      sessionId,
+      utmSource,
+      utmMedium,
+      utmCampaign,
+      utmContent,
+      utmTerm,
+      deviceType,
+      browserName,
+      pageUrl: window.location.href,
+      referrer: document.referrer || undefined,
+    });
+    
+    // Redirect to WhatsApp
+    window.open('https://wa.link/autoreddypromo', '_blank');
+  };
 
   return (
     <div className="min-h-screen bg-background pt-16 lg:pt-0">
@@ -95,9 +137,8 @@ export default function Home() {
           <div className="container mx-auto max-w-md">
             <a 
               href="https://wa.link/autoreddypromo" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block hover:opacity-95 transition-opacity"
+              onClick={handleWhatsAppClick}
+              className="block hover:opacity-95 transition-opacity cursor-pointer"
             >
               <img 
                 src="/fairplay-ad.png" 

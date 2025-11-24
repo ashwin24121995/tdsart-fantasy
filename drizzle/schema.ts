@@ -270,3 +270,7 @@ export type { PageView, InsertPageView, Session, InsertSession } from "./traffic
 // Comprehensive visitor tracking (272 data points)
 export { visitorTracking } from "./comprehensive-tracking-schema";
 export type { VisitorTracking, InsertVisitorTracking } from "./comprehensive-tracking-schema";
+
+// WhatsApp conversion tracking
+export { whatsappConversions } from "./whatsapp-conversion-schema";
+export type { WhatsAppConversion, InsertWhatsAppConversion } from "./whatsapp-conversion-schema";

@@ -114,6 +114,13 @@ export default function Admin() {
                 <span className="sm:hidden">Visitors</span>
               </Button>
             </Link>
+            <Link href="/admin/conversions" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full sm:w-auto bg-white/10 text-white border-white/20">
+                <TrendingUp className="mr-2 h-4 w-4" />
+                <span className="hidden sm:inline">WhatsApp Conversions</span>
+                <span className="sm:hidden">Conversions</span>
+              </Button>
+            </Link>
             <Link href="/analytics" className="w-full sm:w-auto">
               <Button variant="outline" className="w-full sm:w-auto bg-white/10 text-white border-white/20">
                 <BarChart3 className="mr-2 h-4 w-4" />

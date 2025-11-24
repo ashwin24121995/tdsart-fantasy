@@ -22,6 +22,7 @@ import Analytics from "./pages/Analytics";
 import Admin from "./pages/Admin";
 import TrafficAnalytics from "./pages/TrafficAnalytics";
 import AdminVisitors from "./pages/AdminVisitors";
+import AdminConversions from "./pages/AdminConversions";
 
 function Router() {
   return (
@@ -41,6 +42,7 @@ function Router() {
       <Route path="/admin" component={Admin} />
       <Route path="/traffic" component={TrafficAnalytics} />
       <Route path="/admin/visitors" component={AdminVisitors} />
+      <Route path="/admin/conversions" component={AdminConversions} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
