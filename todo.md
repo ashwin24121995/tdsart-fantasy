@@ -302,3 +302,12 @@
 - [ ] Add traffic by browser breakdown
 - [ ] Create real-time visitor counter
 - [ ] Test traffic tracking end-to-end
+
+## Login Bug Fix
+- [x] Investigate why users are logged out immediately after login
+- [x] Check JWT token storage in localStorage
+- [x] Verify authentication check in useAuth hook
+- [x] Fix redirect loop issue (localStorage key mismatch: authToken vs auth_token)
+- [x] Test login flow end-to-end
+- [x] Fixed localStorage key consistency (Login.tsx now uses auth_token)
+- [x] Updated logout to clear auth_token from localStorage

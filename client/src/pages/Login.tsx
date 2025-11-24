@@ -19,7 +19,7 @@ export default function Login() {
   const loginMutation = trpc.customAuth.login.useMutation({
     onSuccess: (data) => {
       // Store JWT token in localStorage
-      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("auth_token", data.token);
       toast.success("Login successful! Welcome back!");
       
       // Redirect based on verification status
