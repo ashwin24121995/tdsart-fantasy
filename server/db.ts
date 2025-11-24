@@ -556,3 +556,30 @@ export async function getVisitorJourney(sessionId: string) {
     .where(eq(visitorTracking.sessionId, sessionId))
     .orderBy(visitorTracking.visitTimestamp);
 }
+
+/**
+ * Clear all visitor tracking data
+ * WARNING: This permanently deletes all visitor tracking records
+ */
+export async function clearAllVisitorTracking(): Promise<{ success: boolean; deletedCount: number }> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot clear visitor tracking: database not available");
+    return { success: false, deletedCount: 0 };
+  }
+
+  try {
+    // Count records before deletion
+    const countResult = await db.select({ count: sql<number>`count(*)` }).from(visitorTracking);
+    const count = countResult[0]?.count || 0;
+    
+    // Delete all records
+    await db.delete(visitorTracking);
+    
+    console.log(`[Database] Cleared ${count} visitor tracking records`);
+    return { success: true, deletedCount: count };
+  } catch (error) {
+    console.error("[Database] Failed to clear visitor tracking:", error);
+    return { success: false, deletedCount: 0 };
+  }
+}

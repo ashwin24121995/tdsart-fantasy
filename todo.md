@@ -500,3 +500,9 @@
 - [x] Fix View Details button - not switching to Details tab
 - [x] Fix IP enrichment - location showing as Unknown
 - [x] Fix IP enrichment - ISP showing as Unknown
+
+## Clear Visitor Data Feature
+- [x] Create database function to delete all visitor tracking data
+- [x] Create tRPC procedure for clearing visitor data (admin-only)
+- [x] Add Clear All button with confirmation dialog to Visitor Analytics page
+- [ ] Test clear functionality (requires publish)

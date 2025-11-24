@@ -6,7 +6,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Search, Globe, Monitor, Shield, Route, TrendingUp } from "lucide-react";
+import { Loader2, Search, Globe, Monitor, Shield, Route, TrendingUp, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { useLocation } from "wouter";
 
 /**
@@ -19,17 +31,40 @@ export default function AdminVisitors() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedVisitorId, setSelectedVisitorId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState("visitors");
+  const [isClearing, setIsClearing] = useState(false);
 
   // Fetch visitor data
-  const { data: stats, isLoading: statsLoading } = trpc.tracking.getStats.useQuery();
-  const { data: visitors, isLoading: visitorsLoading } = trpc.tracking.getAllVisitors.useQuery({ limit: 100, offset: 0 });
-  const { data: countryData } = trpc.tracking.getVisitorsByCountry.useQuery();
-  const { data: deviceData } = trpc.tracking.getVisitorsByDevice.useQuery();
-  const { data: browserData } = trpc.tracking.getVisitorsByBrowser.useQuery();
+  const { data: stats, isLoading: statsLoading, refetch: refetchStats } = trpc.tracking.getStats.useQuery();
+  const { data: visitors, isLoading: visitorsLoading, refetch: refetchVisitors } = trpc.tracking.getAllVisitors.useQuery({ limit: 100, offset: 0 });
+  const { data: countryData, refetch: refetchCountry } = trpc.tracking.getVisitorsByCountry.useQuery();
+  const { data: deviceData, refetch: refetchDevice } = trpc.tracking.getVisitorsByDevice.useQuery();
+  const { data: browserData, refetch: refetchBrowser } = trpc.tracking.getVisitorsByBrowser.useQuery();
   const { data: selectedVisitor } = trpc.tracking.getVisitorById.useQuery(
     { id: selectedVisitorId! },
     { enabled: selectedVisitorId !== null }
   );
+
+  // Clear all visitors mutation
+  const clearAllMutation = trpc.tracking.clearAllVisitors.useMutation({
+    onSuccess: (result) => {
+      toast.success(`Successfully cleared ${result.deletedCount} visitor records`);
+      refetchStats();
+      refetchVisitors();
+      refetchCountry();
+      refetchDevice();
+      refetchBrowser();
+      setIsClearing(false);
+    },
+    onError: (error) => {
+      toast.error(`Failed to clear visitors: ${error.message}`);
+      setIsClearing(false);
+    },
+  });
+
+  const handleClearAll = () => {
+    setIsClearing(true);
+    clearAllMutation.mutate();
+  };
 
   // Check authentication and admin role
   if (authLoading) {
@@ -71,9 +106,33 @@ export default function AdminVisitors() {
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold">Visitor Analytics</h1>
-          <p className="text-muted-foreground">Comprehensive tracking of all 272 visitor data points</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">Visitor Analytics</h1>
+            <p className="text-muted-foreground">Comprehensive tracking of all 272 visitor data points</p>
+          </div>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" disabled={isClearing || (stats?.totalVisitors || 0) === 0}>
+                <Trash2 className="w-4 h-4 mr-2" />
+                Clear All Data
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete all {stats?.totalVisitors || 0} visitor tracking records from the database.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleClearAll} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                  {isClearing ? "Clearing..." : "Yes, delete all data"}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
 
         {/* Stats Overview */}

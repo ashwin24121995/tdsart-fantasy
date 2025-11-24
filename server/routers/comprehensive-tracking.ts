@@ -4,7 +4,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { enrichIPAddress } from "../services/ipEnrichment";
 import { getDb } from "../db";
 import * as db from "../db";
@@ -430,6 +430,19 @@ export const comprehensiveTrackingRouter = router({
       const total = countResult[0]?.count || 0;
       
       return { visitors, total };
+    }),
+
+  /**
+   * Clear all visitor tracking data (admin only)
+   */
+  clearAllVisitors: protectedProcedure
+    .mutation(async ({ ctx }) => {
+      // Check if user is admin
+      if (ctx.user.role !== 'admin') {
+        throw new Error('Unauthorized: Admin access required');
+      }
+      
+      return await db.clearAllVisitorTracking();
     }),
 
 });
