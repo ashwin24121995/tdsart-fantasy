@@ -106,16 +106,17 @@ export default function AdminVisitors() {
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold">Visitor Analytics</h1>
-            <p className="text-muted-foreground">Comprehensive tracking of all 272 visitor data points</p>
+            <h1 className="text-2xl md:text-3xl font-bold">Visitor Analytics</h1>
+            <p className="text-sm md:text-base text-muted-foreground">Comprehensive tracking of all 272 visitor data points</p>
           </div>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive" disabled={isClearing || (stats?.totalVisitors || 0) === 0}>
+              <Button variant="destructive" size="sm" className="md:h-10 md:px-4 w-full sm:w-auto" disabled={isClearing || (stats?.totalVisitors || 0) === 0}>
                 <Trash2 className="w-4 h-4 mr-2" />
-                Clear All Data
+                <span className="hidden sm:inline">Clear All Data</span>
+                <span className="sm:hidden">Clear Data</span>
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -136,13 +137,13 @@ export default function AdminVisitors() {
         </div>
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Total Visitors</CardTitle>
+              <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground">Total Visitors</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{statsLoading ? "..." : stats?.totalVisitors || 0}</div>
+              <div className="text-xl md:text-2xl font-bold">{statsLoading ? "..." : stats?.totalVisitors || 0}</div>
             </CardContent>
           </Card>
           <Card>
@@ -242,44 +243,46 @@ export default function AdminVisitors() {
                     No visitors found. Tracking data will appear here after you publish the site and visitors arrive.
                   </div>
                 ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
+                  <div className="overflow-x-auto -mx-4 md:mx-0">
+                    <table className="w-full min-w-[640px]">
                       <thead>
                         <tr className="border-b">
-                          <th className="text-left p-2">IP Address</th>
-                          <th className="text-left p-2">Location</th>
-                          <th className="text-left p-2">Device</th>
-                          <th className="text-left p-2">Browser</th>
-                          <th className="text-left p-2">ISP</th>
-                          <th className="text-left p-2">Time</th>
-                          <th className="text-left p-2">Actions</th>
+                          <th className="text-left p-2 text-xs md:text-sm">IP Address</th>
+                          <th className="text-left p-2 text-xs md:text-sm">Location</th>
+                          <th className="text-left p-2 text-xs md:text-sm">Device</th>
+                          <th className="text-left p-2 text-xs md:text-sm hidden sm:table-cell">Browser</th>
+                          <th className="text-left p-2 text-xs md:text-sm hidden md:table-cell">ISP</th>
+                          <th className="text-left p-2 text-xs md:text-sm hidden lg:table-cell">Time</th>
+                          <th className="text-left p-2 text-xs md:text-sm">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {filteredVisitors.map((visitor) => (
                           <tr key={visitor.id} className="border-b hover:bg-muted/50">
-                            <td className="p-2 font-mono text-sm">{visitor.ipAddress || "N/A"}</td>
-                            <td className="p-2">
-                              {visitor.city && visitor.country ? `${visitor.city}, ${visitor.country}` : "Unknown"}
+                            <td className="p-2 font-mono text-xs md:text-sm">{visitor.ipAddress || "N/A"}</td>
+                            <td className="p-2 text-xs md:text-sm">
+                              {visitor.city && visitor.country ? `${visitor.city}, ${visitor.country}` : "Unknown, Unknown"}
                             </td>
                             <td className="p-2">
-                              <Badge variant="outline">{visitor.deviceType || "Unknown"}</Badge>
+                              <Badge variant="outline" className="text-xs">{visitor.deviceType || "Unknown"}</Badge>
                             </td>
-                            <td className="p-2">{visitor.browserName || "Unknown"}</td>
-                            <td className="p-2 text-sm text-muted-foreground">{visitor.isp || "N/A"}</td>
-                            <td className="p-2 text-sm text-muted-foreground">
+                            <td className="p-2 text-xs md:text-sm hidden sm:table-cell">{visitor.browserName || "Unknown"}</td>
+                            <td className="p-2 text-xs md:text-sm text-muted-foreground hidden md:table-cell">{visitor.isp || "N/A"}</td>
+                            <td className="p-2 text-xs text-muted-foreground hidden lg:table-cell">
                               {visitor.visitTimestamp ? new Date(visitor.visitTimestamp).toLocaleString() : "N/A"}
                             </td>
                             <td className="p-2">
                               <Button
                                 size="sm"
                                 variant="ghost"
+                                className="text-xs md:text-sm h-8 px-2 md:px-3"
                                 onClick={() => {
                                   setSelectedVisitorId(visitor.id);
                                   setActiveTab("details");
                                 }}
                               >
-                                View Details
+                                <span className="hidden sm:inline">View Details</span>
+                                <span className="sm:hidden">View</span>
                               </Button>
                             </td>
                           </tr>

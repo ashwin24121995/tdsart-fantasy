@@ -31,13 +31,17 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background pt-16 lg:pt-0">
       {/* Legal Compliance Banner */}
-      <div className="bg-destructive/20 border-b border-destructive/50 py-3 px-4">
-        <div className="container mx-auto flex items-center justify-center gap-2 text-sm">
-          <AlertTriangle className="h-4 w-4 text-destructive flex-shrink-0" />
-          <p className="text-center text-foreground">
-            <strong>⚠️ State Restrictions:</strong> Not permitted in Andhra Pradesh, Assam, Odisha, Telangana, Nagaland, and Sikkim | 
-            <strong> ⚠️ Age Restrictions:</strong> 18+ Users Only | 
-            <strong> 100% Free-to-Play</strong> - No Real Money Involved
+      <div className="bg-destructive/20 border-b border-destructive/50 py-2 md:py-3 px-2 md:px-4">
+        <div className="container mx-auto flex items-start md:items-center justify-center gap-2 text-xs md:text-sm">
+          <AlertTriangle className="h-3 w-3 md:h-4 md:w-4 text-destructive flex-shrink-0 mt-0.5 md:mt-0" />
+          <p className="text-left md:text-center text-foreground">
+            <strong>⚠️ State Restrictions:</strong> Not permitted in AP, Assam, Odisha, Telangana, Nagaland, Sikkim{" "}
+            <span className="hidden md:inline">| </span>
+            <br className="md:hidden" />
+            <strong>⚠️ Age:</strong> 18+ Only{" "}
+            <span className="hidden md:inline">| </span>
+            <br className="md:hidden" />
+            <strong>100% Free</strong> - No Real Money
           </p>
         </div>
       </div>
@@ -54,28 +58,28 @@ export default function Home() {
             </div>
           </Link>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             {loading ? (
-              <div className="h-10 w-32 bg-muted animate-pulse rounded-md" />
+              <div className="h-8 md:h-10 w-20 md:w-32 bg-muted animate-pulse rounded-md" />
             ) : isAuthenticated ? (
               <>
-                <span className="text-sm text-muted-foreground hidden sm:block">
+                <span className="text-xs md:text-sm text-muted-foreground hidden sm:block truncate max-w-[100px] md:max-w-none">
                   Welcome, {user.name}!
                 </span>
                 <Link href="/dashboard">
-                  <Button variant="default">Dashboard</Button>
+                  <Button variant="default" size="sm" className="md:h-10 md:px-4">Dashboard</Button>
                 </Link>
-                <Button variant="outline" onClick={() => logout()}>
+                <Button variant="outline" size="sm" className="md:h-10 md:px-4" onClick={() => logout()}>
                   Logout
                 </Button>
               </>
             ) : (
               <>
                 <Link href="/login">
-                  <Button variant="outline">Login</Button>
+                  <Button variant="outline" size="sm" className="md:h-10 md:px-4">Login</Button>
                 </Link>
                 <Link href="/register">
-                  <Button variant="default">Sign Up Free</Button>
+                  <Button variant="default" size="sm" className="md:h-10 md:px-4 whitespace-nowrap">Sign Up</Button>
                 </Link>
               </>
             )}
@@ -96,38 +100,38 @@ export default function Home() {
         
         <div className="container mx-auto relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-500 to-orange-500 bg-clip-text text-transparent">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-primary via-purple-500 to-orange-500 bg-clip-text text-transparent leading-tight">
               India's Premier Free Fantasy Cricket Platform
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground mb-6 md:mb-8 px-4">
               Build your dream team. Compete with millions. Win glory. 100% Free. 100% Skill-Based.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register">
-                <Button size="lg" className="text-lg px-8 py-6">
-                  Start Playing Free <ChevronRight className="ml-2 h-5 w-5" />
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center px-4">
+              <Link href="/register" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto text-base md:text-lg px-6 md:px-8 py-4 md:py-6">
+                  Start Playing Free <ChevronRight className="ml-2 h-4 md:h-5 w-4 md:w-5" />
                 </Button>
               </Link>
-              <Link href="#how-it-works">
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6">
+              <Link href="#how-it-works" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto text-base md:text-lg px-6 md:px-8 py-4 md:py-6">
                   How It Works
                 </Button>
               </Link>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 mt-16 max-w-3xl mx-auto">
-              <Card className="p-6 bg-card/80 backdrop-blur-sm border-primary/20">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">10K+</div>
-                <div className="text-sm text-muted-foreground">Active Players</div>
+            <div className="grid grid-cols-3 gap-3 md:gap-6 mt-8 md:mt-16 max-w-3xl mx-auto px-4">
+              <Card className="p-3 md:p-6 bg-card/80 backdrop-blur-sm border-primary/20">
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-1 md:mb-2">10K+</div>
+                <div className="text-xs md:text-sm text-muted-foreground">Active Players</div>
               </Card>
-              <Card className="p-6 bg-card/80 backdrop-blur-sm border-primary/20">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">500+</div>
-                <div className="text-sm text-muted-foreground">Daily Contests</div>
+              <Card className="p-3 md:p-6 bg-card/80 backdrop-blur-sm border-primary/20">
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-1 md:mb-2">500+</div>
+                <div className="text-xs md:text-sm text-muted-foreground">Daily Contests</div>
               </Card>
-              <Card className="p-6 bg-card/80 backdrop-blur-sm border-primary/20">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">100%</div>
-                <div className="text-sm text-muted-foreground">Free to Play</div>
+              <Card className="p-3 md:p-6 bg-card/80 backdrop-blur-sm border-primary/20">
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-1 md:mb-2">100%</div>
+                <div className="text-xs md:text-sm text-muted-foreground">Free to Play</div>
               </Card>
             </div>
           </div>
@@ -144,52 +148,52 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="p-8 text-center hover:shadow-xl transition-shadow">
-              <div className="mb-6 flex justify-center">
-                <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-primary">1</span>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
+            <Card className="p-4 md:p-8 text-center hover:shadow-xl transition-shadow sm:col-span-2 md:col-span-1">
+              <div className="mb-4 md:mb-6 flex justify-center">
+                <div className="h-16 w-16 md:h-24 md:w-24 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-2xl md:text-4xl font-bold text-primary">1</span>
                 </div>
               </div>
               <img
                 src="/how-it-works-1.png"
                 alt="Select Players"
-                className="w-48 h-48 mx-auto mb-6 rounded-lg"
+                className="w-32 h-32 md:w-48 md:h-48 mx-auto mb-4 md:mb-6 rounded-lg"
               />
-              <h3 className="text-2xl font-bold mb-3">Create Your Team</h3>
-              <p className="text-muted-foreground">
+              <h3 className="text-xl md:text-2xl font-bold mb-2 md:mb-3">Create Your Team</h3>
+              <p className="text-sm md:text-base text-muted-foreground">
                 Select 11 players from upcoming matches. Choose your captain and vice-captain wisely!
               </p>
             </Card>
 
-            <Card className="p-8 text-center hover:shadow-xl transition-shadow">
-              <div className="mb-6 flex justify-center">
-                <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-primary">2</span>
+            <Card className="p-4 md:p-8 text-center hover:shadow-xl transition-shadow">
+              <div className="mb-4 md:mb-6 flex justify-center">
+                <div className="h-16 w-16 md:h-24 md:w-24 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-2xl md:text-4xl font-bold text-primary">2</span>
                 </div>
               </div>
               <img
                 src="/how-it-works-2.png"
                 alt="Join Contests"
-                className="w-48 h-48 mx-auto mb-6 rounded-lg"
+                className="w-32 h-32 md:w-48 md:h-48 mx-auto mb-4 md:mb-6 rounded-lg"
               />
-              <h3 className="text-2xl font-bold mb-3">Join Contests</h3>
-              <p className="text-muted-foreground">
+              <h3 className="text-xl md:text-2xl font-bold mb-2 md:mb-3">Join Contests</h3>
+              <p className="text-sm md:text-base text-muted-foreground">
                 Enter free contests and compete with thousands of other fantasy cricket enthusiasts.
               </p>
             </Card>
 
-            <Card className="p-8 text-center hover:shadow-xl transition-shadow">
-              <div className="mb-6 flex justify-center">
-                <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-primary">3</span>
+            <Card className="p-4 md:p-8 text-center hover:shadow-xl transition-shadow">
+              <div className="mb-4 md:mb-6 flex justify-center">
+                <div className="h-16 w-16 md:h-24 md:w-24 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-2xl md:text-4xl font-bold text-primary">3</span>
                 </div>
               </div>
-              <div className="w-48 h-48 mx-auto mb-6 rounded-lg bg-gradient-to-br from-primary/20 to-orange-500/20 flex items-center justify-center">
-                <Trophy className="h-32 w-32 text-primary" />
+              <div className="w-32 h-32 md:w-48 md:h-48 mx-auto mb-4 md:mb-6 rounded-lg bg-gradient-to-br from-primary/20 to-orange-500/20 flex items-center justify-center">
+                <Trophy className="h-20 w-20 md:h-32 md:w-32 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold mb-3">Win Glory</h3>
-              <p className="text-muted-foreground">
+              <h3 className="text-xl md:text-2xl font-bold mb-2 md:mb-3">Win Glory</h3>
+              <p className="text-sm md:text-base text-muted-foreground">
                 Earn points based on real match performance. Climb leaderboards and earn achievements!
               </p>
             </Card>
@@ -207,8 +211,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            <Card className="p-6 hover:shadow-xl transition-shadow">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 max-w-6xl mx-auto">
+            <Card className="p-4 md:p-6 hover:shadow-xl transition-shadow">
               <div className="mb-4">
                 <img src="/feature-free.png" alt="Free to Play" className="w-20 h-20 mx-auto" />
               </div>

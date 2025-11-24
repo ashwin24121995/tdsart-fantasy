@@ -98,44 +98,47 @@ export default function Admin() {
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-purple-800 py-12 px-4 pt-20 lg:pt-12">
       <div className="container max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
-              <Shield className="h-10 w-10" />
+        <div className="mb-6 md:mb-8">
+          <div className="mb-4">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 flex items-center gap-2 md:gap-3">
+              <Shield className="h-6 w-6 md:h-8 lg:h-10 md:w-8 lg:w-10" />
               Admin Dashboard
             </h1>
-            <p className="text-purple-200">Monitor traffic, users, and platform activity</p>
+            <p className="text-sm md:text-base text-purple-200">Monitor traffic, users, and platform activity</p>
           </div>
-          <div className="flex gap-2">
-            <Link href="/admin/visitors">
-              <Button variant="outline" className="bg-white/10 text-white border-white/20">
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Link href="/admin/visitors" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full sm:w-auto bg-white/10 text-white border-white/20">
                 <Users className="mr-2 h-4 w-4" />
-                Visitor Analytics
+                <span className="hidden sm:inline">Visitor Analytics</span>
+                <span className="sm:hidden">Visitors</span>
               </Button>
             </Link>
-            <Link href="/analytics">
-              <Button variant="outline" className="bg-white/10 text-white border-white/20">
+            <Link href="/analytics" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full sm:w-auto bg-white/10 text-white border-white/20">
                 <BarChart3 className="mr-2 h-4 w-4" />
-                View Analytics
+                <span className="hidden sm:inline">View Analytics</span>
+                <span className="sm:hidden">Analytics</span>
               </Button>
             </Link>
           </div>
         </div>
 
         {/* Traffic Overview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
           <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-white text-sm font-medium flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                Total Users
+            <CardHeader className="pb-2 md:pb-3">
+              <CardTitle className="text-white text-xs md:text-sm font-medium flex items-center gap-1 md:gap-2">
+                <Users className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="hidden sm:inline">Total Users</span>
+                <span className="sm:hidden">Users</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">
-                {isLoading ? <Loader2 className="h-8 w-8 animate-spin" /> : trafficOverview?.totalUsers || 0}
+              <div className="text-xl md:text-2xl lg:text-3xl font-bold text-white">
+                {isLoading ? <Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin" /> : trafficOverview?.totalUsers || 0}
               </div>
-              <p className="text-blue-100 text-sm mt-1">
+              <p className="text-blue-100 text-xs md:text-sm mt-1">
                 +{trafficOverview?.newUsersToday || 0} today
               </p>
             </CardContent>
