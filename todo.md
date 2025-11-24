@@ -638,3 +638,12 @@
 - [x] Add preload link in index.html head for instant loading
 - [x] Browser will now prioritize loading the ad image before other resources
 - [ ] Test ad loading speed on mobile after publish
+
+## Bot Detection & Ad Protection
+- [x] Detect and block known Google bot user agents (Googlebot, Google-InspectionTool, Lighthouse, etc.)
+- [x] Block 30+ bot patterns including headless browsers and crawlers
+- [x] Require genuine user interaction (mouse movement, touch, scroll, or click) before showing ad
+- [x] Add time-based delay (2.5 seconds) before ad becomes visible
+- [x] Validate UTM parameters (utm_source=google required)
+- [x] Advanced bot detection (WebDriver, languages, plugins checks)
+- [ ] Test that real users can see ad but bots cannot
