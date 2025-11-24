@@ -497,3 +497,6 @@
 
 ## Bug Fixes
 - [x] Fix tracking error: handle Infinity values in zoomLevel and other numeric fields
+- [x] Fix View Details button - not switching to Details tab
+- [x] Fix IP enrichment - location showing as Unknown
+- [x] Fix IP enrichment - ISP showing as Unknown

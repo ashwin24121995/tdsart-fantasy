@@ -69,28 +69,39 @@ interface EnrichedIPData {
  * Enriches IP address with geolocation and network data
  */
 export async function enrichIPAddress(ipAddress: string): Promise<EnrichedIPData | null> {
+  // Return fallback data for local/private IPs
+  if (!ipAddress || ipAddress === 'unknown' || ipAddress.startsWith('127.') || ipAddress.startsWith('::1') || ipAddress.startsWith('::ffff:127.')) {
+    console.log(`[IP Enrichment] Skipping enrichment for local/unknown IP: ${ipAddress}`);
+    return getFallbackData(ipAddress);
+  }
+
   try {
+    console.log(`[IP Enrichment] Enriching IP: ${ipAddress}`);
+    
     // Use ip-api.com (free, 45 requests/minute)
     const response = await fetch(
       `http://ip-api.com/json/${ipAddress}?fields=66846719`,
       {
         headers: {
           'User-Agent': 'TDSART-Fantasy-Analytics/1.0'
-        }
+        },
+        signal: AbortSignal.timeout(5000) // 5 second timeout
       }
     );
     
     if (!response.ok) {
-      console.error('[IP Enrichment] API request failed:', response.statusText);
-      return null;
+      console.error(`[IP Enrichment] API request failed for ${ipAddress}:`, response.statusText);
+      return getFallbackData(ipAddress);
     }
     
     const data: IPInfo = await response.json();
     
     if (data.query === undefined) {
-      console.error('[IP Enrichment] Invalid response from API');
-      return null;
+      console.error(`[IP Enrichment] Invalid response from API for ${ipAddress}`);
+      return getFallbackData(ipAddress);
     }
+    
+    console.log(`[IP Enrichment] Successfully enriched ${ipAddress}: ${data.city}, ${data.region}, ${data.country}`);
     
     // Detect IP version
     const ipVersion = ipAddress.includes(':') ? 'IPv6' : 'IPv4';
@@ -109,11 +120,13 @@ export async function enrichIPAddress(ipAddress: string): Promise<EnrichedIPData
     let continent = 'Unknown';
     let continentCode = 'UN';
     
-    for (const [key, value] of Object.entries(continentMap)) {
-      if (data.timezone.startsWith(key)) {
-        continent = value.continent;
-        continentCode = value.code;
-        break;
+    if (data.timezone) {
+      for (const [key, value] of Object.entries(continentMap)) {
+        if (data.timezone.startsWith(key)) {
+          continent = value.continent;
+          continentCode = value.code;
+          break;
+        }
       }
     }
     
@@ -182,17 +195,17 @@ export async function enrichIPAddress(ipAddress: string): Promise<EnrichedIPData
     );
     
     return {
-      // Network & Connection
-      ipAddress: data.query,
+      // Network data
+      ipAddress: data.query || ipAddress,
       ipVersion,
       isp: data.isp || 'Unknown',
       organization: data.org || 'Unknown',
       asn: data.as || 'Unknown',
-      isVpn: false, // ip-api doesn't provide this in free tier
+      isVpn: detectVPN(data.isp || '', data.org || ''),
       isProxy: data.proxy || false,
-      isTor: false, // Would need separate Tor exit node list
+      isTor: detectTor(data.query || ipAddress),
       isDatacenter: data.hosting || false,
-      mobileCarrier: data.mobile ? data.isp : null,
+      mobileCarrier: data.mobile ? (data.isp || null) : null,
       
       // Geolocation
       country: data.country || 'Unknown',
@@ -201,8 +214,8 @@ export async function enrichIPAddress(ipAddress: string): Promise<EnrichedIPData
       regionCode: data.region || 'UN',
       city: data.city || 'Unknown',
       postalCode: data.zip || 'Unknown',
-      latitude: data.lat.toString(),
-      longitude: data.lon.toString(),
+      latitude: data.lat ? data.lat.toString() : '0',
+      longitude: data.lon ? data.lon.toString() : '0',
       timezone: data.timezone || 'UTC',
       utcOffset,
       continent,
@@ -217,9 +230,49 @@ export async function enrichIPAddress(ipAddress: string): Promise<EnrichedIPData
       temperature: null, // Would require weather API integration
     };
   } catch (error) {
-    console.error('[IP Enrichment] Error enriching IP:', error);
-    return null;
+    console.error(`[IP Enrichment] Error enriching IP ${ipAddress}:`, error);
+    return getFallbackData(ipAddress);
   }
+}
+
+/**
+ * Returns fallback data when IP enrichment fails
+ */
+function getFallbackData(ipAddress: string): EnrichedIPData {
+  const ipVersion = ipAddress.includes(':') ? 'IPv6' : 'IPv4';
+  
+  return {
+    ipAddress: ipAddress || 'Unknown',
+    ipVersion,
+    isp: 'Unknown',
+    organization: 'Unknown',
+    asn: 'Unknown',
+    isVpn: false,
+    isProxy: false,
+    isTor: false,
+    isDatacenter: false,
+    mobileCarrier: null,
+    networkQuality: null,
+    country: 'Unknown',
+    countryCode: 'UN',
+    region: 'Unknown',
+    regionCode: 'UN',
+    city: 'Unknown',
+    postalCode: 'Unknown',
+    latitude: '0',
+    longitude: '0',
+    timezone: 'UTC',
+    utcOffset: '+00:00',
+    continent: 'Unknown',
+    continentCode: 'UN',
+    currency: 'USD',
+    callingCode: '+1',
+    capitalCity: 'Unknown',
+    distanceFromServer: null,
+    localTime: new Date().toISOString(),
+    weatherCondition: null,
+    temperature: null,
+  };
 }
 
 /**

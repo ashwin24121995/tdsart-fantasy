@@ -18,6 +18,7 @@ export default function AdminVisitors() {
   const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedVisitorId, setSelectedVisitorId] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState("visitors");
 
   // Fetch visitor data
   const { data: stats, isLoading: statsLoading } = trpc.tracking.getStats.useQuery();
@@ -128,7 +129,7 @@ export default function AdminVisitors() {
         </div>
 
         {/* Tabs */}
-        <Tabs defaultValue="visitors" className="space-y-4">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
           <TabsList className="grid w-full grid-cols-2 md:grid-cols-6">
             <TabsTrigger value="visitors">
               <Monitor className="w-4 h-4 mr-2" />
@@ -214,7 +215,10 @@ export default function AdminVisitors() {
                               <Button
                                 size="sm"
                                 variant="ghost"
-                                onClick={() => setSelectedVisitorId(visitor.id)}
+                                onClick={() => {
+                                  setSelectedVisitorId(visitor.id);
+                                  setActiveTab("details");
+                                }}
                               >
                                 View Details
                               </Button>
