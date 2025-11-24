@@ -21,6 +21,7 @@ import NotificationSettings from "./pages/NotificationSettings";
 import Analytics from "./pages/Analytics";
 import Admin from "./pages/Admin";
 import TrafficAnalytics from "./pages/TrafficAnalytics";
+import AdminVisitors from "./pages/AdminVisitors";
 
 function Router() {
   return (
@@ -39,6 +40,7 @@ function Router() {
       <Route path="/analytics" component={Analytics} />
       <Route path="/admin" component={Admin} />
       <Route path="/traffic" component={TrafficAnalytics} />
+      <Route path="/admin/visitors" component={AdminVisitors} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

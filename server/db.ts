@@ -388,3 +388,171 @@ export async function getGlobalLeaderboard(limit: number = 50) {
     .orderBy(desc(users.totalPoints))
     .limit(limit);
 }
+
+// ============ VISITOR TRACKING QUERIES ============
+
+import { visitorTracking } from "../drizzle/comprehensive-tracking-schema";
+import { like, or, gte, lte } from "drizzle-orm";
+
+export async function getAllVisitors(limit: number = 100, offset: number = 0) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db
+    .select()
+    .from(visitorTracking)
+    .orderBy(desc(visitorTracking.visitTimestamp))
+    .limit(limit)
+    .offset(offset);
+}
+
+export async function getVisitorById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select()
+    .from(visitorTracking)
+    .where(eq(visitorTracking.id, id))
+    .limit(1);
+  
+  return result[0] || null;
+}
+
+export async function getVisitorsByDateRange(startDate: Date, endDate: Date) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db
+    .select()
+    .from(visitorTracking)
+    .where(
+      and(
+        gte(visitorTracking.visitTimestamp, startDate),
+        lte(visitorTracking.visitTimestamp, endDate)
+      )
+    )
+    .orderBy(desc(visitorTracking.visitTimestamp));
+}
+
+export async function searchVisitors(searchTerm: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db
+    .select()
+    .from(visitorTracking)
+    .where(
+      or(
+        like(visitorTracking.ipAddress, `%${searchTerm}%`),
+        like(visitorTracking.city, `%${searchTerm}%`),
+        like(visitorTracking.country, `%${searchTerm}%`),
+        like(visitorTracking.isp, `%${searchTerm}%`),
+        like(visitorTracking.browserName, `%${searchTerm}%`),
+        like(visitorTracking.deviceType, `%${searchTerm}%`)
+      )
+    )
+    .orderBy(desc(visitorTracking.visitTimestamp))
+    .limit(100);
+}
+
+export async function getVisitorStats() {
+  const db = await getDb();
+  if (!db) return {
+    totalVisitors: 0,
+    uniqueIPs: 0,
+    uniqueSessions: 0,
+    avgBotScore: 0,
+    vpnDetected: 0,
+    proxyDetected: 0,
+  };
+  
+  const totalVisitors = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(visitorTracking);
+  
+  const uniqueIPs = await db
+    .select({ count: sql<number>`count(distinct ${visitorTracking.ipAddress})` })
+    .from(visitorTracking);
+  
+  const uniqueSessions = await db
+    .select({ count: sql<number>`count(distinct ${visitorTracking.sessionId})` })
+    .from(visitorTracking);
+  
+  const avgBotScore = await db
+    .select({ avg: sql<number>`avg(${visitorTracking.botDetectionScore})` })
+    .from(visitorTracking);
+  
+  const vpnDetected = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(visitorTracking)
+    .where(eq(visitorTracking.isVpn, true));
+  
+  const proxyDetected = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(visitorTracking)
+    .where(eq(visitorTracking.isProxy, true));
+  
+  return {
+    totalVisitors: totalVisitors[0]?.count || 0,
+    uniqueIPs: uniqueIPs[0]?.count || 0,
+    uniqueSessions: uniqueSessions[0]?.count || 0,
+    avgBotScore: avgBotScore[0]?.avg || 0,
+    vpnDetected: vpnDetected[0]?.count || 0,
+    proxyDetected: proxyDetected[0]?.count || 0,
+  };
+}
+
+export async function getVisitorsByCountry() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db
+    .select({
+      country: visitorTracking.country,
+      count: sql<number>`count(*)`,
+    })
+    .from(visitorTracking)
+    .groupBy(visitorTracking.country)
+    .orderBy(desc(sql`count(*)`))
+    .limit(20);
+}
+
+export async function getVisitorsByDevice() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db
+    .select({
+      deviceType: visitorTracking.deviceType,
+      count: sql<number>`count(*)`,
+    })
+    .from(visitorTracking)
+    .groupBy(visitorTracking.deviceType)
+    .orderBy(desc(sql`count(*)`));
+}
+
+export async function getVisitorsByBrowser() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db
+    .select({
+      browserName: visitorTracking.browserName,
+      count: sql<number>`count(*)`,
+    })
+    .from(visitorTracking)
+    .groupBy(visitorTracking.browserName)
+    .orderBy(desc(sql`count(*)`));
+}
+
+export async function getVisitorJourney(sessionId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db
+    .select()
+    .from(visitorTracking)
+    .where(eq(visitorTracking.sessionId, sessionId))
+    .orderBy(visitorTracking.visitTimestamp);
+}

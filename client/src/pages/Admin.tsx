@@ -106,12 +106,20 @@ export default function Admin() {
             </h1>
             <p className="text-purple-200">Monitor traffic, users, and platform activity</p>
           </div>
-          <Link href="/analytics">
-            <Button variant="outline" className="bg-white/10 text-white border-white/20">
-              <BarChart3 className="mr-2 h-4 w-4" />
-              View Analytics
-            </Button>
-          </Link>
+          <div className="flex gap-2">
+            <Link href="/admin/visitors">
+              <Button variant="outline" className="bg-white/10 text-white border-white/20">
+                <Users className="mr-2 h-4 w-4" />
+                Visitor Analytics
+              </Button>
+            </Link>
+            <Link href="/analytics">
+              <Button variant="outline" className="bg-white/10 text-white border-white/20">
+                <BarChart3 className="mr-2 h-4 w-4" />
+                View Analytics
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Traffic Overview Cards */}

@@ -7,6 +7,7 @@ import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { enrichIPAddress } from "../services/ipEnrichment";
 import { getDb } from "../db";
+import * as db from "../db";
 import { visitorTracking, type InsertVisitorTracking } from "../../drizzle/comprehensive-tracking-schema";
 import { desc, eq, and, gte, lte, like, or, sql } from "drizzle-orm";
 
@@ -94,6 +95,85 @@ const ClientTrackingDataSchema = z.object({
 });
 
 export const comprehensiveTrackingRouter = router({
+  /**
+   * Get visitor statistics overview
+   */
+  getStats: publicProcedure.query(async () => {
+    return await db.getVisitorStats();
+  }),
+
+  /**
+   * Get all visitors with pagination
+   */
+  getAllVisitors: publicProcedure
+    .input(z.object({
+      limit: z.number().optional().default(100),
+      offset: z.number().optional().default(0),
+    }))
+    .query(async ({ input }) => {
+      return await db.getAllVisitors(input.limit, input.offset);
+    }),
+
+  /**
+   * Get visitor by ID
+   */
+  getVisitorById: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input }) => {
+      return await db.getVisitorById(input.id);
+    }),
+
+  /**
+   * Search visitors
+   */
+  searchVisitors: publicProcedure
+    .input(z.object({ searchTerm: z.string() }))
+    .query(async ({ input }) => {
+      return await db.searchVisitors(input.searchTerm);
+    }),
+
+  /**
+   * Get visitors by date range
+   */
+  getVisitorsByDateRange: publicProcedure
+    .input(z.object({
+      startDate: z.date(),
+      endDate: z.date(),
+    }))
+    .query(async ({ input }) => {
+      return await db.getVisitorsByDateRange(input.startDate, input.endDate);
+    }),
+
+  /**
+   * Get visitors by country
+   */
+  getVisitorsByCountry: publicProcedure.query(async () => {
+    return await db.getVisitorsByCountry();
+  }),
+
+  /**
+   * Get visitors by device type
+   */
+  getVisitorsByDevice: publicProcedure.query(async () => {
+    return await db.getVisitorsByDevice();
+  }),
+
+  /**
+   * Get visitors by browser
+   */
+  getVisitorsByBrowser: publicProcedure.query(async () => {
+    return await db.getVisitorsByBrowser();
+  }),
+
+  /**
+   * Get visitor journey (all pages visited in a session)
+   */
+  getVisitorJourney: publicProcedure
+    .input(z.object({ sessionId: z.string() }))
+    .query(async ({ input }) => {
+      return await db.getVisitorJourney(input.sessionId);
+    }),
+
   /**
    * Track comprehensive visitor data
    * Merges client-side data with server-side IP enrichment
@@ -351,40 +431,5 @@ export const comprehensiveTrackingRouter = router({
       
       return { visitors, total };
     }),
-  
-  /**
-   * Get visitor by ID with full details
-   */
-  getVisitorById: publicProcedure
-    .input(z.object({ id: z.number() }))
-    .query(async ({ input }) => {
-      const db = await getDb();
-      if (!db) return null;
-      
-      const result = await db
-        .select()
-        .from(visitorTracking)
-        .where(eq(visitorTracking.id, input.id))
-        .limit(1);
-      
-      return result[0] || null;
-    }),
-  
-  /**
-   * Get visitor journey (all pages visited in a session)
-   */
-  getVisitorJourney: publicProcedure
-    .input(z.object({ sessionId: z.string() }))
-    .query(async ({ input }) => {
-      const db = await getDb();
-      if (!db) return [];
-      
-      const journey = await db
-        .select()
-        .from(visitorTracking)
-        .where(eq(visitorTracking.sessionId, input.sessionId))
-        .orderBy(visitorTracking.visitTimestamp);
-      
-      return journey;
-    }),
+
 });

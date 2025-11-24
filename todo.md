@@ -476,3 +476,21 @@
 - [x] Add tracking component to App.tsx
 - [ ] Test tracking data collection end-to-end (requires publish)
 - [ ] Verify all 272 data points are captured (requires publish)
+
+## Admin Visitor Dashboard
+- [x] Create database queries for visitor list and analytics
+- [x] Build tRPC procedures for visitor data retrieval
+- [x] Create AdminVisitors.tsx page component
+- [x] Add Overview tab with visitor statistics
+- [x] Add Visitor List tab with search and filters
+- [x] Add Detailed Visitor View with all 272 data points
+- [x] Add Location tab with geographic visualization
+- [x] Add Devices tab with browser/device breakdown
+- [x] Add Security tab with bot detection and VPN/proxy data
+- [x] Add Journey Tracking tab placeholder
+- [x] Add route to App.tsx
+- [x] Add navigation link to admin menu
+- [ ] Test with real visitor data (requires publish)
+- [ ] Implement advanced journey visualization
+- [ ] Add export to CSV functionality
+- [ ] Add date range filters
