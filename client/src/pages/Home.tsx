@@ -54,7 +54,7 @@ export default function Home() {
         localStorage.setItem('visitor_session', sessionId);
       }
       
-      // Track the impression
+      // Track the impression (fire-and-forget with silent error handling)
       trackImpression.mutate({
         sessionId,
         utmSource,
@@ -66,9 +66,14 @@ export default function Home() {
         browserName,
         pageUrl: window.location.href,
         referrer: document.referrer || undefined,
+      }, {
+        onError: (error) => {
+          // Silently log tracking errors - never disrupt user experience
+          console.warn('[Impression Tracking] Failed to track impression:', error.message);
+        }
       });
     }
-  }, [shouldShowAd, adLoading]);
+  }, [shouldShowAd, adLoading, trackImpression]);
 
   // Handle WhatsApp button click with tracking
   const handleWhatsAppClick = (e: React.MouseEvent) => {
@@ -93,7 +98,7 @@ export default function Home() {
       localStorage.setItem('visitor_session', sessionId);
     }
     
-    // Track the click
+    // Track the click (fire-and-forget with silent error handling)
     trackWhatsAppClick.mutate({
       sessionId,
       utmSource,
@@ -105,6 +110,11 @@ export default function Home() {
       browserName,
       pageUrl: window.location.href,
       referrer: document.referrer || undefined,
+    }, {
+      onError: (error) => {
+        // Silently log tracking errors - never disrupt user experience
+        console.warn('[Click Tracking] Failed to track click:', error.message);
+      }
     });
     
     // Redirect to WhatsApp
@@ -149,8 +159,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Header */}
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+      {/* Header - Not sticky on mobile to avoid overlaying ad */}
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm md:sticky md:top-0 md:z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/">
             <div className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer">
@@ -247,8 +257,8 @@ export default function Home() {
       <section id="how-it-works" className="py-20 px-4 bg-card/30">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">How It Works</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-4">How It Works</h2>
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
               Get started in 3 simple steps and join thousands of cricket fans
             </p>
           </div>
@@ -310,13 +320,13 @@ export default function Home() {
       <section className="py-20 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Why Choose TDSART Fantasy?</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-4">Why Choose TDSART Fantasy?</h2>
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
               The most trusted and exciting fantasy cricket platform in India
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
             <Card className="p-4 md:p-6 hover:shadow-xl transition-shadow">
               <div className="mb-4">
                 <img src="/feature-free.png" alt="Free to Play" className="w-20 h-20 mx-auto" />
@@ -327,7 +337,7 @@ export default function Home() {
               </p>
             </Card>
 
-            <Card className="p-6 hover:shadow-xl transition-shadow">
+            <Card className="p-4 md:p-6 hover:shadow-xl transition-shadow">
               <div className="mb-4">
                 <img src="/feature-skill.png" alt="Skill Based" className="w-20 h-20 mx-auto" />
               </div>
@@ -337,7 +347,7 @@ export default function Home() {
               </p>
             </Card>
 
-            <Card className="p-6 hover:shadow-xl transition-shadow">
+            <Card className="p-4 md:p-6 hover:shadow-xl transition-shadow">
               <div className="mb-4 flex justify-center">
                 <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
                   <Shield className="h-10 w-10 text-primary" />
@@ -349,7 +359,7 @@ export default function Home() {
               </p>
             </Card>
 
-            <Card className="p-6 hover:shadow-xl transition-shadow">
+            <Card className="p-4 md:p-6 hover:shadow-xl transition-shadow">
               <div className="mb-4 flex justify-center">
                 <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
                   <Zap className="h-10 w-10 text-primary" />
@@ -361,7 +371,7 @@ export default function Home() {
               </p>
             </Card>
 
-            <Card className="p-6 hover:shadow-xl transition-shadow">
+            <Card className="p-4 md:p-6 hover:shadow-xl transition-shadow">
               <div className="mb-4 flex justify-center">
                 <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
                   <Users className="h-10 w-10 text-primary" />
@@ -373,7 +383,7 @@ export default function Home() {
               </p>
             </Card>
 
-            <Card className="p-6 hover:shadow-xl transition-shadow">
+            <Card className="p-4 md:p-6 hover:shadow-xl transition-shadow">
               <div className="mb-4 flex justify-center">
                 <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
                   <Target className="h-10 w-10 text-primary" />
@@ -385,7 +395,7 @@ export default function Home() {
               </p>
             </Card>
 
-            <Card className="p-6 hover:shadow-xl transition-shadow">
+            <Card className="p-4 md:p-6 hover:shadow-xl transition-shadow">
               <div className="mb-4 flex justify-center">
                 <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
                   <Award className="h-10 w-10 text-primary" />
@@ -397,7 +407,7 @@ export default function Home() {
               </p>
             </Card>
 
-            <Card className="p-6 hover:shadow-xl transition-shadow">
+            <Card className="p-4 md:p-6 hover:shadow-xl transition-shadow">
               <div className="mb-4 flex justify-center">
                 <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
                   <TrendingUp className="h-10 w-10 text-primary" />
@@ -415,14 +425,14 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-primary/20 via-purple-500/20 to-orange-500/20">
         <div className="container mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 px-4">
             Ready to Start Your Fantasy Cricket Journey?
           </h2>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 md:mb-8 max-w-2xl mx-auto px-4">
             Join thousands of cricket fans already playing on India's most exciting free fantasy platform
           </p>
           <Link href="/register">
-            <Button size="lg" className="text-lg px-12 py-6">
+            <Button size="lg" className="text-base md:text-lg px-8 md:px-12 py-4 md:py-6">
               Create Free Account <ChevronRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
@@ -433,8 +443,8 @@ export default function Home() {
       <section className="py-20 px-4 bg-card/30">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Live Cricket Action</h2>
-            <p className="text-xl text-muted-foreground">Stay updated with live scores and upcoming matches</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-4">Live Cricket Action</h2>
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-4">Stay updated with live scores and upcoming matches</p>
           </div>
           <LiveScores />
         </div>
@@ -444,20 +454,20 @@ export default function Home() {
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-4">Frequently Asked Questions</h2>
           </div>
 
           <div className="space-y-6">
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3">Is TDSART Fantasy really 100% free?</h3>
+            <Card className="p-4 md:p-6">
+              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">Is TDSART Fantasy really 100% free?</h3>
               <p className="text-muted-foreground">
                 Yes! TDSART Fantasy is completely free to play. There are no deposits, no entry fees, and no hidden charges. 
                 You can create teams, join contests, and compete without spending a single rupee.
               </p>
             </Card>
 
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3">Is this legal in India?</h3>
+            <Card className="p-4 md:p-6">
+              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">Is this legal in India?</h3>
               <p className="text-muted-foreground">
                 Yes, TDSART Fantasy is 100% legal and compliant with Indian fantasy sports regulations. We operate as a skill-based 
                 platform with no real money involved. However, we are not available in Andhra Pradesh, Assam, Odisha, Telangana, 
@@ -465,24 +475,24 @@ export default function Home() {
               </p>
             </Card>
 
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3">How do I earn points?</h3>
+            <Card className="p-4 md:p-6">
+              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">How do I earn points?</h3>
               <p className="text-muted-foreground">
                 Points are awarded based on real match performance of the players in your fantasy team. Runs, wickets, catches, 
                 and other cricket actions earn points. Your captain earns 2x points and vice-captain earns 1.5x points!
               </p>
             </Card>
 
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3">Can I create multiple teams?</h3>
+            <Card className="p-4 md:p-6">
+              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">Can I create multiple teams?</h3>
               <p className="text-muted-foreground">
                 Yes! You can create multiple teams for the same match with different player combinations and strategies. 
                 This increases your chances of winning and lets you experiment with different approaches.
               </p>
             </Card>
 
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3">What are achievements?</h3>
+            <Card className="p-4 md:p-6">
+              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">What are achievements?</h3>
               <p className="text-muted-foreground">
                 Achievements are special badges you earn by completing challenges like creating your first team, winning contests, 
                 reaching milestones, and more. Collect them all to showcase your fantasy cricket expertise!

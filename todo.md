@@ -593,3 +593,32 @@
 - [x] Set loading="eager" for immediate ad display
 - [x] Remove padding on mobile for full-width ad
 - [ ] Test ad visibility and load speed on mobile devices (requires publish)
+
+## Failed to Fetch Errors on Page Load
+- [x] Identify which tRPC procedures are failing (tracking mutations/queries)
+- [x] Check server logs for error details
+- [x] Fix database connection or procedure issues
+- [x] Add proper error handling to prevent user-facing errors in Home.tsx
+- [ ] Test page load without errors
+
+## Mobile Ad Header Overlay Fix
+- [x] Restructure mobile layout so header appears BELOW FairPlay ad (not overlaying it)
+- [x] Ensure full ad image is visible without black header obstruction
+- [x] Remove sticky positioning on mobile (md:sticky md:top-0 instead of sticky top-0)
+- [ ] Test on mobile devices to verify header positioning
+
+## Mobile Responsiveness Issues (Full Website)
+- [x] Audit all pages for mobile responsiveness issues
+- [x] Fix Homepage mobile layout (hero section, stats, features, FAQ)
+- [x] Fix LiveScores component mobile layout
+- [x] Feature cards now single column on mobile (grid-cols-1)
+- [x] All section headings responsive (text-2xl sm:text-3xl md:text-4xl lg:text-5xl)
+- [x] All buttons responsive with proper padding
+- [x] FAQ cards responsive padding (p-4 md:p-6)
+- [x] LiveScores responsive grid (sm:grid-cols-2 lg:grid-cols-3)
+- [ ] Fix Dashboard mobile layout
+- [ ] Fix Contest pages mobile layout
+- [ ] Fix Team Creation page mobile layout
+- [ ] Fix Leaderboard page mobile layout
+- [ ] Fix Admin pages mobile layout
+- [ ] Test on various mobile screen sizes (320px, 375px, 414px)

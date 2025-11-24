@@ -20,19 +20,19 @@ export function LiveScores() {
       {/* Live Matches */}
       {liveMatches && liveMatches.length > 0 && (
         <div>
-          <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+          <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 flex items-center gap-2">
             <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
             </span>
             Live Matches
           </h3>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-3 md:gap-4 sm:grid-cols-2">
             {liveMatches.map((match) => (
               <Card key={match.id} className="border-red-500/20 bg-gradient-to-br from-red-500/5 to-transparent">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{match.name}</CardTitle>
+                    <CardTitle className="text-base md:text-lg">{match.name}</CardTitle>
                     <Badge variant="destructive" className="animate-pulse">LIVE</Badge>
                   </div>
                   <p className="text-sm text-muted-foreground">{match.venue}</p>
@@ -62,12 +62,12 @@ export function LiveScores() {
       {/* Upcoming Matches */}
       {upcomingMatches && upcomingMatches.length > 0 && (
         <div>
-          <h3 className="text-2xl font-bold mb-4">Upcoming Matches</h3>
-          <div className="grid gap-4 md:grid-cols-3">
+          <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4">Upcoming Matches</h3>
+          <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {upcomingMatches.slice(0, 6).map((match) => (
               <Card key={match.id}>
                 <CardHeader>
-                  <CardTitle className="text-base">{match.name}</CardTitle>
+                  <CardTitle className="text-sm md:text-base">{match.name}</CardTitle>
                   <p className="text-sm text-muted-foreground">{match.venue}</p>
                 </CardHeader>
                 <CardContent>
