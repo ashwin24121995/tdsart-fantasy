@@ -262,3 +262,7 @@ export const conversionEvents = mysqlTable("conversionEvents", {
 
 export type ConversionEvent = typeof conversionEvents.$inferSelect;
 export type InsertConversionEvent = typeof conversionEvents.$inferInsert;
+
+// Traffic tracking tables
+export { pageViews, sessions } from "./traffic-schema";
+export type { PageView, InsertPageView, Session, InsertSession } from "./traffic-schema";

@@ -272,3 +272,33 @@
 - [x] Remove Manus OAuth login option from login page
 - [x] Keep only custom email/password authentication
 - [x] Fix custom login to set session cookie for server authentication
+
+## Complete Manus OAuth Removal
+- [x] Identify all files containing Manus OAuth code
+- [x] Remove server/_core/oauth.ts (OAuth callback handler)
+- [x] Remove server/_core/sdk.ts (Manus SDK)
+- [x] Clean up server/_core/context.ts (remove SDK authentication)
+- [x] Remove OAuth environment variables from code references
+- [x] Clean up client/src/const.ts (remove OAuth URL generation)
+- [x] Update server/_core/index.ts (remove OAuth routes)
+- [x] Remove OAuth-related imports and dependencies
+- [x] Test custom authentication works without Manus OAuth
+- [x] Verify no Manus OAuth redirects occur
+
+## Comprehensive Traffic Analysis
+- [x] Create database schema for page views and sessions
+- [x] Add traffic tracking middleware to capture all page visits
+- [x] Store visitor IP, user agent, referrer, and page path
+- [x] Implement session tracking with unique session IDs
+- [x] Calculate bounce rate and session duration
+- [x] Build analytics dashboard with tabbed interface
+- [x] Add "Organic Traffic" tab with direct/referral/search sources
+- [x] Add "Google Ads Traffic" tab with campaign breakdown
+- [x] Display traffic metrics (page views, unique visitors, avg session duration)
+- [x] Add traffic trend charts (daily/weekly/monthly)
+- [ ] Implement conversion funnel visualization
+- [x] Add top pages report
+- [x] Show traffic by device type (mobile/desktop/tablet)
+- [ ] Add traffic by browser breakdown
+- [ ] Create real-time visitor counter
+- [ ] Test traffic tracking end-to-end

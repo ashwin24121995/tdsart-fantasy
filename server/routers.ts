@@ -1,6 +1,4 @@
 import { z } from "zod";
-import { COOKIE_NAME } from "@shared/const";
-import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import * as cricketApi from "./cricket-api";
@@ -9,6 +7,7 @@ import * as db from "./db";
 import { notificationsRouter } from "./routers/notifications";
 import { analyticsRouter } from "./routers/analytics";
 import { adminRouter } from "./routers/admin";
+import { trafficRouter } from "./routers/traffic";
 import { processMatchResults, updateTeamPoints, updateUserPoints, updateContestRankings } from "./scoring-engine";
 
 // Restricted states in India where fantasy sports are not permitted
@@ -27,13 +26,13 @@ export const appRouter = router({
   notifications: notificationsRouter,
   analytics: analyticsRouter,
   admin: adminRouter,
+  traffic: trafficRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     
-    logout: publicProcedure.mutation(({ ctx }) => {
-      const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
+    logout: publicProcedure.mutation(() => {
+      // Logout is handled client-side by removing JWT token from localStorage
       return { success: true } as const;
     }),
     

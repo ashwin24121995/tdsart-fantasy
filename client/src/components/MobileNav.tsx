@@ -30,8 +30,9 @@ export default function MobileNav() {
     { href: "/analytics", label: "Analytics", icon: TrendingUp },
   ];
 
-  // Add admin link only for admin users
+  // Add admin links only for admin users
   if (user?.role === "admin") {
+    navItems.push({ href: "/traffic", label: "Traffic Analytics", icon: BarChart3 });
     navItems.push({ href: "/admin", label: "Admin Panel", icon: Shield });
   }
 

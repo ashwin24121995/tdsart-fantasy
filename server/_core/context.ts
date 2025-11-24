@@ -1,6 +1,5 @@
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express";
 import type { User } from "../../drizzle/schema";
-import { sdk } from "./sdk";
 import { verifyToken } from "../auth";
 import { getUserById } from "../db";
 
@@ -15,7 +14,7 @@ export async function createContext(
 ): Promise<TrpcContext> {
   let user: User | null = null;
 
-  // First, try to authenticate using JWT token from Authorization header (custom auth)
+  // Authenticate using JWT token from Authorization header (custom auth)
   const authHeader = opts.req.headers.authorization;
   if (authHeader && authHeader.startsWith("Bearer ")) {
     const token = authHeader.substring(7);
@@ -23,16 +22,6 @@ export async function createContext(
     if (payload) {
       const foundUser = await getUserById(payload.userId);
       user = foundUser || null;
-    }
-  }
-
-  // If no JWT token, try Manus OAuth session cookie
-  if (!user) {
-    try {
-      user = await sdk.authenticateRequest(opts.req);
-    } catch (error) {
-      // Authentication is optional for public procedures.
-      user = null;
     }
   }
 

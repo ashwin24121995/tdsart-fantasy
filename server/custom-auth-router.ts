@@ -121,21 +121,6 @@ export const customAuthRouter = router({
         email: user.email,
       });
 
-      // Also create session cookie for server-side authentication
-      const { sdk } = await import("./_core/sdk");
-      const { COOKIE_NAME } = await import("../shared/const");
-      const { getSessionCookieOptions } = await import("./_core/cookies");
-      
-      // Create session token using the user's openId (or custom identifier)
-      const openId = user.openId || `custom_${user.id}`;
-      const sessionToken = await sdk.createSessionToken(openId, {
-        name: user.name || user.email,
-      });
-      
-      // Set session cookie
-      const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.cookie(COOKIE_NAME, sessionToken, cookieOptions);
-
       return {
         success: true,
         token,
