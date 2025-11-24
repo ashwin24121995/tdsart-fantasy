@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
  * Hook to detect if user should see targeted ad
  * Conditions:
  * - Coming from Google Ads (utm_source=google)
- * - From India (detected via IP geolocation)
+ * - From India (detected via timezone)
  * - Mobile device
- * - Not a bot (based on client-side detection)
+ * - Not a bot (basic detection)
  */
 export function useTargetedAd() {
   const [shouldShowAd, setShouldShowAd] = useState(false);
@@ -15,12 +15,16 @@ export function useTargetedAd() {
   useEffect(() => {
     const checkTargeting = async () => {
       try {
+        console.log('[Targeted Ad] Starting targeting check...');
+        
         // Check if user came from Google Ads
         const params = new URLSearchParams(window.location.search);
         const utmSource = params.get('utm_source');
         const isFromGoogleAds = utmSource === 'google';
+        console.log('[Targeted Ad] UTM Source:', utmSource, '| From Google Ads:', isFromGoogleAds);
 
         if (!isFromGoogleAds) {
+          console.log('[Targeted Ad] ❌ Not from Google Ads - hiding ad');
           setShouldShowAd(false);
           setIsLoading(false);
           return;
@@ -30,8 +34,11 @@ export function useTargetedAd() {
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
           navigator.userAgent
         );
+        console.log('[Targeted Ad] User Agent:', navigator.userAgent);
+        console.log('[Targeted Ad] Is Mobile:', isMobile);
 
         if (!isMobile) {
+          console.log('[Targeted Ad] ❌ Not a mobile device - hiding ad');
           setShouldShowAd(false);
           setIsLoading(false);
           return;
@@ -40,20 +47,37 @@ export function useTargetedAd() {
         // Check if from India using timezone detection
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isFromIndia = timezone === 'Asia/Kolkata' || timezone === 'Asia/Calcutta';
+        console.log('[Targeted Ad] Timezone:', timezone, '| From India:', isFromIndia);
 
-        // Simple bot detection: check if browser has expected features
-        const hasExpectedFeatures = 
-          typeof navigator.webdriver === 'undefined' &&
-          typeof (window as any).chrome !== 'undefined' &&
-          navigator.languages && navigator.languages.length > 0;
+        if (!isFromIndia) {
+          console.log('[Targeted Ad] ❌ Not from India - hiding ad');
+          setShouldShowAd(false);
+          setIsLoading(false);
+          return;
+        }
 
-        const isNotBot = hasExpectedFeatures && !navigator.doNotTrack;
+        // Simplified bot detection that works on all browsers
+        const isWebDriver = typeof navigator.webdriver !== 'undefined' && navigator.webdriver;
+        const hasLanguages = navigator.languages && navigator.languages.length > 0;
+        const hasPlugins = navigator.plugins && navigator.plugins.length >= 0; // Plugins exist (even if empty on mobile)
+        
+        const isLikelyBot = isWebDriver || !hasLanguages;
+        const isNotBot = !isLikelyBot;
+        
+        console.log('[Targeted Ad] Bot Detection:');
+        console.log('  - Is WebDriver:', isWebDriver);
+        console.log('  - Has Languages:', hasLanguages);
+        console.log('  - Has Plugins:', hasPlugins);
+        console.log('  - Is Not Bot:', isNotBot);
 
-        // Show ad only if all conditions are met
-        setShouldShowAd(isFromIndia && isNotBot);
+        // Show ad if all conditions are met
+        const showAd = isFromGoogleAds && isMobile && isFromIndia && isNotBot;
+        console.log('[Targeted Ad] Final Decision:', showAd ? '✅ SHOW AD' : '❌ HIDE AD');
+        
+        setShouldShowAd(showAd);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error checking ad targeting:', error);
+        console.error('[Targeted Ad] Error checking ad targeting:', error);
         setShouldShowAd(false);
         setIsLoading(false);
       }

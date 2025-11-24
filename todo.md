@@ -555,3 +555,12 @@
 - [x] Add recent conversions table with details
 - [x] Add navigation link to Admin page
 - [ ] Test with real Google Ads traffic (requires publish)
+
+## Targeted Ad Not Showing Bug
+- [x] Debug why FairPlay ad doesn't show on mobile with utm_source=google
+- [x] Check mobile device detection logic
+- [x] Check India location detection (timezone-based)
+- [x] Check bot detection threshold
+- [x] Add console logging to identify failing condition
+- [x] Fix bot detection to work on Safari/iOS (removed Chrome-only check)
+- [ ] Test on real mobile device after publish
