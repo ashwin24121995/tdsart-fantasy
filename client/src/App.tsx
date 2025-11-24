@@ -17,6 +17,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import NotificationSettings from "./pages/NotificationSettings";
 import Analytics from "./pages/Analytics";
+import Admin from "./pages/Admin";
 
 function Router() {
   return (
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/leaderboard" component={Leaderboard} />
       <Route path="/notifications" component={NotificationSettings} />
       <Route path="/analytics" component={Analytics} />
+      <Route path="/admin" component={Admin} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

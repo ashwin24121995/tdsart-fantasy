@@ -8,6 +8,7 @@ import { customAuthRouter } from "./custom-auth-router";
 import * as db from "./db";
 import { notificationsRouter } from "./routers/notifications";
 import { analyticsRouter } from "./routers/analytics";
+import { adminRouter } from "./routers/admin";
 import { processMatchResults, updateTeamPoints, updateUserPoints, updateContestRankings } from "./scoring-engine";
 
 // Restricted states in India where fantasy sports are not permitted
@@ -25,6 +26,7 @@ export const appRouter = router({
   customAuth: customAuthRouter,
   notifications: notificationsRouter,
   analytics: analyticsRouter,
+  admin: adminRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
