@@ -22,7 +22,7 @@ export default function Home() {
   const isAuthenticated = !!user;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pt-16 lg:pt-0">
       {/* Legal Compliance Banner */}
       <div className="bg-destructive/20 border-b border-destructive/50 py-3 px-4">
         <div className="container mx-auto flex items-center justify-center gap-2 text-sm">

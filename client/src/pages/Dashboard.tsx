@@ -75,7 +75,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pt-20 lg:pt-8">
         {/* Level Progress */}
         <Card className="mb-8 bg-gradient-to-r from-primary/10 to-purple-500/10 border-primary/30">
           <CardContent className="pt-6">
