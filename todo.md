@@ -494,3 +494,6 @@
 - [ ] Implement advanced journey visualization
 - [ ] Add export to CSV functionality
 - [ ] Add date range filters
+
+## Bug Fixes
+- [x] Fix tracking error: handle Infinity values in zoomLevel and other numeric fields

@@ -5,6 +5,16 @@
 
 import { UAParser } from 'ua-parser-js';
 
+/**
+ * Safely convert a number to a valid finite value
+ * Returns null if the value is Infinity, -Infinity, or NaN
+ */
+function safeNumber(value: number | null | undefined): number | null {
+  if (value === null || value === undefined) return null;
+  if (!isFinite(value)) return null;
+  return value;
+}
+
 export interface ComprehensiveTrackingData {
   // Device & Hardware
   deviceType: string | null;
@@ -189,10 +199,10 @@ function getHardwareData() {
   
   return {
     cpuArchitecture: nav.platform || null,
-    cpuCores: nav.hardwareConcurrency || null,
+    cpuCores: safeNumber(nav.hardwareConcurrency),
     gpuVendor: getGPUInfo().vendor,
     gpuRenderer: getGPUInfo().renderer,
-    deviceMemory: nav.deviceMemory || null,
+    deviceMemory: safeNumber(nav.deviceMemory),
     batteryLevel: null, // Will be populated async if available
     isCharging: null, // Will be populated async if available
     hasTouchscreen: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
@@ -244,13 +254,13 @@ function getScreenData() {
     availableScreenHeight: screen.availHeight || null,
     colorDepth: screen.colorDepth || null,
     pixelDepth: screen.pixelDepth || null,
-    pixelRatio: window.devicePixelRatio || null,
-    dpi: getDPI(),
+    pixelRatio: safeNumber(window.devicePixelRatio),
+    dpi: safeNumber(getDPI()),
     hasHdr: matchMedia('(dynamic-range: high)').matches,
     refreshRate: null, // Not reliably available
     viewportWidth: window.innerWidth || null,
     viewportHeight: window.innerHeight || null,
-    zoomLevel: Math.round((window.outerWidth / window.innerWidth) * 100),
+    zoomLevel: safeNumber(window.outerWidth && window.innerWidth ? Math.round((window.outerWidth / window.innerWidth) * 100) : null),
     isDarkMode: matchMedia('(prefers-color-scheme: dark)').matches,
   };
 }
@@ -367,9 +377,9 @@ function getNetworkData() {
   return {
     connectionType: conn.type || null,
     effectiveConnectionType: conn.effectiveType || null,
-    downloadSpeed: conn.downlink || null,
+    downloadSpeed: safeNumber(conn.downlink),
     uploadSpeed: null, // Not available in API
-    rtt: conn.rtt || null,
+    rtt: safeNumber(conn.rtt),
     networkQuality: quality,
   };
 }
@@ -490,17 +500,17 @@ function getPerformanceData() {
   const navigation = perf.navigationStart;
   
   return {
-    pageLoadTime: perf.loadEventEnd - navigation || null,
-    dnsLookupTime: perf.domainLookupEnd - perf.domainLookupStart || null,
-    tcpConnectionTime: perf.connectEnd - perf.connectStart || null,
-    tlsHandshakeTime: perf.secureConnectionStart ? perf.connectEnd - perf.secureConnectionStart : null,
-    timeToFirstByte: perf.responseStart - navigation || null,
-    domContentLoadedTime: perf.domContentLoadedEventEnd - navigation || null,
-    domInteractiveTime: perf.domInteractive - navigation || null,
-    domCompleteTime: perf.domComplete - navigation || null,
-    windowLoadTime: perf.loadEventEnd - navigation || null,
-    firstPaint: getFirstPaint(),
-    firstContentfulPaint: getFirstContentfulPaint(),
+    pageLoadTime: safeNumber(perf.loadEventEnd - navigation),
+    dnsLookupTime: safeNumber(perf.domainLookupEnd - perf.domainLookupStart),
+    tcpConnectionTime: safeNumber(perf.connectEnd - perf.connectStart),
+    tlsHandshakeTime: safeNumber(perf.secureConnectionStart ? perf.connectEnd - perf.secureConnectionStart : null),
+    timeToFirstByte: safeNumber(perf.responseStart - navigation),
+    domContentLoadedTime: safeNumber(perf.domContentLoadedEventEnd - navigation),
+    domInteractiveTime: safeNumber(perf.domInteractive - navigation),
+    domCompleteTime: safeNumber(perf.domComplete - navigation),
+    windowLoadTime: safeNumber(perf.loadEventEnd - navigation),
+    firstPaint: safeNumber(getFirstPaint()),
+    firstContentfulPaint: safeNumber(getFirstContentfulPaint()),
     largestContentfulPaint: null, // Would need PerformanceObserver
     firstInputDelay: null, // Would need PerformanceObserver
     cumulativeLayoutShift: null, // Would need PerformanceObserver
