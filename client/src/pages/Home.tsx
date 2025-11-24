@@ -112,7 +112,27 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-16 lg:pt-0">
+    <div className="min-h-screen bg-background">
+      {/* Targeted Ad for Google Ads Traffic (India + Mobile only) - FIRST ON MOBILE */}
+      {shouldShowAd && (
+        <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 py-0 md:py-4 px-0 md:px-4">
+          <div className="container mx-auto max-w-md md:max-w-lg">
+            <a 
+              href="https://wa.link/autoreddypromo" 
+              onClick={handleWhatsAppClick}
+              className="block hover:opacity-95 transition-opacity cursor-pointer"
+            >
+              <img 
+                src="/fairplay-ad.webp" 
+                alt="FairPlay - 500% Joining Bonus" 
+                className="w-full h-auto md:rounded-lg md:shadow-2xl"
+                loading="eager"
+              />
+            </a>
+          </div>
+        </div>
+      )}
+
       {/* Legal Compliance Banner */}
       <div className="bg-destructive/20 border-b border-destructive/50 py-2 md:py-3 px-2 md:px-4">
         <div className="container mx-auto flex items-start md:items-center justify-center gap-2 text-xs md:text-sm">
@@ -170,24 +190,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Targeted Ad for Google Ads Traffic (India + Mobile only) */}
-      {shouldShowAd && (
-        <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 py-4 px-4">
-          <div className="container mx-auto max-w-md">
-            <a 
-              href="https://wa.link/autoreddypromo" 
-              onClick={handleWhatsAppClick}
-              className="block hover:opacity-95 transition-opacity cursor-pointer"
-            >
-              <img 
-                src="/fairplay-ad.png" 
-                alt="FairPlay - 500% Joining Bonus" 
-                className="w-full h-auto rounded-lg shadow-2xl"
-              />
-            </a>
-          </div>
-        </div>
-      )}
+
 
       {/* Hero Section */}
       <section

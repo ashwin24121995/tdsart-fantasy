@@ -585,3 +585,11 @@
 - [ ] Test page load performance after optimizations (requires publish)
 - [ ] Add loading states and skeleton screens if needed
 - [ ] Consider caching Cricket API responses
+
+## Mobile Ad Layout Optimization
+- [x] Convert FairPlay PNG image to WebP format (86% size reduction: 534 KB → 75 KB)
+- [x] Restructure mobile homepage to show FairPlay ad at the very top
+- [x] Move header, logo, disclaimer below the ad
+- [x] Set loading="eager" for immediate ad display
+- [x] Remove padding on mobile for full-width ad
+- [ ] Test ad visibility and load speed on mobile devices (requires publish)
