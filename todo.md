@@ -311,3 +311,12 @@
 - [x] Test login flow end-to-end
 - [x] Fixed localStorage key consistency (Login.tsx now uses auth_token)
 - [x] Updated logout to clear auth_token from localStorage
+
+## Automatic Page View Tracking
+- [x] Create global tracking component that runs on every page load
+- [x] Capture visitor IP, user agent, referrer, page path automatically
+- [x] Track UTM parameters from URL query string
+- [x] Generate unique session IDs for visitors
+- [x] Store page views in traffic database
+- [x] Test tracking with real page visits
+- [x] Verify data appears in traffic analytics dashboard (after publish)

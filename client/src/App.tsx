@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import MobileNav from "@/components/MobileNav";
+import { PageViewTracker } from "@/components/PageViewTracker";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -52,6 +53,7 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
+          <PageViewTracker />
           <MobileNav />
           <Router />
         </TooltipProvider>
