@@ -36,8 +36,20 @@ export default function CreateTeam() {
   const [selectedPlayers, setSelectedPlayers] = useState<SelectedPlayer[]>([]);
   
   const { data: players, isLoading } = trpc.players.listBySport.useQuery({ sportId: 1 }); // Cricket sport ID
+  const trackEventMutation = trpc.analytics.trackEvent.useMutation();
+  
   const createTeamMutation = trpc.teams.create.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
+      // Track team creation event
+      try {
+        await trackEventMutation.mutateAsync({
+          eventType: "team_created",
+          metadata: JSON.stringify({ teamName, playerCount: selectedPlayers.length }),
+        });
+      } catch (error) {
+        console.error('[Analytics] Failed to track team creation:', error);
+      }
+      
       toast.success("Team created successfully!");
       setLocation("/dashboard");
     },

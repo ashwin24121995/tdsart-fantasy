@@ -229,3 +229,17 @@
 - [x] Create notification for new contest availability
 - [x] Add notification settings page
 - [x] Test push notifications
+
+## Google Ads Tracking & Analytics
+- [x] Create database schema for user acquisition tracking
+- [x] Add UTM parameter capture on landing page
+- [x] Store campaign data (source, medium, campaign, term, content) with user registration
+- [x] Capture device, network, ad position, match type from Google Ads
+- [x] Store GCLID for Google Ads conversion tracking
+- [x] Build analytics dashboard for campaign performance
+- [x] Add conversion tracking (registrations, team creations, contest joins)
+- [x] Implement ROI calculation by campaign
+- [x] Add charts for user acquisition by source
+- [x] Create campaign comparison reports
+- [x] Add date range filters for analytics
+- [x] Test UTM parameter tracking end-to-end

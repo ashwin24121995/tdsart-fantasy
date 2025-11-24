@@ -210,3 +210,55 @@ export const notificationPreferences = mysqlTable("notificationPreferences", {
 
 export type NotificationPreferences = typeof notificationPreferences.$inferSelect;
 export type InsertNotificationPreferences = typeof notificationPreferences.$inferInsert;
+
+/**
+ * User acquisition tracking - captures UTM parameters and campaign data
+ */
+export const userAcquisition = mysqlTable("userAcquisition", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  
+  utmSource: varchar("utmSource", { length: 255 }),
+  utmMedium: varchar("utmMedium", { length: 255 }),
+  utmCampaign: varchar("utmCampaign", { length: 255 }),
+  utmTerm: varchar("utmTerm", { length: 255 }),
+  utmContent: varchar("utmContent", { length: 255 }),
+  
+  gclid: varchar("gclid", { length: 255 }),
+  matchType: varchar("matchType", { length: 50 }),
+  device: varchar("device", { length: 50 }),
+  network: varchar("network", { length: 50 }),
+  adPosition: varchar("adPosition", { length: 50 }),
+  
+  referrer: text("referrer"),
+  landingPage: text("landingPage"),
+  userAgent: text("userAgent"),
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type UserAcquisition = typeof userAcquisition.$inferSelect;
+export type InsertUserAcquisition = typeof userAcquisition.$inferInsert;
+
+/**
+ * Conversion events tracking
+ */
+export const conversionEvents = mysqlTable("conversionEvents", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  
+  eventType: varchar("eventType", { length: 100 }).notNull(),
+  eventValue: int("eventValue").default(0),
+  
+  utmSource: varchar("utmSource", { length: 255 }),
+  utmMedium: varchar("utmMedium", { length: 255 }),
+  utmCampaign: varchar("utmCampaign", { length: 255 }),
+  
+  metadata: text("metadata"),
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ConversionEvent = typeof conversionEvents.$inferSelect;
+export type InsertConversionEvent = typeof conversionEvents.$inferInsert;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Home, Trophy, Users, BarChart3, User, LogOut, Bell } from "lucide-react";
+import { Menu, X, Home, Trophy, Users, BarChart3, User, LogOut, Bell, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { APP_LOGO, APP_TITLE } from "@/const";
@@ -27,6 +27,7 @@ export default function MobileNav() {
     { href: "/leaderboard", label: "Leaderboard", icon: BarChart3 },
     { href: "/profile", label: "Profile", icon: User },
     { href: "/notifications", label: "Notifications", icon: Bell },
+    { href: "/analytics", label: "Analytics", icon: TrendingUp },
   ];
 
   return (

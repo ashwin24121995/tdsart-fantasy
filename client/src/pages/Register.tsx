@@ -8,6 +8,7 @@ import { AlertTriangle, Mail, Lock, User, CheckCircle2 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
 import { APP_LOGO, APP_TITLE } from "@/const";
+import { getTrackingData } from "@/lib/utm";
 
 export default function Register() {
   const [, setLocation] = useLocation();
@@ -19,10 +20,37 @@ export default function Register() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  const saveAcquisitionMutation = trpc.analytics.saveAcquisition.useMutation();
+
   const registerMutation = trpc.customAuth.register.useMutation({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       // Store JWT token in localStorage
       localStorage.setItem("authToken", data.token);
+      
+      // Save acquisition tracking data
+      try {
+        const trackingData = getTrackingData();
+        await saveAcquisitionMutation.mutateAsync({
+          userId: data.user.id,
+          utmSource: trackingData.utm.utm_source,
+          utmMedium: trackingData.utm.utm_medium,
+          utmCampaign: trackingData.utm.utm_campaign,
+          utmTerm: trackingData.utm.utm_term,
+          utmContent: trackingData.utm.utm_content,
+          gclid: trackingData.utm.gclid,
+          matchType: trackingData.utm.matchtype,
+          device: trackingData.utm.device,
+          network: trackingData.utm.network,
+          adPosition: trackingData.utm.adposition,
+          referrer: trackingData.referrer,
+          landingPage: trackingData.landingPage,
+          userAgent: trackingData.userAgent,
+        });
+        console.log('[Analytics] Saved acquisition data for user', data.user.id);
+      } catch (error) {
+        console.error('[Analytics] Failed to save acquisition data:', error);
+      }
+      
       toast.success("Registration successful! Welcome to TDSART Fantasy!");
       setLocation("/verify");
     },

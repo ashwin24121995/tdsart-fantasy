@@ -54,8 +54,20 @@ export default function ContestDetail() {
     { enabled: !!contestId }
   );
 
+  const trackEventMutation = trpc.analytics.trackEvent.useMutation();
+  
   const joinMutation = trpc.contests.join.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
+      // Track contest join event
+      try {
+        await trackEventMutation.mutateAsync({
+          eventType: "contest_joined",
+          metadata: JSON.stringify({ contestId, contestName: contest?.name }),
+        });
+      } catch (error) {
+        console.error('[Analytics] Failed to track contest join:', error);
+      }
+      
       toast.success("Successfully joined the contest!");
       setShowJoinDialog(false);
       setSelectedTeamId("");

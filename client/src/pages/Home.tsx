@@ -4,6 +4,8 @@ import { Card } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE } from "@/const";
 import { LiveScores } from "@/components/LiveScores";
 import { trpc } from "@/lib/trpc";
+import { useEffect } from "react";
+import { initUTMTracking } from "@/lib/utm";
 import {
   AlertTriangle,
   Trophy,
@@ -20,6 +22,11 @@ import { Link } from "wouter";
 export default function Home() {
   const { user, loading, logout } = useAuth();
   const isAuthenticated = !!user;
+
+  // Initialize UTM tracking on page load
+  useEffect(() => {
+    initUTMTracking();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background pt-16 lg:pt-0">
