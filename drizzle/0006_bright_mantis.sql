@@ -1,0 +1,21 @@
+ALTER TABLE `page_views` ADD `country` varchar(100);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `country_code` varchar(10);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `region` varchar(100);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `city` varchar(100);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `latitude` varchar(20);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `longitude` varchar(20);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `timezone` varchar(50);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `isp` varchar(255);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `org` varchar(255);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `asn` varchar(50);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `browser_version` varchar(50);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `os` varchar(50);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `os_version` varchar(50);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `screen_resolution` varchar(20);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `viewport_size` varchar(20);--> statement-breakpoint
+ALTER TABLE `page_views` ADD `language` varchar(10);--> statement-breakpoint
+ALTER TABLE `sessions` ADD `os` varchar(50);--> statement-breakpoint
+ALTER TABLE `sessions` ADD `country` varchar(100);--> statement-breakpoint
+ALTER TABLE `sessions` ADD `city` varchar(100);--> statement-breakpoint
+ALTER TABLE `sessions` ADD `ip_address` varchar(45);--> statement-breakpoint
+ALTER TABLE `sessions` ADD `isp` varchar(255);

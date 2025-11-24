@@ -11,8 +11,29 @@ export const pageViews = mysqlTable("page_views", {
   referrer: varchar("referrer", { length: 512 }),
   userAgent: text("user_agent"),
   ipAddress: varchar("ip_address", { length: 45 }),
+  // Geolocation data
+  country: varchar("country", { length: 100 }),
+  countryCode: varchar("country_code", { length: 10 }),
+  region: varchar("region", { length: 100 }),
+  city: varchar("city", { length: 100 }),
+  latitude: varchar("latitude", { length: 20 }),
+  longitude: varchar("longitude", { length: 20 }),
+  timezone: varchar("timezone", { length: 50 }),
+  // ISP and connection data
+  isp: varchar("isp", { length: 255 }),
+  org: varchar("org", { length: 255 }),
+  asn: varchar("asn", { length: 50 }),
+  // Device and browser data
   deviceType: varchar("device_type", { length: 20 }), // mobile, desktop, tablet
   browser: varchar("browser", { length: 50 }),
+  browserVersion: varchar("browser_version", { length: 50 }),
+  os: varchar("os", { length: 50 }),
+  osVersion: varchar("os_version", { length: 50 }),
+  // Screen and display data
+  screenResolution: varchar("screen_resolution", { length: 20 }),
+  viewportSize: varchar("viewport_size", { length: 20 }),
+  // Language and locale
+  language: varchar("language", { length: 10 }),
   // UTM parameters for tracking campaigns
   utmSource: varchar("utm_source", { length: 255 }),
   utmMedium: varchar("utm_medium", { length: 255 }),
@@ -45,8 +66,15 @@ export const sessions = mysqlTable("sessions", {
   utmMedium: varchar("utm_medium", { length: 255 }),
   utmCampaign: varchar("utm_campaign", { length: 255 }),
   gclid: varchar("gclid", { length: 255 }),
+  // Device and browser data from entry
   deviceType: varchar("device_type", { length: 20 }),
   browser: varchar("browser", { length: 50 }),
+  os: varchar("os", { length: 50 }),
+  // Geolocation data from entry
+  country: varchar("country", { length: 100 }),
+  city: varchar("city", { length: 100 }),
+  ipAddress: varchar("ip_address", { length: 45 }),
+  isp: varchar("isp", { length: 255 }),
   startedAt: timestamp("started_at").defaultNow().notNull(),
   endedAt: timestamp("ended_at"),
 }, (table) => ({

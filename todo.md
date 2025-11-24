@@ -320,3 +320,122 @@
 - [x] Store page views in traffic database
 - [x] Test tracking with real page visits
 - [x] Verify data appears in traffic analytics dashboard (after publish)
+
+## Comprehensive 272-Feature Visitor Tracking System
+
+### Phase 1: Database Schema (Network, Geo, Device, Browser, OS, Screen)
+- [x] Create page_views_extended table with 272 columns
+- [x] Add network data fields (IP, ISP, ASN, connection type, speed, VPN/proxy detection)
+- [x] Add geolocation fields (country, region, city, postal, lat/lon, timezone, weather)
+- [x] Add device fields (type, brand, model, CPU, GPU, RAM, battery, sensors)
+- [x] Add screen fields (resolution, DPI, color depth, HDR, refresh rate, zoom)
+- [x] Add browser fields (name, version, engine, language, capabilities)
+- [x] Add OS fields (name, version, architecture, platform)
+
+### Phase 2: Server-Side Data Collection
+- [x] Implement IP geolocation API integration (ip-api.com or ipinfo.io)
+- [x] Extract ISP, organization, ASN from IP
+- [x] Detect VPN/proxy/Tor usage
+- [x] Detect datacenter IPs (bot detection)
+- [x] Get weather data for visitor location
+- [x] Calculate distance from server
+- [x] Detect mobile carrier name
+
+### Phase 3: Client-Side Tracking Utilities
+- [x] Create device detection utility (brand, model, type)
+- [x] Create browser detection utility (name, version, engine)
+- [x] Create OS detection utility (name, version, architecture)
+- [x] Create screen tracking utility (resolution, DPI, orientation, zoom)
+- [x] Create network tracking utility (connection type, speed, RTT)
+- [x] Create performance tracking utility (load times, FCP, LCP, FID, CLS)
+- [x] Create browser capabilities detection (storage, WebGL, WebRTC, etc.)
+- [x] Create privacy detection (DNT, ad blocker, incognito)
+- [x] Create fingerprinting utilities (canvas, WebGL, browser)
+
+### Phase 4: Behavioral Tracking
+- [ ] Track mouse movements and clicks
+- [ ] Track scroll depth and speed
+- [ ] Detect rage clicks and dead clicks
+- [ ] Track time spent on page and per section
+- [ ] Track idle time and tab visibility
+- [ ] Track copy/paste events
+- [ ] Track form interactions (focus, completion time, errors)
+- [ ] Track exit intent
+
+### Phase 5: Session & Journey Tracking
+- [ ] Generate unique session IDs
+- [ ] Track entry and exit pages
+- [ ] Store full page visit sequence
+- [ ] Calculate session duration
+- [ ] Detect bounce vs engaged sessions
+- [ ] Track new vs returning visitors
+- [ ] Calculate days since first/last visit
+- [ ] Track visitor frequency (daily/weekly/monthly)
+
+### Phase 6: Traffic Source & Attribution
+- [ ] Parse all UTM parameters
+- [ ] Extract GCLID, FBCLID, MSCLKID
+- [ ] Detect traffic source type (direct/organic/paid/social/email)
+- [ ] Extract search engine and keywords
+- [ ] Track ad network, group, creative IDs
+- [ ] Store match type, device targeting, ad position
+- [ ] Track email campaign and affiliate IDs
+
+### Phase 7: Privacy & Security
+- [ ] Detect Do Not Track (DNT) header
+- [ ] Detect ad blockers
+- [ ] Detect incognito/private mode
+- [ ] Generate browser fingerprints (canvas, WebGL, audio, font)
+- [ ] Detect installed plugins and extensions
+- [ ] Check third-party cookie blocking
+
+### Phase 8: Bot & Fraud Detection
+- [ ] Calculate bot detection score
+- [ ] Detect headless browsers
+- [ ] Detect automation tools (Selenium, Puppeteer)
+- [ ] Flag datacenter IPs
+- [ ] Detect known bot user agents
+- [ ] Implement honeypot traps
+- [ ] Detect impossible travel patterns
+- [ ] Flag duplicate sessions
+- [ ] Detect click fraud indicators
+
+### Phase 9: User Identity & Actions (if logged in)
+- [ ] Link tracking data to user ID
+- [ ] Track user registration date and verification status
+- [ ] Track user role and subscription tier
+- [ ] Track login count and last login
+- [ ] Track profile completion percentage
+- [ ] Track user actions (teams created, contests joined, achievements)
+
+### Phase 10: Contextual Data
+- [ ] Store visit date/time with hour, day, week, month, quarter
+- [ ] Detect holidays and special events
+- [ ] Check if cricket matches are happening
+- [ ] Get local weather and temperature
+- [ ] Calculate sunrise/sunset times
+- [ ] Detect business hours visits
+
+### Phase 11: Custom Business Metrics
+- [ ] Calculate engagement score
+- [ ] Calculate quality score
+- [ ] Predict customer lifetime value (CLV)
+- [ ] Calculate churn risk score
+- [ ] Assign lead score
+- [ ] Track A/B test variants
+- [ ] Track personalization rules applied
+
+### Phase 12: Backend Integration
+- [ ] Create tRPC procedure to receive all tracking data
+- [ ] Implement data validation and sanitization
+- [ ] Store data in database with proper indexing
+- [ ] Create database queries for analytics
+- [ ] Implement data aggregation for dashboards
+- [ ] Add data export functionality
+
+### Phase 13: Testing
+- [ ] Test all 272 data points collection
+- [ ] Verify data accuracy
+- [ ] Test performance with high traffic
+- [ ] Verify database storage
+- [ ] Test API integrations

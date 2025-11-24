@@ -266,3 +266,7 @@ export type InsertConversionEvent = typeof conversionEvents.$inferInsert;
 // Traffic tracking tables
 export { pageViews, sessions } from "./traffic-schema";
 export type { PageView, InsertPageView, Session, InsertSession } from "./traffic-schema";
+
+// Comprehensive visitor tracking (272 data points)
+export { visitorTracking } from "./comprehensive-tracking-schema";
+export type { VisitorTracking, InsertVisitorTracking } from "./comprehensive-tracking-schema";
