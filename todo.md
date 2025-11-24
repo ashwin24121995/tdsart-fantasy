@@ -216,3 +216,16 @@
 - [x] Test on various mobile screen sizes
 - [x] Update logo to match favicon
 - [x] Ensure logo consistency across all pages
+
+## Push Notifications
+- [x] Create service worker for push notifications
+- [x] Add notification permission request UI
+- [x] Implement notification subscription system
+- [x] Store notification subscriptions in database
+- [x] Create notification triggers for contest start
+- [x] Add notifications for match beginning
+- [x] Implement rank change notifications
+- [x] Add achievement unlock notifications
+- [x] Create notification for new contest availability
+- [x] Add notification settings page
+- [x] Test push notifications

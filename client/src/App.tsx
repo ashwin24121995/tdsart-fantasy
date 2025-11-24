@@ -15,6 +15,7 @@ import Verify from "./pages/Verify";
 import Dashboard from "./pages/Dashboard";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import NotificationSettings from "./pages/NotificationSettings";
 
 function Router() {
   return (
@@ -29,6 +30,7 @@ function Router() {
       <Route path="/create-team" component={CreateTeam} />
       <Route path="/profile" component={Profile} />
       <Route path="/leaderboard" component={Leaderboard} />
+      <Route path="/notifications" component={NotificationSettings} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

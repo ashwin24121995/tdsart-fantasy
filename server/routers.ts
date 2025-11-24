@@ -6,6 +6,7 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import * as cricketApi from "./cricket-api";
 import { customAuthRouter } from "./custom-auth-router";
 import * as db from "./db";
+import { notificationsRouter } from "./routers/notifications";
 import { processMatchResults, updateTeamPoints, updateUserPoints, updateContestRankings } from "./scoring-engine";
 
 // Restricted states in India where fantasy sports are not permitted
@@ -21,6 +22,7 @@ const RESTRICTED_STATES = [
 export const appRouter = router({
   system: systemRouter,
   customAuth: customAuthRouter,
+  notifications: notificationsRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
