@@ -1,0 +1,19 @@
+{
+  "query": "SELECT id, name, email, role, isVerified, loginMethod, password FROM users WHERE email = 'ashwin@tdsart.com';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user Hbsm33TssSr3JiD.9e9a78667d41 --database 9Bgs4hUp5umdCbHJBoAxb6 --execute SELECT id, name, email, role, isVerified, loginMethod, password FROM users WHERE email = 'ashwin@tdsart.com';",
+  "rows": [
+    {
+      "id": "540033",
+      "name": "ashwin",
+      "email": "ashwin@tdsart.com",
+      "role": "admin",
+      "isVerified": "1",
+      "loginMethod": "custom",
+      "password": "$2b$10$aY0fjGOX9XMRPviuWKiKq.slgmUXmA.AUkJ/YUEPmKsazGZFxdfRS"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\trole\tisVerified\tloginMethod\tpassword\n540033\tashwin\tashwin@tdsart.com\tadmin\t1\tcustom\t$2b$10$aY0fjGOX9XMRPviuWKiKq.slgmUXmA.AUkJ/YUEPmKsazGZFxdfRS\n",
+  "stderr": "",
+  "execution_time_ms": 1525
+}

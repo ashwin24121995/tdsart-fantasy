@@ -257,3 +257,18 @@
 - [x] Add admin route with role-based access control
 - [x] Build admin navigation menu
 - [x] Test admin-only access restrictions
+
+## Admin User Creation
+- [x] Create admin user with username "ashwin" and password "ashwin@123"
+
+## Login Flow Fix
+- [x] Fix login page to use custom authentication instead of Manus OAuth redirect
+- [x] Modify server context to accept JWT tokens from Authorization header
+- [x] Update tRPC client to send JWT token in requests
+- [x] Fix test mocks to support cookie method
+- [x] Test admin login with email/password credentials
+
+## Disable Manus OAuth
+- [x] Remove Manus OAuth login option from login page
+- [x] Keep only custom email/password authentication
+- [x] Fix custom login to set session cookie for server authentication

@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO users (openId, name, email, loginMethod, role, isVerified, password, createdAt, updatedAt, lastSignedIn) \nVALUES ('custom_ashwin_admin', 'ashwin', 'ashwin@tdsart.com', 'custom', 'admin', 1, '$2b$10$aY0fjGOX9XMRPviuWKiKq.slgmUXmA.AUkJ/YUEPmKsazGZFxdfRS', NOW(), NOW(), NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user Hbsm33TssSr3JiD.9e9a78667d41 --database 9Bgs4hUp5umdCbHJBoAxb6 --execute INSERT INTO users (openId, name, email, loginMethod, role, isVerified, password, createdAt, updatedAt, lastSignedIn) \nVALUES ('custom_ashwin_admin', 'ashwin', 'ashwin@tdsart.com', 'custom', 'admin', 1, '$2b$10$aY0fjGOX9XMRPviuWKiKq.slgmUXmA.AUkJ/YUEPmKsazGZFxdfRS', NOW(), NOW(), NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1544
+}

@@ -81,7 +81,7 @@ export const customAuthRouter = router({
       email: z.string().email(),
       password: z.string(),
     }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       // Find user by email
       const user = await dbAuth.getUserByEmail(input.email);
       if (!user) {
@@ -115,11 +115,26 @@ export const customAuthRouter = router({
       // Update last sign in
       await dbAuth.updateLastSignIn(user.id);
 
-      // Generate JWT token
+      // Generate JWT token for localStorage
       const token = authHelpers.generateToken({
         userId: user.id,
         email: user.email,
       });
+
+      // Also create session cookie for server-side authentication
+      const { sdk } = await import("./_core/sdk");
+      const { COOKIE_NAME } = await import("../shared/const");
+      const { getSessionCookieOptions } = await import("./_core/cookies");
+      
+      // Create session token using the user's openId (or custom identifier)
+      const openId = user.openId || `custom_${user.id}`;
+      const sessionToken = await sdk.createSessionToken(openId, {
+        name: user.name || user.email,
+      });
+      
+      // Set session cookie
+      const cookieOptions = getSessionCookieOptions(ctx.req);
+      ctx.res.cookie(COOKIE_NAME, sessionToken, cookieOptions);
 
       return {
         success: true,

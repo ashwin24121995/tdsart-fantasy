@@ -1,0 +1,8 @@
+{
+  "query": "INSERT INTO users (openId, name, email, loginMethod, role, isVerified, passwordHash, createdAt, updatedAt, lastSignedIn) \nVALUES ('custom_ashwin_admin', 'ashwin', 'ashwin@tdsart.com', 'custom', 'admin', 1, '$2b$10$aY0fjGOX9XMRPviuWKiKq.slgmUXmA.AUkJ/YUEPmKsazGZFxdfRS', NOW(), NOW(), NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user Hbsm33TssSr3JiD.9e9a78667d41 --database 9Bgs4hUp5umdCbHJBoAxb6 --execute INSERT INTO users (openId, name, email, loginMethod, role, isVerified, passwordHash, createdAt, updatedAt, lastSignedIn) \nVALUES ('custom_ashwin_admin', 'ashwin', 'ashwin@tdsart.com', 'custom', 'admin', 1, '$2b$10$aY0fjGOX9XMRPviuWKiKq.slgmUXmA.AUkJ/YUEPmKsazGZFxdfRS', NOW(), NOW(), NOW());",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'passwordHash' in 'field list'"
+  ]
+}

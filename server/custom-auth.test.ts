@@ -12,6 +12,7 @@ function createPublicContext(): { ctx: TrpcContext } {
     } as TrpcContext["req"],
     res: {
       clearCookie: () => {},
+      cookie: () => {},
     } as TrpcContext["res"],
   };
 
