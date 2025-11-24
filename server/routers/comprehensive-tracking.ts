@@ -187,7 +187,7 @@ export const comprehensiveTrackingRouter = router({
       }
       
       try {
-        // Get IP address from request
+        // Get IP address from request (updated for better tracking)
         // x-forwarded-for can contain multiple IPs (client, proxy1, proxy2, ...)
         // We want the first one (the client's real IP)
         let ipAddress = ctx.req.headers['x-forwarded-for'] as string || 

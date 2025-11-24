@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) FROM visitor_tracking",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user Hbsm33TssSr3JiD.9e9a78667d41 --database 9Bgs4hUp5umdCbHJBoAxb6 --execute SELECT COUNT(*) FROM visitor_tracking",
+  "rows": [
+    {
+      "COUNT(*)": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "COUNT(*)\n0\n",
+  "stderr": "",
+  "execution_time_ms": 1597
+}
