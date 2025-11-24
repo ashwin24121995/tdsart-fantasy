@@ -506,43 +506,50 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-border bg-card/50 py-12 px-4">
         <div className="container mx-auto">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            {/* About Section */}
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <img src={APP_LOGO} alt={APP_TITLE} className="h-10 w-10" />
-                <span className="text-xl font-bold">{APP_TITLE}</span>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                India's premier free-to-play fantasy cricket platform. 100% skill-based, 100% legal, 100% free.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-bold mb-4">Quick Links</h4>
+              <h4 className="font-bold mb-4">About</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/register" className="hover:text-primary transition-colors">Sign Up</Link></li>
-                <li><Link href="/login" className="hover:text-primary transition-colors">Login</Link></li>
+                <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
                 <li><Link href="/how-it-works" className="hover:text-primary transition-colors">How It Works</Link></li>
-                <li><Link href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</Link></li>
-                <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/contact" className="hover:text-primary transition-colors">Contact Us</Link></li>
               </ul>
             </div>
 
+            {/* Legal Section */}
             <div>
-              <h4 className="font-bold mb-4">Company Information</h4>
+              <h4 className="font-bold mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><Link href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</Link></li>
+                <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/responsible-gaming" className="hover:text-primary transition-colors">Responsible Gaming</Link></li>
+              </ul>
+            </div>
+
+            {/* Support Section */}
+            <div>
+              <h4 className="font-bold mb-4">Support</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
+                <li><Link href="/contact" className="hover:text-primary transition-colors">Contact Support</Link></li>
+                <li><Link href="/register" className="hover:text-primary transition-colors">Sign Up</Link></li>
+                <li><Link href="/login" className="hover:text-primary transition-colors">Login</Link></li>
+              </ul>
+            </div>
+
+            {/* Company Information */}
+            <div>
+              <h4 className="font-bold mb-4">Company</h4>
               <div className="text-sm text-muted-foreground space-y-2">
                 <p><strong>TDSART STUDIO LLP</strong></p>
-                <p>LLP Identification: ACA-7621</p>
-                <p>PAN: AAUFT5447L</p>
-                <p>TAN: PNET17465A</p>
-                <p className="mt-4">
-                  Office No-11, Fifth Floor, A-Building<br />
-                  City Vista, Vadgaon Sheri<br />
-                  Pune-411014, Maharashtra, India
+                <p className="text-xs">LLP ID: ACA-7621</p>
+                <p className="text-xs">PAN: AAUFT5447L</p>
+                <p className="text-xs mt-3">
+                  Pune, Maharashtra, India
                 </p>
-                <p className="mt-4 text-xs">
-                  Incorporated under Limited Liability Partnership Act 2008<br />
-                  Established: April 25, 2023
+                <p className="text-xs mt-2">
+                  Est. April 25, 2023
                 </p>
               </div>
             </div>

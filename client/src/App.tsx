@@ -26,6 +26,10 @@ import AdminConversions from "./pages/AdminConversions";
 import HowItWorks from "./pages/HowItWorks";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import ResponsibleGaming from "./pages/ResponsibleGaming";
+import FAQ from "./pages/FAQ";
+import ContactUs from "./pages/ContactUs";
+import AboutUs from "./pages/AboutUs";
 
 function Router() {
   return (
@@ -49,6 +53,10 @@ function Router() {
       <Route path="/how-it-works" component={HowItWorks} />
       <Route path="/terms" component={TermsAndConditions} />
       <Route path="/privacy" component={PrivacyPolicy} />
+      <Route path="/responsible-gaming" component={ResponsibleGaming} />
+      <Route path="/faq" component={FAQ} />
+      <Route path="/contact" component={ContactUs} />
+      <Route path="/about" component={AboutUs} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
