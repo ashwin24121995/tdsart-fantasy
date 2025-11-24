@@ -445,6 +445,29 @@ export const comprehensiveTrackingRouter = router({
     }),
 
   /**
+   * Get current visitor's tracking data based on session ID
+   */
+  getCurrentVisitor: publicProcedure
+    .query(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) return null;
+      
+      // Get session ID from cookie or generate one
+      const sessionId = ctx.req.cookies?.['visitor_session'] || null;
+      if (!sessionId) return null;
+      
+      // Get the most recent visitor record with this session ID
+      const visitors = await db
+        .select()
+        .from(visitorTracking)
+        .where(eq(visitorTracking.sessionId, sessionId))
+        .orderBy(desc(visitorTracking.visitTimestamp))
+        .limit(1);
+      
+      return visitors[0] || null;
+    }),
+
+  /**
    * Clear all visitor tracking data (admin only)
    */
   clearAllVisitors: protectedProcedure

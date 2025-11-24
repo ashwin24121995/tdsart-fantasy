@@ -522,3 +522,14 @@
 - [x] Fix IP address extraction from x-forwarded-for header (comma-separated IPs)
 - [x] Remove IPv6 prefix from IP addresses before enrichment
 - [ ] Verify geolocation data is being stored correctly in database (requires publish)
+
+## Targeted Ad Display System (FairPlay)
+- [x] Upload FairPlay promotional image to project assets
+- [x] Create hook to detect Google Ads traffic (utm_source=google)
+- [x] Implement country detection (India only via timezone)
+- [x] Implement mobile device detection
+- [x] Implement bot filtering (exclude bots from seeing ad)
+- [x] Create conditional ad component with all targeting criteria
+- [x] Integrate ad display into homepage
+- [x] Add WhatsApp link (https://wa.link/autoreddypromo)
+- [ ] Test with different user scenarios (requires publish)

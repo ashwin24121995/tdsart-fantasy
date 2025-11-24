@@ -1,4 +1,5 @@
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useTargetedAd } from "@/hooks/useTargetedAd";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE } from "@/const";
@@ -22,6 +23,7 @@ import { Link } from "wouter";
 export default function Home() {
   const { user, loading, logout } = useAuth();
   const isAuthenticated = !!user;
+  const { shouldShowAd, isLoading: adLoading } = useTargetedAd();
 
   // Initialize UTM tracking on page load
   useEffect(() => {
@@ -86,6 +88,26 @@ export default function Home() {
           </div>
         </div>
       </header>
+
+      {/* Targeted Ad for Google Ads Traffic (India + Mobile only) */}
+      {shouldShowAd && (
+        <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 py-4 px-4">
+          <div className="container mx-auto max-w-md">
+            <a 
+              href="https://wa.link/autoreddypromo" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block hover:opacity-95 transition-opacity"
+            >
+              <img 
+                src="/fairplay-ad.png" 
+                alt="FairPlay - 500% Joining Bonus" 
+                className="w-full h-auto rounded-lg shadow-2xl"
+              />
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section
