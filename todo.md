@@ -426,16 +426,44 @@
 - [ ] Track personalization rules applied
 
 ### Phase 12: Backend Integration
-- [ ] Create tRPC procedure to receive all tracking data
-- [ ] Implement data validation and sanitization
-- [ ] Store data in database with proper indexing
-- [ ] Create database queries for analytics
+- [x] Create tRPC procedure to receive all tracking data from frontend
+- [x] Merge client-side data with server-side IP enrichment
+- [x] Implement data validation and sanitization
+- [x] Store all 272 data points in visitor_tracking table
+- [ ] Create database queries for visitor log and analytics
 - [ ] Implement data aggregation for dashboards
-- [ ] Add data export functionality
+- [ ] Add visitor search and filtering
+- [ ] Add data export functionality (CSV/JSON)
 
-### Phase 13: Testing
-- [ ] Test all 272 data points collection
-- [ ] Verify data accuracy
-- [ ] Test performance with high traffic
-- [ ] Verify database storage
-- [ ] Test API integrations
+### Phase 13: Admin Visitor Dashboard
+- [ ] Create visitor log page with table of all visitors
+- [ ] Add tabs for data categories (Network, Geo, Device, Browser, etc.)
+- [ ] Display IP, ISP, location with map visualization
+- [ ] Show device specs, browser fingerprints
+- [ ] Display visitor journey (all pages visited)
+- [ ] Show bot detection scores and flags
+- [ ] Add search by IP, location, device, browser
+- [ ] Add date range filtering
+- [ ] Implement pagination for large datasets
+- [ ] Add export to CSV functionality
+
+### Phase 14: Behavioral Tracking Implementation
+- [ ] Track mouse movements and generate heatmaps
+- [ ] Track scroll depth percentage
+- [ ] Detect rage clicks (multiple rapid clicks)
+- [ ] Detect dead clicks (clicks with no effect)
+- [ ] Track time spent per page section
+- [ ] Track form field interactions
+- [ ] Detect exit intent (mouse leaving viewport)
+- [ ] Store behavioral data in database
+- [ ] Create behavioral analytics dashboard
+
+### Phase 15: Testing & Optimization
+- [ ] Test all 272 data points collection end-to-end
+- [ ] Verify data accuracy across all categories
+- [ ] Test performance with simulated high traffic
+- [ ] Verify database storage and indexing
+- [ ] Test API integrations (IP geolocation, weather)
+- [ ] Test admin dashboard with real data
+- [ ] Verify behavioral tracking accuracy
+- [ ] Optimize database queries for performance

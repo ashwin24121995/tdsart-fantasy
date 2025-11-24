@@ -41,6 +41,7 @@ interface EnrichedIPData {
   isTor: boolean;
   isDatacenter: boolean;
   mobileCarrier: string | null;
+  networkQuality: number | null;
   
   // Geolocation
   country: string;
@@ -60,6 +61,8 @@ interface EnrichedIPData {
   capitalCity: string;
   distanceFromServer: number | null;
   localTime: string;
+  weatherCondition: string | null;
+  temperature: number | null;
 }
 
 /**
@@ -209,6 +212,9 @@ export async function enrichIPAddress(ipAddress: string): Promise<EnrichedIPData
       capitalCity,
       distanceFromServer: distance,
       localTime,
+      networkQuality: null, // Can be calculated from connection speed if available
+      weatherCondition: null, // Would require weather API integration
+      temperature: null, // Would require weather API integration
     };
   } catch (error) {
     console.error('[IP Enrichment] Error enriching IP:', error);

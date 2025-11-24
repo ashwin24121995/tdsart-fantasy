@@ -8,6 +8,7 @@ import { notificationsRouter } from "./routers/notifications";
 import { analyticsRouter } from "./routers/analytics";
 import { adminRouter } from "./routers/admin";
 import { trafficRouter } from "./routers/traffic";
+import { comprehensiveTrackingRouter } from "./routers/comprehensive-tracking";
 import { processMatchResults, updateTeamPoints, updateUserPoints, updateContestRankings } from "./scoring-engine";
 
 // Restricted states in India where fantasy sports are not permitted
@@ -27,6 +28,7 @@ export const appRouter = router({
   analytics: analyticsRouter,
   admin: adminRouter,
   traffic: trafficRouter,
+  tracking: comprehensiveTrackingRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
