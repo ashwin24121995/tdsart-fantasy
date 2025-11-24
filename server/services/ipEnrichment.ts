@@ -338,7 +338,10 @@ export async function getWeatherForLocation(
   try {
     // Using Open-Meteo (free, no API key required)
     const response = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`,
+      {
+        signal: AbortSignal.timeout(3000) // 3 second timeout
+      }
     );
     
     if (!response.ok) {

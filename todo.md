@@ -573,3 +573,15 @@
 - [x] Calculate and display Click-Through Rate (CTR = Clicks / Impressions)
 - [x] Add 5-card stats layout with impressions, clicks, CTR, mobile, and Google Ads
 - [ ] Test impression tracking end-to-end (requires publish)
+
+## CRITICAL: Performance Optimization (1-2 min load time → 10-20 sec)
+- [x] Identify performance bottlenecks (Cricket API timeouts, tracking waiting for responses)
+- [x] Add 5-second timeout to Cricket API calls (getCurrentMatches, getUpcomingMatches, getMatchInfo)
+- [x] IP enrichment already has 5-second timeout
+- [x] Add 3-second timeout to weather API
+- [x] Make visitor tracking fire-and-forget (changed mutateAsync to mutate)
+- [x] Impression tracking already fire-and-forget
+- [x] All external APIs now have timeouts and return mock data on failure
+- [ ] Test page load performance after optimizations (requires publish)
+- [ ] Add loading states and skeleton screens if needed
+- [ ] Consider caching Cricket API responses

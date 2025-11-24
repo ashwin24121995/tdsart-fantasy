@@ -58,14 +58,15 @@ export function ComprehensiveTracker() {
         const referrerUrl = document.referrer || null;
 
         // Send to backend (server will merge with IP enrichment data)
-        await trackVisit.mutateAsync({
+        // Fire-and-forget: don't wait for response to avoid blocking page load
+        trackVisit.mutate({
           ...trackingData,
           sessionId,
           pagePath,
           referrerUrl,
         });
 
-        console.log("[Tracking] Visitor data collected and sent successfully");
+        console.log("[Tracking] Visitor data sent (fire-and-forget)");
       } catch (error) {
         // Fail silently - tracking should never break the user experience
         console.warn("[Tracking] Failed to collect or send tracking data:", error);

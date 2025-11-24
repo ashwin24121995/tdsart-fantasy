@@ -64,7 +64,15 @@ const mockUpcomingMatches: UpcomingMatch[] = [
 
 export async function getCurrentMatches(): Promise<LiveMatch[]> {
   try {
-    const response = await fetch(`${BASE_URL}/cpl/v1/current_matches/?apikey=${API_KEY}`);
+    // Add 5-second timeout to prevent hanging
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    
+    const response = await fetch(`${BASE_URL}/cpl/v1/current_matches/?apikey=${API_KEY}`, {
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    
     if (!response.ok) throw new Error("API request failed");
     const data = await response.json();
     
@@ -92,7 +100,15 @@ export async function getCurrentMatches(): Promise<LiveMatch[]> {
 
 export async function getUpcomingMatches(): Promise<UpcomingMatch[]> {
   try {
-    const response = await fetch(`${BASE_URL}/cpl/v1/upcoming_matches/?apikey=${API_KEY}`);
+    // Add 5-second timeout to prevent hanging
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    
+    const response = await fetch(`${BASE_URL}/cpl/v1/upcoming_matches/?apikey=${API_KEY}`, {
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    
     if (!response.ok) throw new Error("API request failed");
     const data = await response.json();
     
@@ -118,7 +134,15 @@ export async function getUpcomingMatches(): Promise<UpcomingMatch[]> {
 
 export async function getMatchInfo(matchId: string): Promise<LiveMatch | null> {
   try {
-    const response = await fetch(`${BASE_URL}/cpl/v1/match_info/?apikey=${API_KEY}&id=${matchId}`);
+    // Add 5-second timeout to prevent hanging
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    
+    const response = await fetch(`${BASE_URL}/cpl/v1/match_info/?apikey=${API_KEY}&id=${matchId}`, {
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    
     if (!response.ok) throw new Error("API request failed");
     const data = await response.json();
     
