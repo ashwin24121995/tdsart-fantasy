@@ -622,3 +622,13 @@
 - [ ] Fix Leaderboard page mobile layout
 - [ ] Fix Admin pages mobile layout
 - [ ] Test on various mobile screen sizes (320px, 375px, 414px)
+
+## Critical Mobile Ad Layout Fix
+- [x] Restructure HTML so FairPlay ad appears BEFORE header element (not after)
+- [x] Ad should be the absolute first visible element on mobile
+- [x] Reduce header button sizes (Login/Sign Up) for mobile - h-8 px-3 text-xs
+- [x] Reduce header logo and title size on mobile - h-8 w-8, text-base
+- [x] Reduce header padding on mobile - px-3 py-2
+- [x] Hide MobileNav fixed header on homepage to prevent overlay
+- [x] Ensure no black header bar appears above the ad
+- [ ] Test on mobile to verify ad is truly first element

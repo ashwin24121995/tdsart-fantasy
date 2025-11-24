@@ -123,9 +123,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Targeted Ad for Google Ads Traffic (India + Mobile only) - FIRST ON MOBILE */}
+      {/* Targeted Ad for Google Ads Traffic (India + Mobile only) - ABSOLUTELY FIRST ON MOBILE */}
       {shouldShowAd && (
-        <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 py-0 md:py-4 px-0 md:px-4">
+        <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 py-0 md:py-4 px-0 md:px-4 order-first">
           <div className="container mx-auto max-w-md md:max-w-lg">
             <a 
               href="https://wa.link/autoreddypromo" 
@@ -161,17 +161,17 @@ export default function Home() {
 
       {/* Header - Not sticky on mobile to avoid overlaying ad */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm md:sticky md:top-0 md:z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-3 py-2 md:px-4 md:py-4 flex items-center justify-between">
           <Link href="/">
-            <div className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer">
-              <img src={APP_LOGO} alt={APP_TITLE} className="h-12 w-12" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-primary via-purple-500 to-orange-500 bg-clip-text text-transparent">
+            <div className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity cursor-pointer">
+              <img src={APP_LOGO} alt={APP_TITLE} className="h-8 w-8 md:h-12 md:w-12" />
+              <span className="text-base md:text-xl lg:text-2xl font-bold bg-gradient-to-r from-primary via-purple-500 to-orange-500 bg-clip-text text-transparent">
                 {APP_TITLE}
               </span>
             </div>
           </Link>
 
-          <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex items-center gap-1.5 md:gap-4">
             {loading ? (
               <div className="h-8 md:h-10 w-20 md:w-32 bg-muted animate-pulse rounded-md" />
             ) : isAuthenticated ? (
@@ -189,10 +189,10 @@ export default function Home() {
             ) : (
               <>
                 <Link href="/login">
-                  <Button variant="outline" size="sm" className="md:h-10 md:px-4">Login</Button>
+                  <Button variant="outline" size="sm" className="h-8 px-3 text-xs md:h-10 md:px-4 md:text-sm">Login</Button>
                 </Link>
                 <Link href="/register">
-                  <Button variant="default" size="sm" className="md:h-10 md:px-4 whitespace-nowrap">Sign Up</Button>
+                  <Button variant="default" size="sm" className="h-8 px-3 text-xs md:h-10 md:px-4 md:text-sm whitespace-nowrap">Sign Up</Button>
                 </Link>
               </>
             )}

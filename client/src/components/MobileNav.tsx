@@ -36,10 +36,14 @@ export default function MobileNav() {
     navItems.push({ href: "/admin", label: "Admin Panel", icon: Shield });
   }
 
+  // Hide mobile nav header on homepage to let FairPlay ad appear first
+  const isHomePage = location === "/";
+
   return (
     <>
-      {/* Mobile Header */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+      {/* Mobile Header - Hidden on homepage to prioritize ad */}
+      {!isHomePage && (
+        <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="flex items-center justify-between px-4 py-3">
           <Link href="/">
             <div className="flex items-center gap-2">
@@ -56,7 +60,8 @@ export default function MobileNav() {
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
-      </header>
+        </header>
+      )}
 
       {/* Mobile Menu Overlay */}
       {isOpen && (
