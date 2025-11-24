@@ -6,6 +6,7 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import * as cricketApi from "./cricket-api";
 import { customAuthRouter } from "./custom-auth-router";
 import * as db from "./db";
+import { processMatchResults, updateTeamPoints, updateUserPoints, updateContestRankings } from "./scoring-engine";
 
 // Restricted states in India where fantasy sports are not permitted
 const RESTRICTED_STATES = [
@@ -241,6 +242,48 @@ export const appRouter = router({
       .input(z.object({ limit: z.number().optional() }))
       .query(async ({ input }) => {
         return db.getGlobalLeaderboard(input.limit);
+      }),
+  }),
+  
+  scoring: router({
+    processMatch: protectedProcedure
+      .input(z.object({
+        matchId: z.string(),
+        playerPerformances: z.array(z.object({
+          playerId: z.number(),
+          performance: z.object({
+            runs: z.number().optional(),
+            ballsFaced: z.number().optional(),
+            fours: z.number().optional(),
+            sixes: z.number().optional(),
+            wickets: z.number().optional(),
+            maidenOvers: z.number().optional(),
+            catches: z.number().optional(),
+            stumpings: z.number().optional(),
+            runOuts: z.number().optional(),
+          }),
+        })),
+      }))
+      .mutation(async ({ input }) => {
+        return await processMatchResults(input.matchId, input.playerPerformances);
+      }),
+    
+    updateTeam: protectedProcedure
+      .input(z.object({ teamId: z.number() }))
+      .mutation(async ({ input }) => {
+        return await updateTeamPoints(input.teamId);
+      }),
+    
+    updateUser: protectedProcedure
+      .input(z.object({ userId: z.number() }))
+      .mutation(async ({ input }) => {
+        return await updateUserPoints(input.userId);
+      }),
+    
+    updateContest: protectedProcedure
+      .input(z.object({ contestId: z.number() }))
+      .mutation(async ({ input }) => {
+        return await updateContestRankings(input.contestId);
       }),
   }),
   

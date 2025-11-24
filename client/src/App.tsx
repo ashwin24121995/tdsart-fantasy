@@ -9,6 +9,7 @@ import Contests from "./pages/Contests";
 import ContestDetail from "./pages/ContestDetail";
 import CreateTeam from "./pages/CreateTeam";
 import Profile from "./pages/Profile";
+import Leaderboard from "./pages/Leaderboard";
 import Verify from "./pages/Verify";
 import Dashboard from "./pages/Dashboard";
 import Register from "./pages/Register";
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/create-team" component={CreateTeam} />
       <Route path="/profile" component={Profile} />
+      <Route path="/leaderboard" component={Leaderboard} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

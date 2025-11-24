@@ -176,8 +176,32 @@
 - [x] Add performance graphs
 
 ## Points Calculation System
-- [ ] Create scoring engine for cricket actions
-- [ ] Implement automatic points calculation from match data
+- [x] Create scoring engine for cricket actions
+- [x] Implement automatic points calculation from match data
 - [ ] Update user points and leaderboards
 - [ ] Award achievements based on milestones
 - [ ] Add real-time leaderboard updates
+
+## Scoring Engine
+- [x] Create points calculation rules for cricket actions (runs, wickets, catches, etc.)
+- [x] Build scoring engine that processes match data from Cricket API
+- [x] Implement automatic points updates for players
+- [x] Update user and team total points
+- [x] Award achievements when milestones are reached
+- [ ] Add background job for periodic score updates
+
+## Real-Time Leaderboards
+- [x] Create leaderboard page for each contest
+- [x] Display live rankings with real-time updates
+- [x] Add user comparison features
+- [x] Implement filters (daily/weekly/all-time)
+- [x] Add pagination for large participant lists
+- [x] Show point breakdowns and player contributions
+
+## Dashboard Analytics
+- [x] Add performance charts (points trends over time)
+- [x] Display win/loss ratios
+- [x] Show favorite player statistics
+- [x] Add contest performance breakdown by match type
+- [x] Implement personalized recommendations
+- [x] Add visual graphs and charts
