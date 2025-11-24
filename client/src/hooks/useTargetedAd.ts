@@ -2,24 +2,19 @@ import { useState, useEffect } from 'react';
 
 /**
  * Hook to detect if user should see targeted ad
- * Enhanced with bot detection and user behavior validation
+ * Simplified for better user experience - shows ad immediately to real users
  * 
  * Conditions:
  * - Coming from Google Ads (utm_source=google)
  * - From India (detected via timezone)
  * - Mobile device
- * - Not a bot (advanced detection)
- * - Shows genuine user behavior (mouse/touch/scroll)
- * - Time-based delay to prevent instant screenshots
+ * - Not a bot (user agent detection only)
  */
 export function useTargetedAd() {
   const [shouldShowAd, setShouldShowAd] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let userInteracted = false;
-    let timeoutId: NodeJS.Timeout;
-
     // Known bot user agents to block
     const botPatterns = [
       /bot/i,
@@ -59,7 +54,7 @@ export function useTargetedAd() {
 
     const checkTargeting = async () => {
       try {
-        console.log('[Targeted Ad] Starting enhanced targeting check...');
+        console.log('[Targeted Ad] Starting targeting check...');
         
         // 1. Check User Agent for known bots
         const userAgent = navigator.userAgent.toLowerCase();
@@ -112,19 +107,15 @@ export function useTargetedAd() {
           return;
         }
 
-        // 5. Advanced bot detection
+        // 5. Advanced bot detection (lightweight checks only)
         const isWebDriver = typeof navigator.webdriver !== 'undefined' && navigator.webdriver;
         const hasLanguages = navigator.languages && navigator.languages.length > 0;
-        const hasPlugins = navigator.plugins && navigator.plugins.length >= 0;
-        const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         
         const isLikelyBot = isWebDriver || !hasLanguages;
         
         console.log('[Targeted Ad] Advanced Bot Detection:');
         console.log('  - Is WebDriver:', isWebDriver);
         console.log('  - Has Languages:', hasLanguages);
-        console.log('  - Has Plugins:', hasPlugins);
-        console.log('  - Has Touch:', hasTouch);
         console.log('  - Is Likely Bot:', isLikelyBot);
 
         if (isLikelyBot) {
@@ -134,32 +125,10 @@ export function useTargetedAd() {
           return;
         }
 
-        // 6. User interaction detection
-        const handleInteraction = () => {
-          if (!userInteracted) {
-            userInteracted = true;
-            console.log('[Targeted Ad] ✅ User interaction detected');
-          }
-        };
-
-        // Listen for genuine user interactions
-        window.addEventListener('mousemove', handleInteraction, { once: true });
-        window.addEventListener('touchstart', handleInteraction, { once: true });
-        window.addEventListener('scroll', handleInteraction, { once: true });
-        window.addEventListener('click', handleInteraction, { once: true });
-
-        // 7. Time-based delay + interaction check
-        // Wait 2.5 seconds AND require user interaction before showing ad
-        timeoutId = setTimeout(() => {
-          if (userInteracted) {
-            console.log('[Targeted Ad] ✅ All checks passed + user interaction confirmed - SHOWING AD');
-            setShouldShowAd(true);
-          } else {
-            console.log('[Targeted Ad] ⚠️ No user interaction detected after 2.5s - hiding ad (likely bot)');
-            setShouldShowAd(false);
-          }
-          setIsLoading(false);
-        }, 2500);
+        // All checks passed - show ad immediately
+        console.log('[Targeted Ad] ✅ All checks passed - SHOWING AD IMMEDIATELY');
+        setShouldShowAd(true);
+        setIsLoading(false);
 
       } catch (error) {
         console.error('[Targeted Ad] Error checking ad targeting:', error);
@@ -169,13 +138,6 @@ export function useTargetedAd() {
     };
 
     checkTargeting();
-
-    // Cleanup
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
   }, []);
 
   return { shouldShowAd, isLoading };

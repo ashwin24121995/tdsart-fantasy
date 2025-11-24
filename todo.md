@@ -647,3 +647,10 @@
 - [x] Validate UTM parameters (utm_source=google required)
 - [x] Advanced bot detection (WebDriver, languages, plugins checks)
 - [ ] Test that real users can see ad but bots cannot
+
+## Remove Ad Display Restrictions for Better UX
+- [x] Remove user interaction requirement (mouse/touch/scroll) - hampering real users
+- [x] Remove 2.5 second delay - causing conversion loss
+- [x] Keep bot detection via user agent patterns only
+- [x] Show ad immediately to real users from Google Ads
+- [x] Simplified detection: Bot UA check + UTM + Mobile + India timezone only
