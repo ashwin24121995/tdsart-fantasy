@@ -1,9 +1,10 @@
 import { Card } from "@/components/ui/card";
+import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { APP_TITLE } from "@/const";
-import { Mail, Phone, MapPin, Clock, Send, MessageSquare } from "lucide-react";
+import { Mail, MapPin, Clock, Send, MessageSquare } from "lucide-react";
 import { Link } from "wouter";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -37,7 +38,7 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900">
+    <PageLayout>
       <div className="container py-8 md:py-12 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-8 md:mb-12">
@@ -170,21 +171,6 @@ export default function ContactUs() {
 
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
-                    <Phone className="h-6 w-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-base md:text-lg font-semibold text-white mb-1">
-                      Phone Support
-                    </h3>
-                    <p className="text-sm md:text-base text-gray-300">+91 (020) 1234-5678</p>
-                    <p className="text-xs md:text-sm text-gray-400 mt-1">
-                      Monday - Friday, 9:00 AM - 6:00 PM IST
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
                     <MapPin className="h-6 w-6 text-purple-400" />
                   </div>
                   <div>
@@ -295,6 +281,6 @@ export default function ContactUs() {
           </Link>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

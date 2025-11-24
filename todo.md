@@ -679,3 +679,33 @@
 - [x] Footer reorganized into 4 sections with proper links
 - [x] All pages are mobile responsive with proper spacing
 - [x] Save final checkpoint for publishing
+
+## URGENT: Critical Legal Compliance Fixes
+- [x] Review Terms & Conditions - REMOVE ALL real money references
+- [x] Removed entire "Payments & Withdrawals" section
+- [x] Removed deposits, withdrawals, KYC, TDS, financial references
+- [x] Added "100% Free Platform" notice
+- [x] Review Privacy Policy - REMOVE ALL real money references
+- [x] Removed "Financial Information" section
+- [x] Removed KYC, bank details, payment processors, TDS references
+- [x] Added "No Financial Data Collected" notice  
+- [x] Review How It Works - REMOVED ALL real money references
+- [x] Removed "Win & Withdraw" section with cash prizes, ₹200 minimum, bank accounts
+- [x] Removed "paid contests", "winnings", "instant withdrawals"
+- [x] Changed to "Earn Achievements & Rankings" focus
+- [x] Added "100% Free Forever" notice
+- [x] Review Responsible Gaming - check for money references (OK - only mentions "no real money")
+- [x] Review FAQ - check for money references (OK - emphasizes free platform)
+- [x] Review Contact Us - ensure no real money mentions (OK)
+- [x] Review About Us - ensure no real money mentions (OK - emphasizes free platform)
+- [x] Created PageLayout component with header + footer for all static pages
+- [x] Add header navigation to ALL 7 pages (Terms, Privacy, Responsible Gaming, FAQ, Contact, About, How It Works)
+- [x] Add footer to ALL 7 pages with proper sections (About, Legal, Support, Company)
+- [x] Emphasize "100% FREE, NO REAL MONEY" throughout all pages
+- [x] All pages now use PageLayout component for consistent navigation
+- [x] Add legal disclaimer to all pages about state restrictions (in PageLayout footer)
+- [x] Final compliance review before publishing
+- [x] ALL real money references removed from all pages
+- [x] ALL pages emphasize "100% FREE, NO REAL MONEY"
+- [x] ALL pages have proper header and footer navigation
+- [x] Ready for publishing

@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { APP_TITLE } from "@/const";
 import { Heart, AlertCircle, Phone, Clock, Shield, Users, Ban, HelpCircle } from "lucide-react";
@@ -8,7 +9,7 @@ export default function ResponsibleGaming() {
   const lastUpdated = "November 25, 2025";
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900">
+    <PageLayout>
       <div className="container py-8 md:py-12 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8 md:mb-12">
@@ -350,6 +351,6 @@ export default function ResponsibleGaming() {
           </Link>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

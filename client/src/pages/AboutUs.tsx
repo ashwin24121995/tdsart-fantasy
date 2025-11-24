@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { APP_TITLE, APP_LOGO } from "@/const";
 import {
@@ -15,7 +16,7 @@ import { Link } from "wouter";
 
 export default function AboutUs() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900">
+    <PageLayout>
       <div className="container py-8 md:py-12 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-8 md:mb-12">
@@ -321,6 +322,6 @@ export default function AboutUs() {
           </Link>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }
