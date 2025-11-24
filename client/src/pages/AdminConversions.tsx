@@ -25,6 +25,12 @@ export default function AdminConversions() {
   
   const { data: stats, isLoading: statsLoading } = trpc.whatsappConversions.getStats.useQuery(getDateFilter());
   const { data: conversions, isLoading: conversionsLoading } = trpc.whatsappConversions.getConversions.useQuery(getDateFilter());
+  const { data: impressionStats, isLoading: impressionStatsLoading } = trpc.whatsappConversions.getImpressionStats.useQuery({ dateFilter: dateRange });
+  
+  // Calculate CTR (Click-Through Rate)
+  const totalImpressions = impressionStats?.total || 0;
+  const totalClicks = stats?.total || 0;
+  const ctr = totalImpressions > 0 ? ((totalClicks / totalImpressions) * 100).toFixed(2) : '0.00';
 
   if (loading || !user) {
     return (
@@ -60,8 +66,8 @@ export default function AdminConversions() {
                 Back to Admin
               </Button>
             </Link>
-            <h1 className="text-3xl md:text-4xl font-bold">WhatsApp Conversions</h1>
-            <p className="text-muted-foreground mt-2">Track clicks and measure Google Ads ROI</p>
+            <h1 className="text-3xl md:text-4xl font-bold">Ad Performance & Conversions</h1>
+            <p className="text-muted-foreground mt-2">Track impressions, clicks, and measure Google Ads ROI</p>
           </div>
           
           {/* Date Range Filter */}
@@ -91,54 +97,63 @@ export default function AdminConversions() {
         </div>
 
         {/* Stats Cards */}
-        {statsLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            {[1, 2, 3, 4].map((i) => (
+        {statsLoading || impressionStatsLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+            {[1, 2, 3, 4, 5].map((i) => (
               <Card key={i} className="p-6">
                 <div className="h-20 bg-muted animate-pulse rounded" />
               </Card>
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <Card className="p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <TrendingUp className="h-5 w-5 text-primary" />
-                <span className="text-sm text-muted-foreground">Total Clicks</span>
-              </div>
-              <div className="text-3xl font-bold">{stats?.total || 0}</div>
-            </Card>
-            
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
             <Card className="p-6">
               <div className="flex items-center gap-3 mb-2">
                 <Globe className="h-5 w-5 text-blue-500" />
-                <span className="text-sm text-muted-foreground">From Google Ads</span>
+                <span className="text-sm text-muted-foreground">Ad Impressions</span>
               </div>
-              <div className="text-3xl font-bold">
-                {stats?.bySource?.find((s) => s.source === 'google')?.count || 0}
-              </div>
+              <div className="text-3xl font-bold">{totalImpressions}</div>
+              <p className="text-xs text-muted-foreground mt-1">Times ad was shown</p>
             </Card>
             
             <Card className="p-6">
               <div className="flex items-center gap-3 mb-2">
-                <Smartphone className="h-5 w-5 text-green-500" />
+                <TrendingUp className="h-5 w-5 text-primary" />
+                <span className="text-sm text-muted-foreground">WhatsApp Clicks</span>
+              </div>
+              <div className="text-3xl font-bold">{totalClicks}</div>
+              <p className="text-xs text-muted-foreground mt-1">Conversions to WA</p>
+            </Card>
+            
+            <Card className="p-6 bg-gradient-to-br from-green-500/10 to-green-600/10 border-green-500/20">
+              <div className="flex items-center gap-3 mb-2">
+                <TrendingUp className="h-5 w-5 text-green-500" />
+                <span className="text-sm text-muted-foreground">Click-Through Rate</span>
+              </div>
+              <div className="text-3xl font-bold text-green-600">{ctr}%</div>
+              <p className="text-xs text-muted-foreground mt-1">Clicks / Impressions</p>
+            </Card>
+            
+            <Card className="p-6">
+              <div className="flex items-center gap-3 mb-2">
+                <Smartphone className="h-5 w-5 text-orange-500" />
                 <span className="text-sm text-muted-foreground">Mobile Clicks</span>
               </div>
               <div className="text-3xl font-bold">
                 {stats?.byDevice?.find((d) => d.device === 'mobile')?.count || 0}
               </div>
+              <p className="text-xs text-muted-foreground mt-1">From mobile devices</p>
             </Card>
             
             <Card className="p-6">
               <div className="flex items-center gap-3 mb-2">
-                <Calendar className="h-5 w-5 text-orange-500" />
-                <span className="text-sm text-muted-foreground">Avg Daily</span>
+                <Globe className="h-5 w-5 text-purple-500" />
+                <span className="text-sm text-muted-foreground">Google Ads</span>
               </div>
               <div className="text-3xl font-bold">
-                {stats?.dailyConversions?.length 
-                  ? Math.round((stats.total || 0) / stats.dailyConversions.length)
-                  : 0}
+                {stats?.bySource?.find((s) => s.source === 'google')?.count || 0}
               </div>
+              <p className="text-xs text-muted-foreground mt-1">From Google Ads</p>
             </Card>
           </div>
         )}

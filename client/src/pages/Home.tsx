@@ -25,11 +25,50 @@ export default function Home() {
   const isAuthenticated = !!user;
   const { shouldShowAd, isLoading: adLoading } = useTargetedAd();
   const trackWhatsAppClick = trpc.whatsappConversions.trackClick.useMutation();
+  const trackImpression = trpc.whatsappConversions.trackImpression.useMutation();
 
   // Initialize UTM tracking on page load
   useEffect(() => {
     initUTMTracking();
   }, []);
+
+  // Track ad impression when ad is shown
+  useEffect(() => {
+    if (shouldShowAd && !adLoading) {
+      // Get UTM parameters
+      const params = new URLSearchParams(window.location.search);
+      const utmSource = params.get('utm_source') || undefined;
+      const utmMedium = params.get('utm_medium') || undefined;
+      const utmCampaign = params.get('utm_campaign') || undefined;
+      const utmContent = params.get('utm_content') || undefined;
+      const utmTerm = params.get('utm_term') || undefined;
+      
+      // Get device and browser info
+      const deviceType = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
+      const browserName = navigator.userAgent.match(/(Chrome|Safari|Firefox|Edge)/)?.[1] || 'Unknown';
+      
+      // Generate session ID
+      let sessionId = localStorage.getItem('visitor_session');
+      if (!sessionId) {
+        sessionId = `${Date.now()}-${Math.random().toString(36).substring(7)}`;
+        localStorage.setItem('visitor_session', sessionId);
+      }
+      
+      // Track the impression
+      trackImpression.mutate({
+        sessionId,
+        utmSource,
+        utmMedium,
+        utmCampaign,
+        utmContent,
+        utmTerm,
+        deviceType,
+        browserName,
+        pageUrl: window.location.href,
+        referrer: document.referrer || undefined,
+      });
+    }
+  }, [shouldShowAd, adLoading]);
 
   // Handle WhatsApp button click with tracking
   const handleWhatsAppClick = (e: React.MouseEvent) => {

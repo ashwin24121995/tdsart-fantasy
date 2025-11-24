@@ -1,0 +1,21 @@
+CREATE TABLE `ad_impressions` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`session_id` varchar(255) NOT NULL,
+	`visitor_id` varchar(255),
+	`viewed_at` timestamp NOT NULL DEFAULT (now()),
+	`utm_source` varchar(255),
+	`utm_medium` varchar(255),
+	`utm_campaign` varchar(255),
+	`utm_content` varchar(255),
+	`utm_term` varchar(255),
+	`ip_address` varchar(255),
+	`country` varchar(100),
+	`city` varchar(100),
+	`device_type` varchar(50),
+	`browser_name` varchar(100),
+	`page_url` text,
+	`referrer` text,
+	`ad_type` varchar(50) DEFAULT 'fairplay_targeted',
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	CONSTRAINT `ad_impressions_id` PRIMARY KEY(`id`)
+);

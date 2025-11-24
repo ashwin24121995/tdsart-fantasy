@@ -564,3 +564,12 @@
 - [x] Add console logging to identify failing condition
 - [x] Fix bot detection to work on Safari/iOS (removed Chrome-only check)
 - [ ] Test on real mobile device after publish
+
+## Ad Impression Tracking
+- [x] Create database table for ad impressions (timestamp, session, UTM params, device)
+- [x] Add tRPC procedure to record ad impressions
+- [x] Implement impression tracking when ad is displayed
+- [x] Update admin conversions dashboard to show impressions
+- [x] Calculate and display Click-Through Rate (CTR = Clicks / Impressions)
+- [x] Add 5-card stats layout with impressions, clicks, CTR, mobile, and Google Ads
+- [ ] Test impression tracking end-to-end (requires publish)

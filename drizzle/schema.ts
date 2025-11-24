@@ -274,3 +274,7 @@ export type { VisitorTracking, InsertVisitorTracking } from "./comprehensive-tra
 // WhatsApp conversion tracking
 export { whatsappConversions } from "./whatsapp-conversion-schema";
 export type { WhatsAppConversion, InsertWhatsAppConversion } from "./whatsapp-conversion-schema";
+
+// Ad impression tracking
+export { adImpressions } from "./ad-impression-schema";
+export type { AdImpression, InsertAdImpression } from "./ad-impression-schema";

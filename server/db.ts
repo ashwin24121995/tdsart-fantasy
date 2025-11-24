@@ -699,3 +699,129 @@ export async function getWhatsAppConversionStats(filters?: {
     dailyConversions,
   };
 }
+
+
+// ============================================
+// Ad Impression Tracking
+// ============================================
+
+import { adImpressions, InsertAdImpression } from "../drizzle/schema";
+
+export async function trackAdImpression(data: InsertAdImpression) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot track ad impression: database not available");
+    return null;
+  }
+
+  try {
+    const [result] = await db.insert(adImpressions).values(data);
+    return result;
+  } catch (error) {
+    console.error("[Database] Failed to track ad impression:", error);
+    return null;
+  }
+}
+
+export async function getAdImpressionStats(dateFilter?: '7d' | '30d' | 'all') {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get ad impression stats: database not available");
+    return {
+      total: 0,
+      bySource: [],
+      byDevice: [],
+      dailyImpressions: [],
+    };
+  }
+
+  try {
+    const conditions = [];
+    
+    if (dateFilter === '7d') {
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      conditions.push(gte(adImpressions.viewedAt, sevenDaysAgo));
+    } else if (dateFilter === '30d') {
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      conditions.push(gte(adImpressions.viewedAt, thirtyDaysAgo));
+    }
+    
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+    
+    // Get total impressions
+    const totalResult = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(adImpressions)
+      .where(whereClause);
+    
+    const total = totalResult[0]?.count || 0;
+    
+    // Get impressions by source
+    const bySource = await db
+      .select({
+        source: adImpressions.utmSource,
+        count: sql<number>`count(*)`,
+      })
+      .from(adImpressions)
+      .where(whereClause)
+      .groupBy(adImpressions.utmSource);
+    
+    // Get impressions by device
+    const byDevice = await db
+      .select({
+        device: adImpressions.deviceType,
+        count: sql<number>`count(*)`,
+      })
+      .from(adImpressions)
+      .where(whereClause)
+      .groupBy(adImpressions.deviceType);
+    
+    // Get daily impressions (last 30 days)
+    const dailyImpressions = await db
+      .select({
+        date: sql<string>`DATE(viewed_at)`,
+        count: sql<number>`count(*)`,
+      })
+      .from(adImpressions)
+      .where(whereClause)
+      .groupBy(sql`DATE(viewed_at)`)
+      .orderBy(sql`DATE(viewed_at) DESC`)
+      .limit(30);
+    
+    return {
+      total,
+      bySource,
+      byDevice,
+      dailyImpressions,
+    };
+  } catch (error) {
+    console.error("[Database] Failed to get ad impression stats:", error);
+    return {
+      total: 0,
+      bySource: [],
+      byDevice: [],
+      dailyImpressions: [],
+    };
+  }
+}
+
+export async function getRecentAdImpressions(limit: number = 50) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get recent ad impressions: database not available");
+    return [];
+  }
+
+  try {
+    return await db
+      .select()
+      .from(adImpressions)
+      .orderBy(desc(adImpressions.viewedAt))
+      .limit(limit);
+  } catch (error) {
+    console.error("[Database] Failed to get recent ad impressions:", error);
+    return [];
+  }
+}
