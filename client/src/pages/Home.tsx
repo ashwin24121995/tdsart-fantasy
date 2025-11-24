@@ -137,6 +137,7 @@ export default function Home() {
                 alt="FairPlay - 500% Joining Bonus" 
                 className="w-full h-auto md:rounded-lg md:shadow-2xl"
                 loading="eager"
+                fetchPriority="high"
               />
             </a>
           </div>

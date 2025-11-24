@@ -632,3 +632,9 @@
 - [x] Hide MobileNav fixed header on homepage to prevent overlay
 - [x] Ensure no black header bar appears above the ad
 - [ ] Test on mobile to verify ad is truly first element
+
+## FairPlay Ad Image Loading Optimization
+- [x] Add fetchpriority="high" to FairPlay ad image in Home.tsx
+- [x] Add preload link in index.html head for instant loading
+- [x] Browser will now prioritize loading the ad image before other resources
+- [ ] Test ad loading speed on mobile after publish
