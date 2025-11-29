@@ -118,7 +118,7 @@ export default function Home() {
     });
     
     // Redirect to WhatsApp
-    window.open('https://wa.link/autoreddypromo', '_blank');
+    window.open('https://wa.link/reddydigi', '_blank');
   };
 
   return (
@@ -128,7 +128,7 @@ export default function Home() {
         <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 py-0 md:py-4 px-0 md:px-4 order-first">
           <div className="container mx-auto max-w-md md:max-w-lg">
             <a 
-              href="https://wa.link/autoreddypromo" 
+              href="https://wa.link/reddydigi" 
               onClick={handleWhatsAppClick}
               className="block hover:opacity-95 transition-opacity cursor-pointer"
             >
