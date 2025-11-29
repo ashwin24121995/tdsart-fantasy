@@ -133,8 +133,8 @@ export default function Home() {
               className="block hover:opacity-95 transition-opacity cursor-pointer"
             >
               <img 
-                src="/fairplay-ad.webp" 
-                alt="FairPlay - 500% Joining Bonus" 
+                src="/reddybook-ad.webp" 
+                alt="ReddyBook - Most Trusted Site | Asia Cup 2025" 
                 className="w-full h-auto md:rounded-lg md:shadow-2xl"
                 loading="eager"
                 fetchPriority="high"
