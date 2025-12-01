@@ -715,3 +715,7 @@
 - [x] Review all other buttons and links on homepage for proper routing
 - [x] No other anchor links found on homepage
 - [x] All navigation links now use proper routing
+
+## Temporarily Disable Google Ads Banner
+- [ ] Disable ReddyBook ad banner (keep code intact for easy re-enabling)
+- [ ] Force shouldShowAd to false in useTargetedAd hook
