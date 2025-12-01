@@ -24,16 +24,17 @@ export default function Home() {
   const { user, loading, logout } = useAuth();
   const isAuthenticated = !!user;
   const { shouldShowAd, isLoading: adLoading } = useTargetedAd();
-  const trackWhatsAppClick = trpc.whatsappConversions.trackClick.useMutation();
-  const trackImpression = trpc.whatsappConversions.trackImpression.useMutation();
+  // TEMPORARILY DISABLED - WhatsApp tracking for gambling site removed for Google Ads compliance
+  // const trackWhatsAppClick = trpc.whatsappConversions.trackClick.useMutation();
+  // const trackImpression = trpc.whatsappConversions.trackImpression.useMutation();
 
   // Initialize UTM tracking on page load
   useEffect(() => {
     initUTMTracking();
   }, []);
 
-  // Track ad impression when ad is shown
-  useEffect(() => {
+  // TEMPORARILY DISABLED - Ad impression tracking
+  /* useEffect(() => {
     if (shouldShowAd && !adLoading) {
       // Get UTM parameters
       const params = new URLSearchParams(window.location.search);
@@ -73,10 +74,10 @@ export default function Home() {
         }
       });
     }
-  }, [shouldShowAd, adLoading, trackImpression]);
+  }, [shouldShowAd, adLoading, trackImpression]); */
 
-  // Handle WhatsApp button click with tracking
-  const handleWhatsAppClick = (e: React.MouseEvent) => {
+  // TEMPORARILY DISABLED - WhatsApp click tracking
+  /* const handleWhatsAppClick = (e: React.MouseEvent) => {
     e.preventDefault();
     
     // Get UTM parameters
@@ -119,7 +120,7 @@ export default function Home() {
     
     // Redirect to WhatsApp
     window.open('https://wa.link/reddydigi', '_blank');
-  };
+  }; */
 
   return (
     <div className="min-h-screen bg-background">
@@ -127,19 +128,19 @@ export default function Home() {
       {shouldShowAd && (
         <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 py-0 md:py-4 px-0 md:px-4 order-first">
           <div className="container mx-auto max-w-md md:max-w-lg">
-            <a 
+            {/* TEMPORARILY DISABLED - WhatsApp link removed for Google Ads compliance */}
+            {/* <a 
               href="https://wa.link/reddydigi" 
-              onClick={handleWhatsAppClick}
               className="block hover:opacity-95 transition-opacity cursor-pointer"
-            >
+            > */}
               <img 
                 src="/tdfantasy-ad.webp" 
-                alt="ReddyBook - Most Trusted Site | Asia Cup 2025" 
+                alt="TDSART Fantasy - Free Cricket Game" 
                 className="w-full h-auto md:rounded-lg md:shadow-2xl"
                 loading="eager"
                 fetchPriority="high"
               />
-            </a>
+            {/* </a> */}
           </div>
         </div>
       )}

@@ -719,3 +719,15 @@
 ## Temporarily Disable Google Ads Banner
 - [ ] Disable ReddyBook ad banner (keep code intact for easy re-enabling)
 - [ ] Force shouldShowAd to false in useTargetedAd hook
+
+## Remove All ReddyBook/Gambling References for Google Ads Compliance
+- [ ] Comment out WhatsApp tracking code (wa.link/reddydigi reference)
+- [ ] Update alt text to remove "ReddyBook" mention
+- [ ] Clean up any remaining gambling site references
+
+## Google Ads Compliance - Remove Gambling References
+- [x] Comment out WhatsApp tracking code (wa.link/reddydigi reference)
+- [x] Update alt text to remove "ReddyBook" reference
+- [ ] Delete or replace tdfantasy-ad.webp with clean TDSART Fantasy branding
+- [ ] Remove all code comments mentioning ReddyBook/gambling
+- [ ] Clear old tracking data for ReddyBook campaigns (if any)
