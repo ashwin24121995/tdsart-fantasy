@@ -731,3 +731,10 @@
 - [ ] Delete or replace tdfantasy-ad.webp with clean TDSART Fantasy branding
 - [ ] Remove all code comments mentioning ReddyBook/gambling
 - [ ] Clear old tracking data for ReddyBook campaigns (if any)
+
+## Restore WhatsApp Tracking (Account Reactivated)
+- [x] Uncomment WhatsApp tracking mutations
+- [x] Restore ad impression tracking useEffect
+- [x] Restore handleWhatsAppClick function
+- [x] Re-enable WhatsApp link on ad image
+- [x] Update alt text back to ReddyBook branding
