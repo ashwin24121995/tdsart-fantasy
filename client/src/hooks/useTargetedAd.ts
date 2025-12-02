@@ -15,11 +15,6 @@ export function useTargetedAd() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // TEMPORARILY DISABLED - To re-enable, remove the next 3 lines
-    setShouldShowAd(false);
-    setIsLoading(false);
-    return;
-    
     // Known bot user agents to block
     const botPatterns = [
       /bot/i,

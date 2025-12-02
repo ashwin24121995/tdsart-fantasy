@@ -738,3 +738,8 @@
 - [x] Restore handleWhatsAppClick function
 - [x] Re-enable WhatsApp link on ad image
 - [x] Update alt text back to ReddyBook branding
+
+## Debug Ad Not Showing
+- [x] Check useTargetedAd hook for disabled flag
+- [x] Verify ad targeting conditions (UTM, mobile, India timezone)
+- [x] Enable ad display if still disabled
