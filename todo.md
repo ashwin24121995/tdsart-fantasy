@@ -743,3 +743,6 @@
 - [x] Check useTargetedAd hook for disabled flag
 - [x] Verify ad targeting conditions (UTM, mobile, India timezone)
 - [x] Enable ad display if still disabled
+
+## Update WhatsApp Link
+- [x] Change WhatsApp link from wa.link/reddydigi to wa.link/redypromo
