@@ -746,3 +746,7 @@
 
 ## Update WhatsApp Link
 - [x] Change WhatsApp link from wa.link/reddydigi to wa.link/redypromo
+
+## Update Ad Banner Image
+- [x] Convert webbannerreddy.jpg to WebP format
+- [x] Replace tdfantasy-ad.webp with new image
