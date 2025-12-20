@@ -775,3 +775,14 @@
 - [x] Add proper team vs team display with flags
 - [x] Add action buttons (View Details, Create Team, Join Contest)
 - [x] Improve visual hierarchy and spacing
+
+## Clean Up Leftover Ad Code
+- [ ] Remove ad-related comments from index.html
+- [ ] Delete unused tdfantasy-ad.webp file
+
+## Complete Code Cleanup - Remove All Comments
+- [x] Find all commented code in homepage files
+- [x] Remove all commented code from index.html
+- [x] Remove all commented code from Home.tsx
+- [x] Delete unused ad image file (tdfantasy-ad.webp)
+- [x] Make website 100% clean
