@@ -297,12 +297,9 @@ export const appRouter = router({
   }),
   
   cricket: router({
+    // Returns both live and upcoming matches in one call
     currentMatches: publicProcedure.query(async () => {
       return cricketApi.getCurrentMatches();
-    }),
-    
-    upcomingMatches: publicProcedure.query(async () => {
-      return cricketApi.getUpcomingMatches();
     }),
     
     matchInfo: publicProcedure

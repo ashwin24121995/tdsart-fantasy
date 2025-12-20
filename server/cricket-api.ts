@@ -1,7 +1,8 @@
 // Cricket API Service using CricketData.org
+// API Key: afb22ee0-add7-48b4-af1d-bdf319c03c9d (Lifetime Free)
 
-const API_KEY = process.env.CRICKET_API_KEY || "";
-const BASE_URL = "https://api.cricketdata.org";
+const API_KEY = process.env.CRICKET_API_KEY || "afb22ee0-add7-48b4-af1d-bdf319c03c9d";
+const BASE_URL = "https://api.cricapi.com/v1";
 
 export interface LiveMatch {
   id: string;
@@ -12,6 +13,11 @@ export interface LiveMatch {
   date: string;
   dateTimeGMT: string;
   teams: string[];
+  teamInfo?: Array<{
+    name: string;
+    shortname: string;
+    img: string;
+  }>;
   score: Array<{
     r: number; // runs
     w: number; // wickets
@@ -29,134 +35,159 @@ export interface UpcomingMatch {
   date: string;
   dateTimeGMT: string;
   teams: string[];
+  teamInfo?: Array<{
+    name: string;
+    shortname: string;
+    img: string;
+  }>;
 }
 
-// Mock fallback data
-const mockLiveMatches: LiveMatch[] = [
-  {
-    id: "1",
-    name: "Mumbai Indians vs Chennai Super Kings",
-    matchType: "T20",
-    status: "Live",
-    venue: "Wankhede Stadium, Mumbai",
-    date: new Date().toISOString(),
-    dateTimeGMT: new Date().toISOString(),
-    teams: ["Mumbai Indians", "Chennai Super Kings"],
-    score: [
-      { r: 165, w: 4, o: 18.2, inning: "Mumbai Indians Inning 1" },
-      { r: 142, w: 6, o: 15.4, inning: "Chennai Super Kings Inning 1" },
-    ],
-  },
-];
+interface CricketAPIMatch {
+  id: string;
+  name: string;
+  matchType: string;
+  status: string;
+  venue: string;
+  date: string;
+  dateTimeGMT: string;
+  teams: string[];
+  teamInfo: Array<{
+    name: string;
+    shortname: string;
+    img: string;
+  }>;
+  score: Array<{
+    r: number;
+    w: number;
+    o: number;
+    inning: string;
+  }>;
+  series_id: string;
+  fantasyEnabled: boolean;
+  bbbEnabled: boolean;
+  hasSquad: boolean;
+  matchStarted: boolean;
+  matchEnded: boolean;
+}
 
-const mockUpcomingMatches: UpcomingMatch[] = [
-  {
-    id: "3",
-    name: "Delhi Capitals vs Punjab Kings",
-    matchType: "T20",
-    status: "Upcoming",
-    venue: "Arun Jaitley Stadium, Delhi",
-    date: new Date(Date.now() + 86400000).toISOString(),
-    dateTimeGMT: new Date(Date.now() + 86400000).toISOString(),
-    teams: ["Delhi Capitals", "Punjab Kings"],
-  },
-];
-
-export async function getCurrentMatches(): Promise<LiveMatch[]> {
+/**
+ * Fetch all current matches from Cricket Data API
+ * Returns matches that are either upcoming or live (NOT completed)
+ */
+export async function getCurrentMatches(): Promise<{
+  live: LiveMatch[];
+  upcoming: UpcomingMatch[];
+}> {
   try {
-    // Add 5-second timeout to prevent hanging
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
     
-    const response = await fetch(`${BASE_URL}/cpl/v1/current_matches/?apikey=${API_KEY}`, {
-      signal: controller.signal
+    const response = await fetch(`${BASE_URL}/currentMatches?apikey=${API_KEY}&offset=0`, {
+      signal: controller.signal,
+      headers: {
+        'Accept': 'application/json',
+      }
     });
     clearTimeout(timeoutId);
     
-    if (!response.ok) throw new Error("API request failed");
-    const data = await response.json();
-    
-    // Transform API response to our format
-    if (data.data && Array.isArray(data.data)) {
-      return data.data.map((match: any) => ({
-        id: match.id || match.unique_id,
-        name: match.name || `${match["team-a"]} vs ${match["team-b"]}`,
-        matchType: match.type || "T20",
-        status: match.status || "Live",
-        venue: match.venue || "",
-        date: match.date || match.dateTimeGMT,
-        dateTimeGMT: match.dateTimeGMT || match.date,
-        teams: [match["team-a"] || "", match["team-b"] || ""],
-        score: match.score || [],
-      }));
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
     }
     
-    return mockLiveMatches;
-  } catch (error) {
-    console.error("Cricket API error:", error);
-    return mockLiveMatches;
-  }
-}
-
-export async function getUpcomingMatches(): Promise<UpcomingMatch[]> {
-  try {
-    // Add 5-second timeout to prevent hanging
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const data = await response.json();
     
-    const response = await fetch(`${BASE_URL}/cpl/v1/upcoming_matches/?apikey=${API_KEY}`, {
-      signal: controller.signal
+    if (!data.data || !Array.isArray(data.data)) {
+      console.warn("Cricket API returned no data");
+      return { live: [], upcoming: [] };
+    }
+
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    
+    const liveMatches: LiveMatch[] = [];
+    const upcomingMatches: UpcomingMatch[] = [];
+    
+    data.data.forEach((match: CricketAPIMatch) => {
+      // Skip completed matches
+      if (match.matchEnded === true) {
+        return;
+      }
+      
+      const matchDate = new Date(match.dateTimeGMT || match.date);
+      
+      // Live matches: started but not ended
+      if (match.matchStarted === true && match.matchEnded === false) {
+        liveMatches.push({
+          id: match.id,
+          name: match.name,
+          matchType: match.matchType,
+          status: match.status,
+          venue: match.venue,
+          date: match.date,
+          dateTimeGMT: match.dateTimeGMT,
+          teams: match.teams,
+          teamInfo: match.teamInfo,
+          score: match.score || [],
+        });
+      }
+      // Upcoming matches: not started AND date is today or future
+      else if (match.matchStarted === false && matchDate >= today) {
+        upcomingMatches.push({
+          id: match.id,
+          name: match.name,
+          matchType: match.matchType,
+          status: match.status,
+          venue: match.venue,
+          date: match.date,
+          dateTimeGMT: match.dateTimeGMT,
+          teams: match.teams,
+          teamInfo: match.teamInfo,
+        });
+      }
     });
-    clearTimeout(timeoutId);
     
-    if (!response.ok) throw new Error("API request failed");
-    const data = await response.json();
-    
-    if (data.data && Array.isArray(data.data)) {
-      return data.data.map((match: any) => ({
-        id: match.id || match.unique_id,
-        name: match.name || `${match["team-a"]} vs ${match["team-b"]}`,
-        matchType: match.type || "T20",
-        status: "Upcoming",
-        venue: match.venue || "",
-        date: match.date || match.dateTimeGMT,
-        dateTimeGMT: match.dateTimeGMT || match.date,
-        teams: [match["team-a"] || "", match["team-b"] || ""],
-      }));
-    }
-    
-    return mockUpcomingMatches;
+    return { live: liveMatches, upcoming: upcomingMatches };
   } catch (error) {
     console.error("Cricket API error:", error);
-    return mockUpcomingMatches;
+    // Return empty arrays instead of mock data to show real API status
+    return { live: [], upcoming: [] };
   }
 }
 
+/**
+ * Get detailed match information by ID
+ */
 export async function getMatchInfo(matchId: string): Promise<LiveMatch | null> {
   try {
-    // Add 5-second timeout to prevent hanging
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
     
-    const response = await fetch(`${BASE_URL}/cpl/v1/match_info/?apikey=${API_KEY}&id=${matchId}`, {
-      signal: controller.signal
+    const response = await fetch(`${BASE_URL}/match_info?apikey=${API_KEY}&id=${matchId}`, {
+      signal: controller.signal,
+      headers: {
+        'Accept': 'application/json',
+      }
     });
     clearTimeout(timeoutId);
     
-    if (!response.ok) throw new Error("API request failed");
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.status}`);
+    }
+    
     const data = await response.json();
     
     if (data.data) {
       const match = data.data;
       return {
-        id: match.id || match.unique_id,
-        name: match.name || `${match["team-a"]} vs ${match["team-b"]}`,
-        matchType: match.type || "T20",
-        status: match.status || "Live",
-        venue: match.venue || "",
-        date: match.date || match.dateTimeGMT,
-        dateTimeGMT: match.dateTimeGMT || match.date,
-        teams: [match["team-a"] || "", match["team-b"] || ""],
+        id: match.id,
+        name: match.name,
+        matchType: match.matchType,
+        status: match.status,
+        venue: match.venue,
+        date: match.date,
+        dateTimeGMT: match.dateTimeGMT,
+        teams: match.teams,
+        teamInfo: match.teamInfo,
         score: match.score || [],
       };
     }
