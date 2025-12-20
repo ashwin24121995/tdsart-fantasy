@@ -786,3 +786,8 @@
 - [x] Remove all commented code from Home.tsx
 - [x] Delete unused ad image file (tdfantasy-ad.webp)
 - [x] Make website 100% clean
+
+## Show Today's Matches Section
+- [x] Update LiveScores to separate today's matches from upcoming
+- [x] Add "Today's Matches" section with date and time display
+- [x] Show live matches + today's matches prominently

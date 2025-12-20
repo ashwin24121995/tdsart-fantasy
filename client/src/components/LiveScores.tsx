@@ -2,7 +2,7 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Loader2, ChevronRight, Trophy, Calendar, MapPin } from "lucide-react";
+import { Loader2, ChevronRight, Trophy, Calendar, MapPin, Clock } from "lucide-react";
 import { Link } from "wouter";
 
 export function LiveScores() {
@@ -31,6 +31,24 @@ export function LiveScores() {
 
   const liveMatches = data?.live || [];
   const upcomingMatches = data?.upcoming || [];
+
+  // Separate today's matches from upcoming
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const todaysMatches = upcomingMatches.filter(match => {
+    const matchDate = new Date(match.dateTimeGMT || match.date);
+    matchDate.setHours(0, 0, 0, 0);
+    return matchDate.getTime() === today.getTime();
+  });
+
+  const futureMatches = upcomingMatches.filter(match => {
+    const matchDate = new Date(match.dateTimeGMT || match.date);
+    matchDate.setHours(0, 0, 0, 0);
+    return matchDate.getTime() >= tomorrow.getTime();
+  });
 
   return (
     <div className="space-y-8">
@@ -143,21 +161,115 @@ export function LiveScores() {
         </div>
       )}
 
-      {/* Upcoming Matches */}
-      {upcomingMatches.length > 0 && (
+      {/* Today's Matches */}
+      {todaysMatches.length > 0 && (
+        <div>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-2xl md:text-3xl font-bold flex items-center gap-3">
+              <Calendar className="h-7 w-7 text-primary" />
+              Today's Matches
+            </h3>
+            <Badge variant="default" className="px-3 py-1">
+              {new Date().toLocaleDateString('en-IN', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+              })}
+            </Badge>
+          </div>
+          <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
+            {todaysMatches.map((match) => (
+              <Card key={match.id} className="hover:shadow-lg transition-all duration-300 border-primary/30 overflow-hidden">
+                <CardContent className="p-0">
+                  {/* Match Header */}
+                  <div className="bg-gradient-to-r from-primary/10 to-purple-500/10 px-4 md:px-6 py-3 border-b border-border/50">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <Badge variant="outline" className="gap-1">
+                        <Trophy className="h-3 w-3" />
+                        {match.matchType}
+                      </Badge>
+                      <p className="text-sm font-semibold text-primary flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {new Date(match.dateTimeGMT || match.date).toLocaleTimeString('en-IN', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Teams */}
+                  <div className="p-4 md:p-6">
+                    <h4 className="font-semibold text-base mb-4 text-center line-clamp-2">{match.name}</h4>
+                    
+                    <div className="space-y-3 mb-4">
+                      {match.teams.slice(0, 2).map((team, idx) => {
+                        const teamInfo = match.teamInfo?.[idx];
+                        return (
+                          <div key={idx} className="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
+                            {teamInfo?.img && (
+                              <img 
+                                src={teamInfo.img} 
+                                alt={team}
+                                className="h-10 w-10 rounded-full object-cover border-2 border-border"
+                              />
+                            )}
+                            <div className="flex-1">
+                              <div className="font-semibold">{team}</div>
+                              {teamInfo?.shortname && (
+                                <div className="text-xs text-muted-foreground">{teamInfo.shortname}</div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Match Info */}
+                    <div className="flex items-center justify-between text-sm mb-4 p-3 rounded-lg bg-muted/20">
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <MapPin className="h-4 w-4" />
+                        <span className="line-clamp-1">{match.venue}</span>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-3 flex-wrap">
+                      <Link href={`/match/${match.id}`} className="flex-1 min-w-[120px]">
+                        <Button className="w-full" variant="default" size="sm">
+                          View Details
+                          <ChevronRight className="h-4 w-4 ml-1" />
+                        </Button>
+                      </Link>
+                      <Link href={`/contests?match=${match.id}`} className="flex-1 min-w-[120px]">
+                        <Button className="w-full" variant="outline" size="sm">
+                          Create Team
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Upcoming Matches (Future) */}
+      {futureMatches.length > 0 && (
         <div>
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-2xl md:text-3xl font-bold">Upcoming Matches</h3>
             <Badge variant="secondary" className="px-3 py-1">
-              {upcomingMatches.length} Matches
+              {futureMatches.length} Matches
             </Badge>
           </div>
           <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
-            {upcomingMatches.slice(0, 6).map((match) => (
+            {futureMatches.slice(0, 6).map((match) => (
               <Card key={match.id} className="hover:shadow-lg transition-all duration-300 border-border/50 overflow-hidden">
                 <CardContent className="p-0">
                   {/* Match Header */}
-                  <div className="bg-gradient-to-r from-primary/10 to-purple-500/10 px-4 md:px-6 py-3 border-b border-border/50">
+                  <div className="bg-gradient-to-r from-muted/50 to-muted/30 px-4 md:px-6 py-3 border-b border-border/50">
                     <div className="flex items-center justify-between flex-wrap gap-2">
                       <Badge variant="outline" className="gap-1">
                         <Trophy className="h-3 w-3" />
@@ -236,7 +348,7 @@ export function LiveScores() {
         </div>
       )}
 
-      {liveMatches.length === 0 && upcomingMatches.length === 0 && (
+      {liveMatches.length === 0 && todaysMatches.length === 0 && futureMatches.length === 0 && (
         <div className="text-center py-16">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-4">
             <Trophy className="h-8 w-8 text-muted-foreground" />
