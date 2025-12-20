@@ -28,6 +28,7 @@ import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ResponsibleGaming from "./pages/ResponsibleGaming";
 import FAQ from "./pages/FAQ";
+import MatchDetails from "./pages/MatchDetails";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
 
@@ -35,6 +36,7 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path="/match/:id" component={MatchDetails} />
       <Route path={"/contests"} component={Contests} />
       <Route path={"/contests/:id"} component={ContestDetail} />
       <Route path={"/register"} component={Register} />

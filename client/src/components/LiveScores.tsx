@@ -2,10 +2,15 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Loader2 } from "lucide-react";
+import { Link } from "wouter";
 
 export function LiveScores() {
   // getCurrentMatches now returns { live: [], upcoming: [] }
-  const { data, isLoading, error } = trpc.cricket.currentMatches.useQuery();
+  // Auto-refresh every 30 seconds to keep live scores updated
+  const { data, isLoading, error } = trpc.cricket.currentMatches.useQuery(undefined, {
+    refetchInterval: 30000, // 30 seconds
+    refetchIntervalInBackground: true, // Continue refreshing even when tab is not active
+  });
 
   if (isLoading) {
     return (
@@ -40,31 +45,33 @@ export function LiveScores() {
           </h3>
           <div className="grid gap-3 md:gap-4 sm:grid-cols-2">
             {liveMatches.map((match) => (
-              <Card key={match.id} className="border-red-500/20 bg-gradient-to-br from-red-500/5 to-transparent">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-base md:text-lg">{match.name}</CardTitle>
-                    <Badge variant="destructive" className="animate-pulse">LIVE</Badge>
-                  </div>
-                  <p className="text-sm text-muted-foreground">{match.venue}</p>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {match.score && match.score.length > 0 ? (
-                      match.score.map((score, idx) => (
-                        <div key={idx} className="flex justify-between items-center">
-                          <span className="font-medium text-sm">{score.inning}</span>
-                          <span className="text-lg font-bold">
-                            {score.r}/{score.w} ({score.o} ov)
-                          </span>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-sm text-muted-foreground">{match.status || "Match starting soon..."}</p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+              <Link key={match.id} href={`/match/${match.id}`}>
+                <Card className="border-red-500/20 bg-gradient-to-br from-red-500/5 to-transparent cursor-pointer hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base md:text-lg">{match.name}</CardTitle>
+                      <Badge variant="destructive" className="animate-pulse">LIVE</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{match.venue}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      {match.score && match.score.length > 0 ? (
+                        match.score.map((score, idx) => (
+                          <div key={idx} className="flex justify-between items-center">
+                            <span className="font-medium text-sm">{score.inning}</span>
+                            <span className="text-lg font-bold">
+                              {score.r}/{score.w} ({score.o} ov)
+                            </span>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-sm text-muted-foreground">{match.status || "Match starting soon..."}</p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
@@ -76,31 +83,33 @@ export function LiveScores() {
           <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4">Upcoming Matches</h3>
           <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {upcomingMatches.slice(0, 6).map((match) => (
-              <Card key={match.id}>
-                <CardHeader>
-                  <CardTitle className="text-sm md:text-base">{match.name}</CardTitle>
-                  <p className="text-sm text-muted-foreground">{match.venue}</p>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Badge variant="outline">{match.matchType}</Badge>
-                      <Badge variant="secondary">
-                        {new Date(match.dateTimeGMT || match.date).toLocaleDateString('en-IN', {
-                          month: 'short',
-                          day: 'numeric',
+              <Link key={match.id} href={`/match/${match.id}`}>
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <CardTitle className="text-sm md:text-base">{match.name}</CardTitle>
+                    <p className="text-sm text-muted-foreground">{match.venue}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline">{match.matchType}</Badge>
+                        <Badge variant="secondary">
+                          {new Date(match.dateTimeGMT || match.date).toLocaleDateString('en-IN', {
+                            month: 'short',
+                            day: 'numeric',
+                          })}
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(match.dateTimeGMT || match.date).toLocaleTimeString('en-IN', {
+                          hour: '2-digit',
+                          minute: '2-digit',
                         })}
-                      </Badge>
+                      </p>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(match.dateTimeGMT || match.date).toLocaleTimeString('en-IN', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>

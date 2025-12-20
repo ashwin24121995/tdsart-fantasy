@@ -763,3 +763,9 @@
 - [x] Update backend to fetch real-time match data from API
 - [x] Update frontend LiveScores component to display dynamic data
 - [x] Remove static/repeated dummy match data
+
+## Match Details Page & Auto-Refresh
+- [x] Add 30-second auto-refresh polling to LiveScores component
+- [x] Create MatchDetails page component with scorecard display
+- [x] Add /match/:id route in App.tsx
+- [x] Link match cards to detail pages
