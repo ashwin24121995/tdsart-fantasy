@@ -750,3 +750,9 @@
 ## Update Ad Banner Image
 - [x] Convert webbannerreddy.jpg to WebP format
 - [x] Replace tdfantasy-ad.webp with new image
+
+## Remove Google Ads Banner
+- [x] Remove ad banner display section from Home.tsx
+- [x] Remove WhatsApp tracking code
+- [x] Remove useTargetedAd hook import
+- [x] Clean up unused imports

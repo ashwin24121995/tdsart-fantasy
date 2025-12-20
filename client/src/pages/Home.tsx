@@ -1,5 +1,4 @@
 import { useAuth } from "@/_core/hooks/useAuth";
-import { useTargetedAd } from "@/hooks/useTargetedAd";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE } from "@/const";
@@ -23,127 +22,14 @@ import { Link } from "wouter";
 export default function Home() {
   const { user, loading, logout } = useAuth();
   const isAuthenticated = !!user;
-  const { shouldShowAd, isLoading: adLoading } = useTargetedAd();
-  const trackWhatsAppClick = trpc.whatsappConversions.trackClick.useMutation();
-  const trackImpression = trpc.whatsappConversions.trackImpression.useMutation();
 
   // Initialize UTM tracking on page load
   useEffect(() => {
     initUTMTracking();
   }, []);
 
-  // Track ad impression when ad is shown
-  useEffect(() => {
-    if (shouldShowAd && !adLoading) {
-      // Get UTM parameters
-      const params = new URLSearchParams(window.location.search);
-      const utmSource = params.get('utm_source') || undefined;
-      const utmMedium = params.get('utm_medium') || undefined;
-      const utmCampaign = params.get('utm_campaign') || undefined;
-      const utmContent = params.get('utm_content') || undefined;
-      const utmTerm = params.get('utm_term') || undefined;
-      
-      // Get device and browser info
-      const deviceType = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
-      const browserName = navigator.userAgent.match(/(Chrome|Safari|Firefox|Edge)/)?.[1] || 'Unknown';
-      
-      // Generate session ID
-      let sessionId = localStorage.getItem('visitor_session');
-      if (!sessionId) {
-        sessionId = `${Date.now()}-${Math.random().toString(36).substring(7)}`;
-        localStorage.setItem('visitor_session', sessionId);
-      }
-      
-      // Track the impression (fire-and-forget with silent error handling)
-      trackImpression.mutate({
-        sessionId,
-        utmSource,
-        utmMedium,
-        utmCampaign,
-        utmContent,
-        utmTerm,
-        deviceType,
-        browserName,
-        pageUrl: window.location.href,
-        referrer: document.referrer || undefined,
-      }, {
-        onError: (error) => {
-          // Silently log tracking errors - never disrupt user experience
-          console.warn('[Impression Tracking] Failed to track impression:', error.message);
-        }
-      });
-    }
-  }, [shouldShowAd, adLoading, trackImpression]);
-
-  // Handle WhatsApp button click with tracking
-  const handleWhatsAppClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    
-    // Get UTM parameters
-    const params = new URLSearchParams(window.location.search);
-    const utmSource = params.get('utm_source') || undefined;
-    const utmMedium = params.get('utm_medium') || undefined;
-    const utmCampaign = params.get('utm_campaign') || undefined;
-    const utmContent = params.get('utm_content') || undefined;
-    const utmTerm = params.get('utm_term') || undefined;
-    
-    // Get device and browser info
-    const deviceType = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
-    const browserName = navigator.userAgent.match(/(Chrome|Safari|Firefox|Edge)/)?.[1] || 'Unknown';
-    
-    // Generate session ID
-    let sessionId = localStorage.getItem('visitor_session');
-    if (!sessionId) {
-      sessionId = `${Date.now()}-${Math.random().toString(36).substring(7)}`;
-      localStorage.setItem('visitor_session', sessionId);
-    }
-    
-    // Track the click (fire-and-forget with silent error handling)
-    trackWhatsAppClick.mutate({
-      sessionId,
-      utmSource,
-      utmMedium,
-      utmCampaign,
-      utmContent,
-      utmTerm,
-      deviceType,
-      browserName,
-      pageUrl: window.location.href,
-      referrer: document.referrer || undefined,
-    }, {
-      onError: (error) => {
-        // Silently log tracking errors - never disrupt user experience
-        console.warn('[Click Tracking] Failed to track click:', error.message);
-      }
-    });
-    
-    // Redirect to WhatsApp
-    window.open('https://wa.link/redypromo', '_blank');
-  };
-
   return (
     <div className="min-h-screen bg-background">
-      {/* Targeted Ad for Google Ads Traffic (India + Mobile only) - ABSOLUTELY FIRST ON MOBILE */}
-      {shouldShowAd && (
-        <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 py-0 md:py-4 px-0 md:px-4 order-first">
-          <div className="container mx-auto max-w-md md:max-w-lg">
-            <a 
-              href="https://wa.link/redypromo" 
-              onClick={handleWhatsAppClick}
-              className="block hover:opacity-95 transition-opacity cursor-pointer"
-            >
-              <img 
-                src="/tdfantasy-ad.webp" 
-                alt="ReddyBook - Most Trusted Site | Asia Cup 2025" 
-                className="w-full h-auto md:rounded-lg md:shadow-2xl"
-                loading="eager"
-                fetchPriority="high"
-              />
-            </a>
-          </div>
-        </div>
-      )}
-
       {/* Legal Compliance Banner */}
       <div className="bg-destructive/20 border-b border-destructive/50 py-2 md:py-3 px-2 md:px-4">
         <div className="container mx-auto flex items-start md:items-center justify-center gap-2 text-xs md:text-sm">
