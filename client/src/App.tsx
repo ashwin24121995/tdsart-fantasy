@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
+import { CookieConsentBanner } from "@/components/CookieConsent";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import MobileNav from "@/components/MobileNav";
 import { PageViewTracker } from "@/components/PageViewTracker";
@@ -69,9 +70,10 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider
-        defaultTheme="dark"
+        defaultTheme="light"
         // switchable
       >
+        <CookieConsentBanner />
         <TooltipProvider>
           <Toaster />
           <PageViewTracker />

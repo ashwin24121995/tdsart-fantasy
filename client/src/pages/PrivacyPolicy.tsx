@@ -5,7 +5,7 @@ import { Shield, Lock, Eye, Database, UserCheck, AlertTriangle } from "lucide-re
 import { Link } from "wouter";
 
 export default function PrivacyPolicy() {
-  const lastUpdated = "November 25, 2025";
+  const lastUpdated = "December 22, 2025";
 
   return (
     <PageLayout>
@@ -33,8 +33,28 @@ export default function PrivacyPolicy() {
               </h3>
               <p className="text-sm md:text-base text-gray-300">
                 At {APP_TITLE}, we are committed to protecting your personal information and being
-                transparent about how we collect, use, and safeguard your data.
+                transparent about how we collect, use, and safeguard your data. This policy explains our use of cookies and analytics services.
               </p>
+            </div>
+          </div>
+        </Card>
+
+        {/* Cookie Notice */}
+        <Card className="p-4 md:p-6 bg-yellow-900/20 border-yellow-700/50 mb-8">
+          <div className="flex gap-3 md:gap-4">
+            <AlertTriangle className="h-5 w-5 md:h-6 md:w-6 text-yellow-500 flex-shrink-0 mt-0.5" />
+            <div>
+              <h3 className="text-base md:text-lg font-semibold text-yellow-500 mb-2">
+                Cookie & Analytics Disclosure
+              </h3>
+              <p className="text-sm md:text-base text-gray-300 mb-3">
+                We use cookies and third-party analytics services to improve your experience and understand how you use our platform. You can manage your cookie preferences at any time.
+              </p>
+              <div className="space-y-2 text-sm text-gray-400">
+                <p><strong className="text-gray-300">Analytics Services:</strong> Umami Analytics, Plausible Analytics, Amplitude</p>
+                <p><strong className="text-gray-300">Purpose:</strong> Website usage analysis, performance monitoring, user experience improvement</p>
+                <p><strong className="text-gray-300">Data Collected:</strong> Page views, clicks, session duration, device information, browser type</p>
+              </div>
             </div>
           </div>
         </Card>
