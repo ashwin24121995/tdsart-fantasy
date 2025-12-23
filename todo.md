@@ -811,3 +811,37 @@
 - [x] Integrate consent banner in App.tsx
 - [x] Update Privacy Policy page with cookie disclosure
 - [x] Test cookie consent functionality
+
+## Deep Security Investigation - Appeal Failed
+- [x] Check all npm dependencies for known vulnerabilities
+- [x] Analyze all external scripts loaded on the site
+- [x] Check domain reputation and blacklist status
+- [x] Review SSL certificate and HTTPS configuration
+- [x] Audit server security headers (CSP, X-Frame-Options, etc.)
+- [x] Check for hidden redirects or malicious iframes
+- [x] Prepare comprehensive security audit report
+
+## Google Ads "Entity is Malicious" Investigation
+- [ ] Research what "Entity is malicious" means in Google Ads context
+- [ ] Identify possible causes for entity flag
+- [ ] Check if business entity or payment method is flagged
+- [ ] Prepare solution and appeal strategy
+
+## DFS Certification Not Resolving Malicious Entity Flag
+- [x] Research why DFS certification doesn't fix the issue
+- [x] Check if certificate is properly linked to tdsartfantasy.com domain
+- [x] Verify if free platforms are excluded from DFS certification benefits
+- [x] Identify root cause beyond certification
+- [x] Find alternative solutions or proper appeal strategy
+
+## Remove Malicious manuscdn.com Links (Google Ads Fix)
+- [x] Search entire codebase for manuscdn.com references
+- [x] Downloaded favicon to local storage
+- [x] Created Vercel configuration file
+- [x] Created comprehensive deployment guide
+- [ ] User: Download project code from Manus
+- [ ] User: Create GitHub repository and push code
+- [ ] User: Deploy to Vercel and configure environment variables
+- [ ] User: Verify no manuscdn.com references on Vercel deployment
+- [ ] User: Update tdsartfantasy.com DNS to point to Vercel
+- [ ] User: Appeal ads with "made changes to comply with policy"
