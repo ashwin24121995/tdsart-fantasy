@@ -5,6 +5,9 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
 export function CookieConsentBanner() {
   useEffect(() => {
     CookieConsent.run({
+      // CRITICAL: Disable hideFromBots to prevent Google Ads cloaking detection
+      hideFromBots: false,
+      
       guiOptions: {
         consentModal: {
           layout: 'box inline',
