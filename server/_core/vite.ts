@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import viteConfig from "../../vite.config";
+import { SEO_CONTENT, isCrawler } from "./seo-content";
 
 export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
@@ -61,7 +62,32 @@ export function serveStatic(app: Express) {
   app.use(express.static(distPath));
 
   // fall through to index.html if the file doesn't exist
-  app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+  app.use("*", (req, res) => {
+    const userAgent = req.headers["user-agent"] || "";
+    const indexPath = path.resolve(distPath, "index.html");
+
+    // Check if this is a crawler
+    if (isCrawler(userAgent)) {
+      console.log(`[SEO] Crawler detected: ${userAgent}`);
+      
+      // Read the index.html file
+      fs.readFile(indexPath, "utf-8", (err, html) => {
+        if (err) {
+          console.error("[SEO] Error reading index.html:", err);
+          return res.sendFile(indexPath);
+        }
+
+        // Inject SEO content after the <body> tag
+        const modifiedHtml = html.replace(
+          "<body>",
+          `<body>${SEO_CONTENT}`
+        );
+
+        res.set({ "Content-Type": "text/html" }).send(modifiedHtml);
+      });
+    } else {
+      // Regular users get the normal SPA
+      res.sendFile(indexPath);
+    }
   });
 }

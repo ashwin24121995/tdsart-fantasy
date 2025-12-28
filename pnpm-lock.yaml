@@ -171,7 +171,7 @@ importers:
         version: 0.4.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       openai:
         specifier: ^4.67.0
-        version: 4.104.0(zod@4.1.12)
+        version: 4.104.0(ws@8.18.3)(zod@4.1.12)
       react:
         specifier: ^19.1.1
         version: 19.2.0
@@ -4501,6 +4501,18 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
 
+  ws@8.18.3:
+    resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
 
@@ -8561,7 +8573,7 @@ snapshots:
       regex: 6.0.1
       regex-recursion: 6.0.2
 
-  openai@4.104.0(zod@4.1.12):
+  openai@4.104.0(ws@8.18.3)(zod@4.1.12):
     dependencies:
       '@types/node': 18.19.130
       '@types/node-fetch': 2.6.13
@@ -8571,6 +8583,7 @@ snapshots:
       formdata-node: 4.4.1
       node-fetch: 2.7.0
     optionalDependencies:
+      ws: 8.18.3
       zod: 4.1.12
     transitivePeerDependencies:
       - encoding
@@ -9381,6 +9394,9 @@ snapshots:
       react: 19.2.0
       regexparam: 3.0.0
       use-sync-external-store: 1.6.0(react@19.2.0)
+
+  ws@8.18.3:
+    optional: true
 
   yallist@3.1.1: {}
 
