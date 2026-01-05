@@ -845,3 +845,10 @@
 - [ ] User: Verify no manuscdn.com references on Vercel deployment
 - [ ] User: Update tdsartfantasy.com DNS to point to Vercel
 - [ ] User: Appeal ads with "made changes to comply with policy"
+
+## Mock Data Removal & Content Accuracy
+- [x] Remove mock "10K+ Active Players" statistic
+- [x] Remove mock "500+ Daily Contests" statistic
+- [x] Replace mock statistics with accurate or removed sections
+- [x] Find and remove all other mock data across the website
+- [x] Reorganize homepage sections to move Live Cricket Action after hero section

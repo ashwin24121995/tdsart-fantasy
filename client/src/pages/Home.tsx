@@ -121,27 +121,38 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Stats */}
+            {/* Key Features */}
             <div className="grid grid-cols-3 gap-3 md:gap-6 mt-8 md:mt-16 max-w-3xl mx-auto px-4">
-              <Card className="p-3 md:p-6 bg-card/80 backdrop-blur-sm border-primary/20">
-                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-1 md:mb-2">10K+</div>
-                <div className="text-xs md:text-sm text-muted-foreground">Active Players</div>
-              </Card>
-              <Card className="p-3 md:p-6 bg-card/80 backdrop-blur-sm border-primary/20">
-                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-1 md:mb-2">500+</div>
-                <div className="text-xs md:text-sm text-muted-foreground">Daily Contests</div>
-              </Card>
               <Card className="p-3 md:p-6 bg-card/80 backdrop-blur-sm border-primary/20">
                 <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-1 md:mb-2">100%</div>
                 <div className="text-xs md:text-sm text-muted-foreground">Free to Play</div>
+              </Card>
+              <Card className="p-3 md:p-6 bg-card/80 backdrop-blur-sm border-primary/20">
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-1 md:mb-2">100%</div>
+                <div className="text-xs md:text-sm text-muted-foreground">Skill-Based</div>
+              </Card>
+              <Card className="p-3 md:p-6 bg-card/80 backdrop-blur-sm border-primary/20">
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-1 md:mb-2">100%</div>
+                <div className="text-xs md:text-sm text-muted-foreground">Legal in India</div>
               </Card>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Live Scores */}
+      <section className="py-20 px-4 bg-card/30">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-4">Live Cricket Action</h2>
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-4">Stay updated with live scores and upcoming matches</p>
+          </div>
+          <LiveScores />
+        </div>
+      </section>
+
       {/* How It Works */}
-      <section id="how-it-works" className="py-20 px-4 bg-card/30">
+      <section id="how-it-works" className="py-20 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-4">How It Works</h2>
@@ -323,17 +334,6 @@ export default function Home() {
               Create Free Account <ChevronRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
-        </div>
-      </section>
-
-      {/* Live Scores */}
-      <section className="py-20 px-4 bg-card/30">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-4">Live Cricket Action</h2>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-4">Stay updated with live scores and upcoming matches</p>
-          </div>
-          <LiveScores />
         </div>
       </section>
 
